@@ -1,0 +1,123 @@
+{
+  "uid" : "f1481712cc721160",
+  "name" : "test_customer_dept",
+  "fullName" : "test_case.test_customer_my.Test_customer_dept#test_customer_dept",
+  "historyId" : "87e67ffcc37cdf04679979e172a2a896",
+  "time" : {
+    "start" : 1577267964762,
+    "stop" : 1577267964862,
+    "duration" : 100
+  },
+  "status" : "passed",
+  "flaky" : false,
+  "beforeStages" : [ {
+    "name" : "get_Token",
+    "time" : {
+      "start" : 1577267964421,
+      "stop" : 1577267964762,
+      "duration" : 341
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "stepsCount" : 0,
+    "hasContent" : false
+  }, {
+    "name" : "get_url",
+    "time" : {
+      "start" : 1577267964762,
+      "stop" : 1577267964762,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "stepsCount" : 0,
+    "hasContent" : false
+  }, {
+    "name" : "get_headers",
+    "time" : {
+      "start" : 1577267964762,
+      "stop" : 1577267964762,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "stepsCount" : 0,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "2adeb2f4afc54944",
+      "name" : "stdout",
+      "source" : "2adeb2f4afc54944.txt",
+      "type" : "text/plain",
+      "size" : 709
+    } ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 1,
+    "stepsCount" : 0,
+    "hasContent" : true
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "feature",
+    "value" : "客户中心"
+  }, {
+    "name" : "parentSuite",
+    "value" : "test_case"
+  }, {
+    "name" : "suite",
+    "value" : "test_customer_my"
+  }, {
+    "name" : "subSuite",
+    "value" : "Test_customer_dept"
+  }, {
+    "name" : "host",
+    "value" : "DESKTOP-CP58A7M"
+  }, {
+    "name" : "thread",
+    "value" : "15604-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "test_case.test_customer_my"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ {
+    "name" : "我的客户——客户归属部门备选项",
+    "url" : "我的客户——客户归属部门备选项",
+    "type" : "test_case"
+  } ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "f1481712cc721160.json",
+  "parameterValues" : [ ]
+}

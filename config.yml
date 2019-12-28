@@ -1,0 +1,13 @@
+test_env:
+  base_url: http://192.168.2.253:9998
+  account:
+    username: 18228890788
+    password: MeJItNw2ZoAgo2qLM2MaXA
+  token:
+  pkCorp:
+
+pro_env:
+  base_url: https://www.joolgo.com:9998
+  account:
+    username: 17611111111
+    password: 8ICHetKU4lK1QWEKjY1+TQ==

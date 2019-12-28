@@ -1,0 +1,30 @@
+from utils.generator import read_yml
+import pytest
+import requests
+
+yml_data = read_yml("E:\\pytest_3\\data\\{yaml_file}")
+
+
+class Test_{API_id}:
+    dic_data = yml_data['{API_id}']
+    params = dic_data['requestList']
+
+    @pytest.fixture(params=dic_data['requestList'])
+    def get_{API_id}(self, request):
+        return request.param
+
+    def http(self, get_headers, get_url):
+        http = {{}}
+        http['headers'] = get_headers(type=yml_data['{API_id}']['content_type'])
+        http['url'], account = get_url(yml_data['{API_id}']['path'])
+        http['method'] = yml_data['{API_id}']['http_method']
+        return http
+
+    def test_{API_id}(self, get_headers, get_url, get_{API_id}):
+        http = self.http(get_headers, get_url)
+        if http['method'] == "post":
+            response = requests.post(http['url'], headers=http['headers'], data=get_{API_id})
+        else:
+            response = requests.post(http['url'], headers=http['headers'], data=get_{API_id})
+        print(response.json())
+
