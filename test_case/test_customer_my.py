@@ -3,7 +3,7 @@ import pytest
 import requests
 import allure
 
-yml_data = read_yml("E:\\pytest_3\\data\\customer_my.yml")
+yml_data = read_yml("F:\\pytest_3\\data\\customer_my.yml")
 
 
 class Test_customer_my:
@@ -19,7 +19,7 @@ class Test_customer_my:
     def http(self, get_headers, get_url):
         http = {}
         http['headers'] = get_headers(type=yml_data['customer_my']['content_type'])
-        http['url'], account = get_url(yml_data['customer_my']['path'])
+        http['url'] = get_url(yml_data['customer_my']['path'])
         http['method'] = yml_data['customer_my']['http_method']
         return http
 
@@ -45,7 +45,7 @@ class Test_customer_dept:
     def http(self, get_headers, get_url):
         http = {}
         http['headers'] = get_headers(type=yml_data['customer_dept']['content_type'])
-        http['url'], account = get_url(yml_data['customer_dept']['path'])
+        http['url'] = get_url(yml_data['customer_dept']['path'])
         http['method'] = yml_data['customer_dept']['http_method']
         return http
 

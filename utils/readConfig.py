@@ -2,19 +2,29 @@ import os
 import yaml
 
 
-def get_account():
+def get_account(env='test'):
     config_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config.yml")
     with open(config_file, encoding='utf-8') as f:
         y = yaml.load(f, Loader=yaml.FullLoader)
-    account = y['test_env']['account']
+    if env == 'test':
+        account = y['test_env']['account']
+    elif env == 'pro':
+        account = y['pro_env']['account']
+    else:
+        account = None
     return account
 
 
-def get_url():
+def get_root_url(env='test'):
     config_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config.yml")
     with open(config_file, encoding='utf-8') as f:
         y = yaml.load(f, Loader=yaml.FullLoader)
-    root_url = y['test_env']['base_url']
+    if env == 'test':
+        root_url = y['test_env']['base_url']
+    elif env == 'pro':
+        root_url = y['pro_env']['base_url']
+    else:
+        root_url = None
     return root_url
 
 
