@@ -30,9 +30,7 @@ def api_http():
 def pytest_addoption(parser):
     group = parser.getgroup('yun_known')
     group.addoption('--env',
-                    action='store',
                     default='test',
-                    dest='env',
                     help='choose run case env:test/pro')
 
 

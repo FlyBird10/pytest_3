@@ -49,3 +49,12 @@ customer_dept:
   http_method: post
   content_type: form
   requestList:
+
+add_contact:
+  # 客户新增联系人 除客户主键外，其余参数随机生成
+  path: /customer/addContact
+  http_method: post
+  content_type: json
+  requestList:
+    - pkCustomer:
+    - pkCustomer:
