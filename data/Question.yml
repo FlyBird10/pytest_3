@@ -1,0 +1,37 @@
+AddQues:
+  path: /knowledge/question/addQuestion
+  # 添加试题
+  http_method: post
+  content_type: json
+  requestList:
+    - questionAnalysis: English is most popular
+      questionContext: 世界上最流行的语言？
+      questionLevel: 1  # 试题难度 (0-简单  1-普通  2-困难)
+      questionType: 1 # 试题类型 (0-单选题  1-多选题  2-判断题)
+      answerList:
+        - answerContext: English # 答案内容
+          isRight: 0 # 是否为正确答案 (0-正确  1-错误)
+        - answerContext: Chinese # 答案内容
+          isRight: 1 # 是否为正确答案 (0-正确  1-错误)
+        - answerContext: Japanese # 答案内容
+          isRight: 1 # 是否为正确答案 (0-正确  1-错误)
+      except_result:  # 期望结果
+        - code: 0
+          message: 录入成功
+QuesList:
+  path: /knowledge/question/listQuestion
+  # 查询所有试题
+  http_method: post
+  content_type: json
+  requestList:
+    - endDate: ""
+      pageNum: 1
+      pageSize: 10
+      questionContext: ""
+      questionLevel: -1  # 试题难度 (0-简单  1-普通  2-困难)
+      questionType: -1  # 试题类型 (0-单选题  1-多选题  2-判断题)
+      startDate: ""
+      timeArr: ""
+      except_result:
+       code: 0
+       message: 查询成功

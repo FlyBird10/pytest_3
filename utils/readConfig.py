@@ -2,10 +2,15 @@ import os
 import yaml
 
 
-def get_account(env='test'):
+def read_config():
     config_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config.yml")
     with open(config_file, encoding='utf-8') as f:
         y = yaml.load(f, Loader=yaml.FullLoader)
+    return y
+
+
+def get_account(env='test'):
+    y = read_config()
     if env == 'test':
         account = y['test_env']['account']
     elif env == 'pro':
@@ -16,9 +21,7 @@ def get_account(env='test'):
 
 
 def get_root_url(env='test'):
-    config_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config.yml")
-    with open(config_file, encoding='utf-8') as f:
-        y = yaml.load(f, Loader=yaml.FullLoader)
+    y = read_config()
     if env == 'test':
         root_url = y['test_env']['base_url']
     elif env == 'pro':
@@ -28,5 +31,17 @@ def get_root_url(env='test'):
     return root_url
 
 
+def get_mysql(env='test'):
+    # print(env)
+    y = read_config()
+    if env == 'test':
+        msyql = y['test_env']['mysql']
+    elif env == 'pro':
+        msyql = y['pro_env']['mysql']
+    else:
+        msyql = None
+    return msyql
+
+
 if __name__ == '__main__':
-    print(get_account())
+    print(get_mysql(env='pro'))

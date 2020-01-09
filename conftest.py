@@ -1,6 +1,8 @@
 import requests
 import pytest
-from utils.readConfig import get_root_url, get_account
+from utils.readConfig import get_root_url, get_account, get_mysql
+import pymysql
+import os
 
 
 @pytest.fixture()
@@ -41,9 +43,11 @@ def get_env(request):
     if env == 'test':
         info['root_url'] = get_root_url(env='test')
         info['account'] = get_account(env='test')
+        info['mysql'] = get_mysql(env='test')
     elif env == 'pro':
         info['root_url'] = get_root_url(env='pro')
         info['account'] = get_account(env='pro')
+        info['mysql'] = get_mysql(env='pro')
 
     return info
 
@@ -68,7 +72,6 @@ def get_Token(get_env, account=None):
             "data": account}
     try:
         r = requests.post(data['url'], data=data['data'], headers=data['headers'])
-        assert r.status_code == 200
         token = r.json()['access_token']
     except Exception as e:
         print(e)
@@ -109,5 +112,38 @@ def get_headers(get_Token):
     return _inner
 
 
-def test_token(get_headers):
-    print(get_headers())
+@pytest.fixture(scope="session")
+def mysql(get_env):
+    mysql = get_env['mysql']
+    con = pymysql.connect(mysql['host'], mysql['account'], mysql['pwd'], mysql['dbname'])  # 链接MySQL
+    print('=========create mysql connection========')
+    cursor = con.cursor()  # 获取操作游标
+    yield cursor  # 等同于return
+    print('==========close mysql connection====')
+    con.close()  # 关闭链接
+
+
+@pytest.fixture()
+def execute_sql(mysql):
+    def _inner(sql):
+        mysql.execute(sql)
+        result = mysql.fetchall()
+        return result
+
+    return _inner
+
+
+@pytest.fixture(scope="session")
+def get_path():
+    path = {}
+    path['root_path'] = os.path.dirname(__file__)
+    path['data_path'] = os.path.join(path['root_path'], "data")
+    path['test_path'] = os.path.join(path['root_path'], "test_case")
+    path['template_file'] = os.path.join(path['test_path'], 'template_api')
+    return path
+
+
+def test_token(get_path):
+    # print(execute_sql("select *From tbl_sycs_user limit 1"))
+    # print(execute_sql("select *From tbl_sycs_user limit 1"))
+    print(get_path)

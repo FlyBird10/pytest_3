@@ -1,1 +1,0 @@
-{'Authorization': 'bearer c2ffb053-531b-43a7-a022-875651d3dc94', 'pkmanagercorp': 'a18984a3636b4e4186e5', 'content-type': 'application/x-www-form-urlencoded'}

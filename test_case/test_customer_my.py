@@ -2,8 +2,12 @@ from utils.generator import read_yml
 import pytest
 import requests
 import allure
+import os
 
-yml_data = read_yml("F:\\pytest_3\\data\\customer_my.yml")
+# yml_data = read_yml("F:\\pytest_3\\data\\customer_my.yml")
+root_path = os.path.dirname(os.path.dirname(__file__))
+data_path = os.path.join(root_path, "data")
+yml_data = read_yml(os.path.join(data_path, "customer_my.yml"))
 
 
 class Test_customer_my:

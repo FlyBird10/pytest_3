@@ -1,7 +1,0 @@
-"Status","Name","Duration in ms","Description"
-"passed","test_case.test_cust.Test_customer#test_find_customer_my[get_data_customer_my0]","96",""
-"passed","test_case.test_cust.Test_customer#test_find_customer_my[get_data_customer_my1]","87",""
-"passed","test_case.test_customer_my.Test_customer_my#test_customer_my[get_customer_my1]","83",""
-"passed","test_case.test_cust.Test_customer_dept1#test_customer_my_dept","79",""
-"passed","test_case.test_customer_my.Test_customer_dept#test_customer_dept","100",""
-"passed","test_case.test_customer_my.Test_customer_my#test_customer_my[get_customer_my0]","65",""

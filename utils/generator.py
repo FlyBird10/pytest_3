@@ -38,18 +38,14 @@ def write_py(data_file, case_file, template_file):
         return '{file} create success'.format(file=case_file)
 
 
-def generator_test_case():
-    root_path = os.path.dirname(os.path.dirname(__file__))
-    data_path = os.path.join(root_path, "data")
-    test_path = os.path.join(root_path, "test_case")
-    template_file = os.path.join(test_path, 'template_api')
-    print(template_file)
-    file_list = os.listdir(data_path)
+def generator_test_case(get_path):
+    print(get_path['template_file'])
+    file_list = os.listdir(get_path['data_path'])
     result_list = []
     for item in file_list:
-        data_file = os.path.join(data_path, item)
-        case_file = os.path.join(test_path, 'test_' + item).replace('.yml', '.py')
-        result = write_py(data_file, case_file, template_file)
+        data_file = os.path.join(get_path['data_path'], item)
+        case_file = os.path.join(get_path['test_path'], 'test_' + item).replace('.yml', '.py')
+        result = write_py(data_file, case_file, get_path['template_file'])
         result_list.append(result)
     return result_list
 

@@ -7,25 +7,25 @@ customer_my:
     message: 查询成功
   requestList:
     # 查询潜在客户
-    - order: 1  # 顺序
-      corpStatus: 0 # 公司状态，0未认证，1已认证
-      pkUser:  # 客户经理主键
-      pkDept:  # 所属部门
-      state:  1 # 客户状态，1，潜在客户，2，有意向客户，3，已签单客户，4流失客户，5其他,6同行,7无意向客户
-      customerType:  1 # 客户类型，1，自有客户，2注册客户，3转介绍客户
-      visitTime:
-      customerName:
-      customerClassifyName:
-      searchUser:
-      pageNo: 1
-      pageSize: 1
-      pkCustomerSort: []
-      endTime:
-      beginTime:
-      registeredEndTime:
-      registeredBeginTime:
+#    - order: 1  # 顺序 0跟单时间倒序 ，1跟单时间正序
+#      corpStatus: 0 # 公司状态，0未认证，1已认证
+#      pkUser:  # 客户经理主键
+#      pkDept:  # 所属部门
+#      state:  1 # 客户状态，1，潜在客户，2，有意向客户，3，已签单客户，4流失客户，5其他,6同行,7无意向客户
+#      customerType:  1 # 客户类型，1，自有客户，2注册客户，3转介绍客户
+#      visitTime:
+#      customerName:
+#      customerClassifyName:
+#      searchUser:
+#      pageNo: 1
+#      pageSize: 1
+#      pkCustomerSort: []
+#      endTime:
+#      beginTime:
+#      registeredEndTime:
+#      registeredBeginTime:
     # 查询我的全部客户
-    - order: 2  # 顺序
+    - order: 0  # 顺序
       corpStatus:
       pkUser:
       pkDept:
@@ -42,6 +42,9 @@ customer_my:
       beginTime:
       registeredEndTime:
       registeredBeginTime:
+  except:
+    code: "0"
+    message: 查询成功
 
 customer_dept:
   # 返回我的客户归属部门备选项
@@ -49,6 +52,9 @@ customer_dept:
   http_method: post
   content_type: form
   requestList:
+  except:
+    code: "0"
+    message: 查询数据成功
 
 add_contact:
   # 客户新增联系人 除客户主键外，其余参数随机生成
@@ -57,4 +63,7 @@ add_contact:
   content_type: json
   requestList:
     - pkCustomer:
-    - pkCustomer:
+  except:
+    code: "0"
+    message: 保存联系人成功
+    data:
