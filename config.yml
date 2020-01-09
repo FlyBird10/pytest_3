@@ -19,7 +19,7 @@ pro_env:
     username: 17611111111
     password: 8ICHetKU4lK1QWEKjY1+TQ==
   mysql:
-    host: 47.110.78.215
+    host: 123
     account: wksql01
     pwd: 123
     dbname: cloud_account_system

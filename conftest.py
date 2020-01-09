@@ -55,7 +55,7 @@ def get_env(request):
 @pytest.fixture(scope='session')
 def get_Token(get_env, account=None):
     '''
-
+    登录后获取token
     :param account: need dict {username:,password:}
     :return:
     '''
@@ -80,6 +80,11 @@ def get_Token(get_env, account=None):
 
 
 def test_corp(get_Token):
+    '''
+    获取用户所在的代账公司
+    :param get_Token:
+    :return:
+    '''
     token, root_url = get_Token
     url = root_url + '/platform/loginResult'
     data = {"url": url,
@@ -91,7 +96,7 @@ def test_corp(get_Token):
     corpList = r.json()['data']['userInfo']['dzCorp']
     pkCorpList = [item['pkCorp'] for item in corpList]
     pkCorp = pkCorpList[0]
-    print(pkCorpList)
+    # print(pkCorpList)
     return pkCorp
 
 

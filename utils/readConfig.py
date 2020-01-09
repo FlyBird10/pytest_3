@@ -44,4 +44,4 @@ def get_mysql(env='test'):
 
 
 if __name__ == '__main__':
-    print(get_mysql(env='pro'))
+    print(get_mysql(env='test'))
