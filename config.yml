@@ -3,11 +3,27 @@ test_env:
   account:
     username: 18228890788
     password: MeJItNw2ZoAgo2qLM2MaXA
-  token:
-  pkCorp:
+  mysql:
+    host: 192.168.2.253
+    account: test
+    pwd: 123456
+    dbname: cloud_account_system
+  redis:
+    host: 192.168.2.253
+    port: 6379
+    pwd: 123456
 
 pro_env:
   base_url: https://www.joolgo.com:9998
   account:
     username: 17611111111
     password: 8ICHetKU4lK1QWEKjY1+TQ==
+  mysql:
+    host: 47.110.78.215
+    account: wksql01
+    pwd: 123
+    dbname: cloud_account_system
+  redis:
+    host: 192.168.2.253
+    port: 6379
+    pwd: 123456
