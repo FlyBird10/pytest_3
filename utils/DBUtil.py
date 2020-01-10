@@ -41,10 +41,9 @@ def Del(sql):
 
 
 if __name__ == '__main__':
-    questionContext = '以下说法正确的是？'
+    questionContext = '++++以下说法正确的是？'
     pkQuestion = '91a4a7d0ec75412d96cd0a2bd161bb29'
-    mysql = Mysql(**get_mysql())
-    result = mysql.query_list(
+    result = Search(
         "SELECT pkQuestion FROM `tbl_sycs_question` where questionContext='{questionContext}'".format(
             questionContext=questionContext))
     print(result)

@@ -23,7 +23,8 @@ def api_http():
         if method == 'post':
             response = requests.post(url, headers=headers, data=data)
         elif method == 'get':
-            response = requests.get(url, headers=headers, data=data)
+            # get请求参数必须使用params传递
+            response = requests.get(url, headers=headers, params=data)
         return response
 
     return _inner
@@ -148,7 +149,18 @@ def get_path():
     return path
 
 
-def test_token(get_path):
+def test_token(get_path, api_http):
     # print(execute_sql("select *From tbl_sycs_user limit 1"))
     # print(execute_sql("select *From tbl_sycs_user limit 1"))
     print(get_path)
+    headers = {
+        "Authorization": "Bearer 4512b1d9-3680-4ffd-8bc6-42375eb9d767"
+    }
+    data = {
+        "pkQuestion": "045a2e8fe4384f8e9470032dc47585f7",
+        "controlType": "del"
+    }
+    res = api_http("get", "http://192.168.2.253:9998/knowledge/question/validStatus", headers, data=data)
+    print(res.json())
+    print(res.request.url)
+    print(res.request.method)

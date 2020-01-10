@@ -10,25 +10,38 @@ AddQues:
     del2: DELETE from  tbl_sycs_question_answer where pkQuestion='{pkQuestion}'
   requestList:
     - questionAnalysis: English is most popular
-      questionContext: 世界上最流行的语言？
-      questionLevel: 1  # 试题难度 (0-简单  1-普通  2-困难)
-      questionType: 1 # 试题类型 (0-单选题  1-多选题  2-判断题)
+      questionContext: 最近一次润正月是2262年吗？
+      questionLevel: 2  # 试题难度 (0-简单  1-普通  2-困难)
+      questionType: 2 # 试题类型 (0-单选题  1-多选题  2-判断题)
+      answerList:
+        - answerContext: 正确 # 答案内容
+          isRight: 0 # 是否为正确答案 (0-正确  1-错误)
+        - answerContext: 错误 # 答案内容
+          isRight: 1 # 是否为正确答案 (0-正确  1-错误)
+      except_result:  # 期望结果
+        code: 0
+        message: 录入成功
+    - questionAnalysis: English is most popular
+      questionContext: 世界上最不流行的语言？
+      questionLevel: 0  # 试题难度 (0-简单  1-普通  2-困难)
+      questionType: 0 # 试题类型 (0-单选题  1-多选题  2-判断题)
       answerList:
         - answerContext: English # 答案内容
-          isRight: 0 # 是否为正确答案 (0-正确  1-错误)
+          isRight: 1 # 是否为正确答案 (0-正确  1-错误)
         - answerContext: Chinese # 答案内容
           isRight: 1 # 是否为正确答案 (0-正确  1-错误)
         - answerContext: Japanese # 答案内容
-          isRight: 1 # 是否为正确答案 (0-正确  1-错误)
+          isRight: 0 # 是否为正确答案 (0-正确  1-错误)
       except_result:  # 期望结果
         code: 0
         message: 录入成功
 QuesList:
   path: /knowledge/question/listQuestion
-  # 查询所有试题
+  # 查询试题
   http_method: post
   content_type: json
   requestList:
+    # 查看所有试题
     - endDate: ""
       startDate: ""
       pageNum: 1
@@ -38,5 +51,85 @@ QuesList:
       questionType: -1  # 试题类型 (0-单选题  1-多选题  2-判断题)
       timeArr: ""
       except_result:
-       code: 0
-       message: 查询成功
+        code: 0
+        message: 查询成功
+    # 查询一定时间内添加的试题
+    - endDate: "2020-01-12T15:59:59.000Z"
+      startDate: "2020-01-10T15:59:59.000Z"
+      pageNum: 1
+      pageSize: 10
+      questionContext: ""
+      questionLevel: -1  # -1 全部 试题难度 (0-简单  1-普通  2-困难)
+      questionType: -1  # 试题类型 (0-单选题  1-多选题  2-判断题)
+      timeArr: ""
+      except_result:
+        code: 0
+        message: 查询成功
+CheckStatus:
+  # 校验状态
+  path: /knowledge/question/validStatus
+  http_method: get
+  sql:
+    # 查询正在考试的题目主键
+    get_examing_pkQuestion: select pkQuestion From tbl_sycs_paper_question where pkPaper in (select pkPaper From tbl_sycs_exam where DATE_FORMAT( startDate, '%Y-%m-%d' ) <='{nowTime}' and DATE_FORMAT( endDate, '%Y-%m-%d' ) >='{nowTime}' and pkCorp='{pkCorp}')
+   # 查询不在考试中的题目和未关联试卷的题目
+    get_not_examing_pkQuestion: select pkQuestion From tbl_sycs_paper_question where pkPaper in (select pkPaper From tbl_sycs_exam where  pkCorp='{pkCorp}' and (DATE_FORMAT( startDate, '%Y-%m-%d' ) >'{nowTime}' or DATE_FORMAT( endDate, '%Y-%m-%d' ) < '{nowTime}'))
+      union select pkQuestion from tbl_sycs_question where pkCorp='{pkCorp}' and pkQuestion not in (select pkQuestion From tbl_sycs_paper_question)
+  requestList:
+    # 校验能否删除
+    - pkQuestion: del_success_sql # 数据来源其他case 不靠谱
+      controlType: del
+      except_result:
+        code: 0
+        message: 可以删除
+    - pkQuestion: del_fail_sql # 数据来源sql查询
+      controlType: del
+      except_result:
+        code: 1
+        message: 此试题关联的试卷正在考试中，不能删除!
+#    - pkQuestion: sql # 数据来源sql查询  未使用
+#      controlType: edit
+#      except_result:
+#        code: 1
+#        message: 此试题关联的试卷正在考试中，不能编辑!
+
+EditQuestion:
+  # 校验能否编辑试题，可以编辑时返回试题详情
+  path: /knowledge/question/getQuestion4Edit
+  http_method: get
+  requestList:
+    - pkQuestion: del_fail_sql # 数据来源sql查询
+      controlType: edit
+      except_result:
+        code: 1
+        message: 此试题关联的试卷正在考试中，不能编辑!
+    - pkQuestion: del_success_sql
+      controlType: edit
+      except_result:
+        code: 0
+        message: 查询成功
+EditSaveQuestion:
+  # 保存修改的试题
+  path: /knowledge/question/editQuestion
+  http_method: post
+  content_type: json
+  requestList:
+    - answerList:
+      delAnswers:
+      pkQuestion:
+      questionAnalysis:
+      questionContext:
+      questionLevel:
+      questionType:
+      except_result:
+        code: 0
+        message: 编辑成功
+DelQuestion:
+  # 删除题目
+  path: /knowledge/question/delQuestion
+  http_method: get
+  requestList:
+    - pkQuestion: del_success_sql
+      except_result:
+        code: 0
+        message: 删除成功
