@@ -15,7 +15,7 @@ PaperList:
       except_result:
         code: 0
         message: 查询成功
-    # 查询一定时间内添加的试题
+    # 查询一定时间内添加的试卷
     - endDate: "2020-01-12T15:59:59.000Z"
       startDate: "2020-01-10T15:59:59.000Z"
       pageNum: 1
