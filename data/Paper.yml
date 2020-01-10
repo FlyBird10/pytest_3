@@ -27,3 +27,42 @@ PaperList:
       except_result:
         code: 0
         message: 查询成功
+CopyPaper:
+  # 复制试卷
+  path: /knowledge/paper/duplicatePaper
+  http_method: get
+  sql:
+    allPaper: select pkPaper From tbl_sycs_paper where pkCrop='{pkCorp}'
+  requestList:
+    - pkPaper: sql
+      except_result:
+        code: 0
+        message: 复制试卷成功
+
+CheckPaper:
+  path: /knowledge/paper/validPaper
+  http_method: get
+  sql:
+    relationTest: select pkPaper From tbl_sycs_paper where pkCrop='{pkCorp}'
+    notRelation:
+  requestList:
+    - pkPaper: relationTest
+      controlType: del
+      except_result:
+        code: 1
+        message: 此试卷已关联考试，不能删除!
+    - pkPaper: relationTest
+      controlType: edit
+      except_result:
+        code: 1
+        message: 此试卷已关联考试，不能编辑!
+    - pkPaper: notRelation
+      controlType: del
+      except_result:
+        code: 0
+        message: 可以操作
+    - pkPaper: notRelation
+      controlType: edit
+      except_result:
+        code: 0
+        message: 可以操作

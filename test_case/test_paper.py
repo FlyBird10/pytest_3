@@ -5,7 +5,6 @@ import allure
 import os
 import json
 import time
-from urllib3 import encode_multipart_formdata
 
 root_path = os.path.dirname(os.path.dirname(__file__))
 data_path = os.path.join(root_path, "data")
@@ -37,4 +36,24 @@ class Test_Paper:
         except_result = get_paper_list_data.pop("except_result")
 
         response = api_http(method, url, headers, get_paper_list_data)
+        self.my_assert(response, except_result)
+
+    @pytest.fixture(params=yml_data['CopyPaper']['requestList'])
+    def get_copy_paper_data(self, request, get_headers):
+        if request.param['pkPaper'] == 'sql':
+            pkCorp = get_headers()['pkmanagercorp']
+            sql = yml_data['CopyPaper']['sql']['allPaper']
+            pkPaperList = Search(sql.format(pkCorp=pkCorp))
+            request.param['pkPaper'] = pkPaperList[0][0]
+        return request.param
+
+    @allure.story("复制试卷")
+    def test_copy_paper(self, get_headers, get_url, get_copy_paper_data, api_http):
+        headers = get_headers()
+        method = yml_data['CopyPaper']['http_method']
+        url = get_url(yml_data['CopyPaper']['path'])
+        except_result = get_copy_paper_data.pop("except_result")
+
+        response = api_http(method, url, headers, get_copy_paper_data)
+
         self.my_assert(response, except_result)
