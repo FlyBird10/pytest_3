@@ -103,7 +103,7 @@ def test_corp(get_Token):
 
 @pytest.fixture()
 def get_headers(get_Token):
-    def _inner(type=None):
+    def _inner(type=None, content=None):
         headers = {}
         headers['Authorization'] = 'bearer {0}'.format(get_Token[0])
         if get_Token:
@@ -112,6 +112,8 @@ def get_headers(get_Token):
             headers['content-type'] = "application/x-www-form-urlencoded"
         elif type == 'json':
             headers['content-type'] = "application/json;charset=UTF-8"
+        elif type == 'multipart':
+            headers['content-type'] = content
         # print(headers)
         return headers
 

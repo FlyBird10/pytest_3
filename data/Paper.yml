@@ -1,0 +1,29 @@
+PaperList:
+  # 查询试卷
+  path: /knowledge/paper/listPaper
+  http_method: post
+  content_type: json
+  requestList:
+    - endDate: ""
+      pageNum: 1
+      pageSize: 10
+      paperName: ""
+      questionLevel: -1
+      questionType: -1
+      startDate: ""
+      timeArr: ""
+      except_result:
+        code: 0
+        message: 查询成功
+    # 查询一定时间内添加的试题
+    - endDate: "2020-01-12T15:59:59.000Z"
+      startDate: "2020-01-10T15:59:59.000Z"
+      pageNum: 1
+      pageSize: 10
+      paperName: "只有一道题"
+      questionLevel: -1
+      questionType: -1
+      timeArr: ""
+      except_result:
+        code: 0
+        message: 查询成功

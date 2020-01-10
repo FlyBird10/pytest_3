@@ -5,6 +5,7 @@ import allure
 import os
 import json
 import time
+from urllib3 import encode_multipart_formdata
 
 root_path = os.path.dirname(os.path.dirname(__file__))
 data_path = os.path.join(root_path, "data")
@@ -46,7 +47,7 @@ class Test_Question:
         Del(sql['del2'].format(pkQuestion=DB_result[0][0]))
 
     @allure.story("新增试题")
-    @pytest.mark.skip
+    # @pytest.mark.skip
     def test_add_question(self, get_add_question_data, get_headers, get_url, api_http):
         global DB_result
         headers = get_headers(type=yml_data['AddQues']['content_type'])
@@ -165,7 +166,7 @@ class Test_Question:
         return request.param
 
     # @pytest.mark.dependency(depends=["test_edit_question"])  # 用例被跳过？？
-    @ pytest.mark.skip
+    # @pytest.mark.skip
     @pytest.mark.run(order=3)
     def test_edit_save_question(self, get_headers, get_url, get_editSave_data, api_http):
         headers = get_headers(type=yml_data['EditSaveQuestion']['content_type'])
@@ -174,4 +175,42 @@ class Test_Question:
         method = yml_data['EditSaveQuestion']['http_method']
         get_editSave_data_json = json.dumps(get_editSave_data)
         response = api_http(method, url, headers, get_editSave_data_json)
+        self.my_assert(response, except_result)
+
+    @pytest.fixture(params=yml_data['DelQuestion']['requestList'])
+    def get_del_data(self, request):
+        global list_can_del_edit
+        if request.param['pkQuestion'] == 'del_success_sql':
+            request.param['pkQuestion'] = list_can_del_edit[0][0]
+        return request.param
+
+    @allure.story("删除题目")
+    def test_del_question(self, get_headers, get_url, api_http, get_del_data):
+        headers = get_headers()
+        url = get_url(yml_data['DelQuestion']['path'])
+        method = yml_data['DelQuestion']['http_method']
+        except_result = get_del_data.pop('except_result')
+        response = api_http(method, url, headers, get_del_data)
+        self.my_assert(response, except_result)
+
+    @pytest.fixture(params=yml_data['ImportQuestion']['requestList'])
+    def get_import_data(self, request):
+        path = request.param['file']
+        filename = os.path.basename(path)
+        with open(path, 'rb') as f:
+            file = {
+                "file": (filename, f.read())
+            }
+        encode_data = encode_multipart_formdata(file)
+        request.param['file'] = encode_data
+        return request.param
+
+    @allure.story("导入试题")
+    # @pytest.mark.skip
+    def test_import_question(self, get_headers, get_url, get_import_data, api_http):
+        headers = get_headers(type=yml_data['ImportQuestion']['content_type'], content=get_import_data['file'][1])
+        url = get_url(yml_data['ImportQuestion']['path'])
+        method = yml_data['ImportQuestion']['http_method']
+        except_result = get_import_data.pop('except_result')
+        response = api_http(method, url, headers, get_import_data['file'][0])
         self.my_assert(response, except_result)
