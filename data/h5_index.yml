@@ -1,0 +1,146 @@
+bind:
+  # 查询微信是否被绑定
+  path: /sys/h5/checkBindPhone
+  http_method: post
+  content_type: form
+  requestList:
+    # self 已绑定账号，并且是本商户的客户员工
+    - unionId: ojIr21Tj0-YWFNtqOoBvIsspKQ3c
+      pkManagerCorp: a18984a3636b4e4186e5  # type=0传商户pk，type=1传群组pk
+      type: 0 # 当前类型0--商户，1--群组
+      except_result:
+        code: 0
+        message: 查询成功
+    # 未绑定  假ID
+    - unionId: ojIr21e4_fUSJjGlzXogVJB3K_Fc123
+      pkManagerCorp: a18984a3636b4e4186e5
+      type: 0
+      except_result:
+        code: 1
+        message: 未绑定手机号
+    # 已绑定账号，但不是此商户的客户员工
+    - unionId: ojIr21VdQJg11t0yf_MkpObAv0R0 # ojIr21VdQJg11t0yf_MkpObAv0R0
+      pkManagerCorp: a18984a3636b4e4186e5
+      type: 0
+      except_result:
+        code: 1
+        message: 你还不是此商户客户，暂无查看权限，请联系客服。
+    # 已绑定账号，但不是本群组成员（已邀请，未加入）的客户员工
+    # 群组关联账号信息： 15611111111
+    - unionId: ojIr21bZJ9GAPTCw_3mloEg39ixM
+      pkManagerCorp: 592c6dbd-f6a1-4873-bc1f-cc92887f581e  # type=0传商户pk，type=1传群组pk
+      type: 1 # 当前类型0--商户，1--群组
+      except_result:
+        code: 1
+        message: 你还不是此商户客户，暂无查看权限，请联系客服。
+    # 已绑定账号，但不是本群组成员（未邀请）的客户员工
+    - unionId: ojIr21VdQJg11t0yf_MkpObAv0R0
+      pkManagerCorp: 592c6dbd-f6a1-4873-bc1f-cc92887f581e  # type=0传商户pk，type=1传群组pk
+      type: 1 # 当前类型0--商户，1--群组
+      except_result:
+        code: 1
+        message: 你还不是此商户客户，暂无查看权限，请联系客服。
+    # 已绑定账号，并且是本群组成员的客户员工
+    - unionId: ojIr21Tj0-YWFNtqOoBvIsspKQ3c
+      pkManagerCorp: 592c6dbd-f6a1-4873-bc1f-cc92887f581e  # type=0传商户pk，type=1传群组pk
+      type: 1 # 当前类型0--商户，1--群组
+      except_result:
+        code: 0
+        message: 查询成功
+sendSMS:
+  # 发送验证码
+  path: /h5/v1/sendSms
+  http_method: get
+  requestList:
+    - phone: 13322222222
+      except_result:
+        code: 0
+        message: 交易成功
+    - phone: 18600000000
+      except_result:
+        code: 0
+        message: 交易成功
+    - phone: 18612345678
+      except_result:
+        code: 0
+        message: 交易成功
+    - phone: 15633333333
+      except_result:
+        code: 0
+        message: 交易成功
+bindPhone:
+  # 输入手机号绑定微信
+  path: /h5/v1/bindPhone
+  sql:
+    searchCode: phoneCode
+    searchPkUser: select pkUser from tbl_sycs_user where phone='{phone}'
+    delBindData1: delete from tbl_sycs_user_credentials where userId='{pkUser}' and type='WEIXIN'
+    delBindData12: update tbl_sycs_user set openid=null,unionId=null where pkUser='{pkUser}'
+  http_method: post
+  content_type: form
+  requestList:
+    # 绑定账号不是本商户的客户员工
+    - phone: 13322222222
+      unionid: ojIr21e4_fUSJjGlzXogVJB3K_Fc
+      pkManagerCorp: a18984a3636b4e4186e5
+      code: sql
+      except_result:
+        code: 2
+        message: 你还不是此商户客户，暂无查看权限，请联系客服。
+    # 绑定账号不存在平台
+    - phone: 18600000000
+      unionid: ojIr21e4_fUSJjGlzXogVJB3K_Fc
+      pkManagerCorp: a18984a3636b4e4186e5
+      code: sql
+      except_result:
+        code: 2
+        message: 你还不是此商户客户，暂无查看权限，请联系客服。
+    # 绑定账号已被绑定
+    - phone: 18612345678
+      unionid: ojIr21e4_fUSJjGlzXogVJB3K_Fc
+      pkManagerCorp: a18984a3636b4e4186e5
+      code: sql
+      except_result:
+        code: 3
+        message: 当前手机号已经被绑定，请更换手机号或者解绑？
+    # 获取验证码后输入错误的验证码
+    - phone: 18612345678
+      unionid: ojIr21e4_fUSJjGlzXogVJB3K_Fc
+      pkManagerCorp: a18984a3636b4e4186e5
+      code: 666666
+      except_result:
+        code: 1
+        message: 验证码错误，请重新输入
+    # 未获取验证码时输入验证码
+    - phone: 18999999999
+      unionid: ojIr21e4_fUSJjGlzXogVJB3K_Fc
+      pkManagerCorp: a18984a3636b4e4186e5
+      code: 666666
+      except_result:
+        code: 1
+        message: 验证码已过期
+    # 一次性绑定成功，绑定成功后需要清楚绑定生成的数据，以便下次测试
+    - phone: 15633333333
+      unionid: ojIr21e4_fUSJjGlzXogVJB3K_Fc
+      pkManagerCorp: a18984a3636b4e4186e5
+      code: sql
+      except_result:
+        code: 0
+        message: 绑定成功
+unBind:
+  # 重新绑定：账号解除之前的绑定，绑定新的微信号
+  path: /h5/v1/unbindPhone
+  http_method: get
+  requestList:
+    - phone: 18612345678
+switchCorp:
+  # 选择登录的小微公司  登录成功后选择公司
+  path: /h5/v2/switchCorp
+  http_method: post
+  content_type: form
+  requestList:
+    - pkManagerCorp: 来源登录用例 bind
+      pkCorp: 来源登录用例 bind
+      except_result:
+        code: 0
+        message: 查询成功

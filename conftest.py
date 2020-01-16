@@ -1,8 +1,9 @@
 import requests
 import pytest
-from utils.readConfig import get_root_url, get_account, get_mysql
+from utils.readConfig import get_root_url, get_account, get_mysql, get_redis
 import pymysql
 import os
+import allure
 
 
 @pytest.fixture()
@@ -49,7 +50,45 @@ def get_env(request):
         info['root_url'] = get_root_url(env='pro')
         info['account'] = get_account(env='pro')
         info['mysql'] = get_mysql(env='pro')
+    elif env == 'h5_test':
+        info['root_url'] = get_root_url(env='h5_test')
+        info['mysql'] = get_mysql(env='test')
+        info['redis'] = get_redis(env='test')
+        info['account'] = get_account(env='h5_test')
+    elif env == 'h5_pro':
+        info['root_url'] = get_root_url(env='h5_pro')
+        info['mysql'] = get_mysql(env='pro')
+        info['redis'] = get_redis(env='pro')
+        info['account'] = get_account(env='h5_pro')
+    return info
 
+
+@pytest.fixture(scope='session')
+def get_Token_h5(get_env, account=None):
+    '''
+    h5登录后获取token
+    :param account: need dict {username:,password:}
+    :return:token: string
+    '''
+    # print('this is token function')
+    info = {}
+    if account is None:
+        account = get_env['account']
+    else:
+        account = account
+    root_url = get_env['root_url']
+    url = root_url + '/sys/h5/checkBindPhone'
+    # print(url)
+    data = {"url": url,
+            "headers": {"Content-Type": "application/x-www-form-urlencoded"},
+            "data": account}
+    try:
+        r = requests.post(data['url'], data=data['data'], headers=data['headers'])
+        info['token'] = r.json()['data']['tokenInfo']['access_token']
+        info['pkUser'] = r.json()['data']['userInfo']['pkUser']
+    except Exception as e:
+        print(e)
+        info['token'] = None
     return info
 
 
@@ -120,6 +159,36 @@ def get_headers(get_Token):
     return _inner
 
 
+@pytest.fixture()
+def get_headers_Notoken():
+    # 无token的headers
+    def _inner(type=None):
+        headers = {}
+        if type == 'form':
+            headers['content-type'] = "application/x-www-form-urlencoded"
+        elif type == 'json':
+            headers['content-type'] = "application/json;charset=UTF-8"
+        return headers
+
+    return _inner
+
+
+@pytest.fixture()
+def get_headers_h5(get_Token_h5):
+    headers = {}
+
+    def _inner(token=get_Token_h5['token'], type=None):
+        if token:
+            headers['Authorization'] = 'bearer {0}'.format(token)
+        if type == 'form':
+            headers['content-type'] = "application/x-www-form-urlencoded"
+        elif type == 'json':
+            headers['content-type'] = "application/json;charset=UTF-8"
+        return headers
+
+    return _inner
+
+
 @pytest.fixture(scope="session")
 def mysql(get_env):
     mysql = get_env['mysql']
@@ -151,10 +220,32 @@ def get_path():
     return path
 
 
-def test_token(get_path, api_http):
+@pytest.fixture()
+@allure.step('校验接口响应代码和提示语')
+def my_assert():
+    def _inner(response, except_result):
+        if response.status_code == 200:
+            response_json = response.json()
+            try:
+                assert int(response_json['code']) == int(except_result['code'])
+                assert response_json['message'] == except_result['message']
+            except Exception:
+                print("实际结果：", response_json)
+                print("期望结果：", except_result)
+                print(response.request.url)
+                print(response.request.body)
+                print(response.request.headers)
+            return response_json
+        else:
+            print(response.content)
+
+    return _inner
+
+
+def test_token(get_path, api_http, get_headers_h5):
     # print(execute_sql("select *From tbl_sycs_user limit 1"))
     # print(execute_sql("select *From tbl_sycs_user limit 1"))
-    print(get_path)
+    # print(get_path)
     headers = {
         "Authorization": "Bearer 4512b1d9-3680-4ffd-8bc6-42375eb9d767"
     }
@@ -162,7 +253,9 @@ def test_token(get_path, api_http):
         "pkQuestion": "045a2e8fe4384f8e9470032dc47585f7",
         "controlType": "del"
     }
-    res = api_http("get", "http://192.168.2.253:9998/knowledge/question/validStatus", headers, data=data)
-    print(res.json())
-    print(res.request.url)
-    print(res.request.method)
+    # res = api_http("get", "http://192.168.2.253:9998/knowledge/question/validStatus", headers, data=data)
+    # print(res.json())
+    # print(res.request.url)
+    # print(res.request.method)
+    print(get_headers_h5(type='json'))
+    # print(get_Token_h5)

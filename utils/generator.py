@@ -51,5 +51,5 @@ def generator_test_case(get_path):
 
 
 if __name__ == '__main__':
-    print(read_yml("E:\\pytest_3\\data\\customer_my.yml"))
+    print(read_yml("E:\\pytest_3\\data\\h5_index.yml"))
     # print(generator_test_case())

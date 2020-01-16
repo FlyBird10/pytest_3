@@ -1,0 +1,9 @@
+userInfo:
+  # 查询我的信息
+  path: /v2/user/getUserInfo
+  http_method: get
+  requestList:
+    - code: token  # 来源登录后返回的pkUser
+      except_result:
+        code: 0
+        message: 查询成功

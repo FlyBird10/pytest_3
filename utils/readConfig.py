@@ -15,6 +15,10 @@ def get_account(env='test'):
         account = y['test_env']['account']
     elif env == 'pro':
         account = y['pro_env']['account']
+    elif env == 'h5_test':
+        account = y['h5_test']['account']
+    elif env == 'h5_pro':
+        account = y['h5_pro']['account']
     else:
         account = None
     return account
@@ -26,6 +30,10 @@ def get_root_url(env='test'):
         root_url = y['test_env']['base_url']
     elif env == 'pro':
         root_url = y['pro_env']['base_url']
+    elif env == 'h5_test':
+        root_url = y['h5_test']['base_url']
+    elif env == 'h5_pro':
+        root_url = y['h5_pro']['base_url']
     else:
         root_url = None
     return root_url
@@ -41,6 +49,17 @@ def get_mysql(env='test'):
     else:
         msyql = None
     return msyql
+
+
+def get_redis(env='test'):
+    y = read_config()
+    if env == 'test':
+        redis = y['test_env']['redis']
+    elif env == 'pro':
+        redis = y['pro_env']['redis']
+    else:
+        redis = None
+    return redis
 
 
 if __name__ == '__main__':

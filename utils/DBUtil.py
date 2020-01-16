@@ -1,5 +1,6 @@
 import pymysql
-from utils.readConfig import get_mysql
+from utils.readConfig import get_mysql, get_redis
+import redis
 
 
 class Mysql:
@@ -18,7 +19,7 @@ class Mysql:
         return result_list
 
     def del_data(self, sql):
-        # 执行sql
+        # 执行sql del or update
         self.cursor.execute(sql)
         self.conn.commit()
         self.conn.close()
@@ -40,14 +41,28 @@ def Del(sql):
         return False
 
 
+class Redis:
+    def __init__(self, **kwargs):
+        self.conn = redis.StrictRedis(kwargs['host'], kwargs['port'], 0, str(kwargs['pwd']))
+
+    def search(self, sql):
+        return self.conn.get(sql)
+
+
+def Search_redis(sql):
+    r = Redis(**get_redis())
+    return r.search(sql)
+
+
 if __name__ == '__main__':
-    questionContext = '++++以下说法正确的是？'
-    pkQuestion = '91a4a7d0ec75412d96cd0a2bd161bb29'
-    result = Search(
-        " select pkQuestion FROM `tbl_sycs_question` where questionContext='{questionContext}'".format(
-            questionContext=questionContext))
-    print(result)
-    print(len(result))
+    print(int(Search_redis("18400000000phoneCode")))
+    # questionContext = '++++以下说法正确的是？'
+    # pkQuestion = '91a4a7d0ec75412d96cd0a2bd161bb29'
+    # result = Search(
+    #     " select pkQuestion FROM `tbl_sycs_question` where questionContext='{questionContext}'".format(
+    #         questionContext=questionContext))
+    # print(result)
+    # print(len(result))
     # mysql.del_data("DELETE from tbl_sycs_question where pkQuestion='{pkQuestion}'".format(pkQuestion=pkQuestion))
     # mysql.del_data(
     #     "DELETE from tbl_sycs_question_answer where pkQuestion='{pkQuestion}'".format(pkQuestion=pkQuestion))
