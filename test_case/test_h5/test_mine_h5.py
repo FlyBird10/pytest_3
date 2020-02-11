@@ -6,7 +6,7 @@ import os
 import json
 import time
 
-root_path = os.path.dirname(os.path.dirname(__file__))
+root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
 yml_data = read_yml(os.path.join(data_path, "h5_mine.yml"))
 
@@ -15,7 +15,7 @@ class Test_Mine:
     @pytest.fixture(params=yml_data['userInfo']['requestList'])
     def get_user_info_data(self, request, get_Token_h5):
         if request.param['code'] == 'token':
-            request.param['code'] = get_Token_h5['pkUser']
+            request.param['code'] = get_Token_h5()['pkUser']
         return request.param
 
     @allure.story("查询个人信息")

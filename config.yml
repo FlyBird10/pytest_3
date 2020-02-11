@@ -19,9 +19,13 @@ h5_test:
       unionId: ojIr21Tj0-YWFNtqOoBvIsspKQ3c
       pkManagerCorp: a18984a3636b4e4186e5  # type=0传商户pk，type=1传群组pk
       type: 0 # 当前类型0--商户，1--群组
+  group_account:
+    unionId: ojIr21Tj0-YWFNtqOoBvIsspKQ3c
+    pkManagerCorp: 592c6dbd-f6a1-4873-bc1f-cc92887f581e  # type=0传商户pk，type=1传群组pk
+    type: 1 # 当前类型0--商户，1--群组
 h5_pro:
   # h5线上环境
-  base_url: http://253.free-http.svipss.top
+  base_url: https://www.joolgo.com:9998
   account:
     unionId:
     pkManagerCorp:

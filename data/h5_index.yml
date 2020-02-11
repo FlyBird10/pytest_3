@@ -33,9 +33,9 @@ bind:
       except_result:
         code: 1
         message: 你还不是此商户客户，暂无查看权限，请联系客服。
-    # 已绑定账号，但不是本群组成员（未邀请）的客户员工
+    # 已绑定账号，但不是本群组成员（未邀请）的客户员工 假群组ID
     - unionId: ojIr21VdQJg11t0yf_MkpObAv0R0
-      pkManagerCorp: 592c6dbd-f6a1-4873-bc1f-cc92887f581e  # type=0传商户pk，type=1传群组pk
+      pkManagerCorp: 592c6dbd-f6a1-4873-bc1f-cc92887f581e666  # type=0传商户pk，type=1传群组pk
       type: 1 # 当前类型0--商户，1--群组
       except_result:
         code: 1

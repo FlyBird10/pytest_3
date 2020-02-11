@@ -6,7 +6,7 @@ import os
 import json
 import time
 
-root_path = os.path.dirname(os.path.dirname(__file__))
+root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
 yml_data = read_yml(os.path.join(data_path, "h5_index.yml"))
 
@@ -79,7 +79,7 @@ class TestIndex:
         return request.param
 
     def test_switch_corp(self, get_switch_corp_data, get_headers_h5, get_url, api_http, my_assert):
-        headers = get_headers_h5(token=token, type=yml_data['switchCorp']['content_type'])
+        headers = get_headers_h5(type=yml_data['switchCorp']['content_type'])
         method = yml_data['switchCorp']['http_method']
         except_result = get_switch_corp_data.pop("except_result")
         url = get_url(yml_data['switchCorp']['path'])
