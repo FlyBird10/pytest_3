@@ -262,3 +262,12 @@ def test_token(get_path, api_http, get_headers_h5):
     # print(res.request.method)
     print(get_headers_h5(type='json'))
     # print(get_Token_h5)
+
+
+def pytest_configure(config):
+    # 运行报错PytestUnknownMarkWarning 故添加以下代码
+    marker_list = ["run", "skip", "dependency"]  # 标签名集合
+    for markers in marker_list:
+        config.addinivalue_line(
+            "markers", markers
+        )

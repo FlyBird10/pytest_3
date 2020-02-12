@@ -14,8 +14,8 @@ yml_data = read_yml(os.path.join(data_path, "h5_mine.yml"))
 class Test_Mine:
     @pytest.fixture(params=yml_data['userInfo']['requestList'])
     def get_user_info_data(self, request, get_Token_h5):
-        if request.param['code'] == 'token':
-            request.param['code'] = get_Token_h5()['pkUser']
+        # if request.param['code'] == 'token':
+        #     request.param['code'] = get_Token_h5()['pkUser']
         return request.param
 
     @allure.story("查询个人信息")

@@ -62,6 +62,7 @@ class Test_Question:
         # 查询数据库，校验数据是否被插入
         sql = yml_data['AddQues']['sql']['search']
         DB_result = Search(sql.format(questionContext=questionContext))
+        print('DB_result:===', DB_result)
         assert len(DB_result) == 1  # 断言只插入了一条记录
 
     @pytest.fixture(params=yml_data['QuesList']['requestList'])
