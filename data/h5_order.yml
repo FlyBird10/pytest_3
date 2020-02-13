@@ -1,0 +1,41 @@
+allOrderList:
+  # 我的订单 特定小微公司与特定代账公司相关订单
+  path: /h5/v2/h5Order/orderList
+  http_method: post
+  requestList:
+    # 我的全部订单-群组
+    - pkManagerCorp: tokenGroup # 登录时输入的pk corp/pk group
+      status:
+      except_result:
+        code: 0
+        message: 查询成功
+    # 我的全部订单-非群组
+    - pkManagerCorp: tokenCorp # 登录时输入的pk corp/pk group
+      status:
+      except_result:
+        code: 0
+        message: 查询成功
+#    # 我的待支付订单
+#    - pkManagerCorp: token # 登录时输入的pk corp/pk group
+#      status: 1
+#      except_result:
+#        code: 0
+#        message: 查询成功
+#    # 我的履约中订单
+#    - pkManagerCorp: token # 登录时输入的pk corp/pk group
+#      status: 2
+#      except_result:
+#        code: 0
+#        message: 查询成功
+#    # 我的分期中订单
+#    - pkManagerCorp: token # 登录时输入的pk corp/pk group
+#      status: 5
+#      except_result:
+#        code: 0
+#        message: 查询成功
+#    # 我的已完成订单
+#    - pkManagerCorp: token # 登录时输入的pk corp/pk group
+#      status: 6
+#      except_result:
+#        code: 0
+#        message: 查询成功

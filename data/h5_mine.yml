@@ -3,7 +3,7 @@ userInfo:
   path: /h5/v2/user/getUserInfo
   http_method: post
   requestList:
-    - unionId: ojIr21Tj0-YWFNtqOoBvIsspKQ3c  # 来源登录后返回的pkUser
+    - unionId: ojIr21Tj0-YWFNtqOoBvIsspKQ3c
       except_result:
         code: 0
         message: success

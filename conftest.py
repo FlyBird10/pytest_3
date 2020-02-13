@@ -40,9 +40,11 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope='session')
 def get_env(request):
+    # 划分测试环境
     env = request.config.getoption('env')
     info = {}
     if env == 'test':
+        # 测试环境账户
         info['root_url'] = get_root_url(env='test')
         info['account'] = get_account(env='test')
         info['mysql'] = get_mysql(env='test')
@@ -51,47 +53,14 @@ def get_env(request):
         info['account_h5'] = get_account(env='h5_test')
         info['account_group'] = get_account(env='group_account')
     elif env == 'pro':
+        # 线上环境账户
         info['root_url'] = get_root_url(env='pro')
         info['account'] = get_account(env='pro')
         info['mysql'] = get_mysql(env='pro')
         info['root_url_h5'] = get_root_url(env='h5_pro')
         info['account_h5'] = get_account(env='h5_pro')
+        info['account_group'] = get_account(env='group_account_pro')
     return info
-
-
-@pytest.fixture(scope='session')
-def get_Token_h5(get_env):
-    '''
-    h5登录后获取token
-    :param account: need dict {username:,password:}
-    :return:token: string
-    '''
-
-    # print('this is token function')
-    def _inner(account=None, isGroup=False):
-        info = {}
-        if account is None and isGroup is False:
-            account = get_env['account_h5']
-        elif isGroup is True:
-            account = get_env['account_group']
-        else:
-            account = account
-        root_url = get_env['root_url_h5']
-        url = root_url + '/sys/h5/checkBindPhone'
-        # print(url)
-        data = {"url": url,
-                "headers": {"Content-Type": "application/x-www-form-urlencoded"},
-                "data": account}
-        try:
-            r = requests.post(data['url'], data=data['data'], headers=data['headers'])
-            info['token'] = r.json()['data']['tokenInfo']['access_token']
-            info['pkUser'] = r.json()['data']['userInfo']['pkUser']
-        except Exception as e:
-            print(e)
-            info['token'] = None
-        return info
-
-    return _inner
 
 
 @pytest.fixture(scope='session')
@@ -166,23 +135,6 @@ def get_headers_Notoken():
     # 无token的headers
     def _inner(type=None):
         headers = {}
-        if type == 'form':
-            headers['content-type'] = "application/x-www-form-urlencoded"
-        elif type == 'json':
-            headers['content-type'] = "application/json;charset=UTF-8"
-        return headers
-
-    return _inner
-
-
-@pytest.fixture()
-def get_headers_h5(get_Token_h5):
-    headers = {}
-
-    def _inner(isGroup=False, type=None):
-        token = get_Token_h5(isGroup)['token']
-        if token:
-            headers['Authorization'] = 'bearer {0}'.format(token)
         if type == 'form':
             headers['content-type'] = "application/x-www-form-urlencoded"
         elif type == 'json':

@@ -10,6 +10,7 @@ def read_config():
 
 
 def get_account(env='test'):
+    # 获取具体登录账户
     y = read_config()
     if env == 'test':
         account = y['test_env']['account']
@@ -19,6 +20,10 @@ def get_account(env='test'):
         account = y['h5_test']['account']
     elif env == 'h5_pro':
         account = y['h5_pro']['account']
+    elif env == 'group_account':
+        account = y['h5_test']['group_account']
+    elif env == 'group_account_pro':
+        account = y['h5_pro']['group_account']
     else:
         account = None
     return account
