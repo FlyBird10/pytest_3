@@ -8,13 +8,16 @@ def get_headers_h5(get_Token_h5):
 
     def _inner(isGroup=False, type=None):
         # isGroup 是否是群组id   type请求类型
-        token = get_Token_h5(isGroup=isGroup)['token']
+        info = get_Token_h5(isGroup=isGroup)
+        token = info['token']
         if token:
             headers['Authorization'] = 'bearer {0}'.format(token)
-        if type == 'form':
-            headers['content-type'] = "application/x-www-form-urlencoded"
-        elif type == 'json':
+
+        if type == 'json':
             headers['content-type'] = "application/json;charset=UTF-8"
+        else:
+            headers['content-type'] = "application/x-www-form-urlencoded"
+        headers['pkManagerCorp'] = info['pkCorp']  # 登录公司pk
         return headers
 
     return _inner
@@ -48,9 +51,11 @@ def get_Token_h5(get_env):
         try:
             r = requests.post(data['url'], data=data['data'], headers=data['headers'])
             if r.json()['data'] is not None:
+                # print(r.json())
                 info['token'] = r.json()['data']['tokenInfo']['access_token']
                 info['pkUser'] = r.json()['data']['userInfo']['pkUser']
-                info['pkManagerCorp'] = account['pkManagerCorp']
+                info['pkManagerCorp'] = account['pkManagerCorp']  # 代账公司pk
+                info['pkCorp'] = r.json()['data']['corpInfo'][0]['pkCorp']
             else:
                 print(r.json())
                 print(r.request.headers)

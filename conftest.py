@@ -4,6 +4,7 @@ from utils.readConfig import get_root_url, get_account, get_mysql, get_redis
 import pymysql
 import os
 import allure
+import json
 
 
 @pytest.fixture()
@@ -21,6 +22,10 @@ def get_url(get_env):
 def api_http():
     def _inner(method, url, headers, data=None):
         response = None
+        content = headers['content-type']
+        # print(content)
+        if 'json' in content:
+            data = json.dumps(data)  # headers为json格式时，参数也必须转为json
         if method == 'post':
             response = requests.post(url, headers=headers, data=data)
         elif method == 'get':
@@ -192,7 +197,12 @@ def my_assert():
                 print(response.request.headers)
             return response_json
         else:
+            print(response.request.url)
+            print(response.request.body)
+            print(response.request.headers)
             print(response.content)
+            assert 0
+
 
     return _inner
 

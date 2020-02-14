@@ -3,8 +3,6 @@ from utils.DBUtil import Search_redis, Del, Search
 import pytest
 import allure
 import os
-import json
-import time
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
@@ -18,24 +16,107 @@ class Test_Order:
             request.param['pkManagerCorp'] = get_Token_h5(isGroup=True)['pkManagerCorp']
             # 增加此变量以便用例确定取值
             request.param['isGroup'] = True
-            print('pkManagerCorp:====', request.param['pkManagerCorp'])
+            # print('pkManagerCorp:====', request.param['pkManagerCorp'])
         elif request.param['pkManagerCorp'] == 'tokenCorp':
             request.param['isGroup'] = False
             request.param['pkManagerCorp'] = get_Token_h5()['pkManagerCorp']
         return request.param
 
-    @allure.story("查询订单-非群组")
+    @allure.story("查询订单")
+    @pytest.mark.run(order=1)
     def test_order_info(self, get_order_info_data, get_headers_h5, get_url, api_http, my_assert):
+        global order
+        order = {}
         url = get_url(yml_data['allOrderList']['path'])
         isGroup = get_order_info_data.pop("isGroup")
         if isGroup:
-            headers = get_headers_h5(isGroup=True)
+            headers = get_headers_h5(isGroup=True, type=yml_data['allOrderList']['content_type'])
         else:
-            headers = get_headers_h5()
+            headers = get_headers_h5(type=yml_data['allOrderList']['content_type'])
         method = yml_data['allOrderList']['http_method']
         except_result = get_order_info_data.pop("except_result")
         response = api_http(method, url, headers, get_order_info_data)
+        response_json = my_assert(response, except_result)
+        orderData = response_json['data']
+        if len(orderData) > 0:
+            for i in orderData:
+                if i['status'] == 1:
+                    order['notPay'] = i['pkOrderInfo']
+                    order['notPayCode'] = i['orderCode']
+                elif i['status'] == 2:
+                    order['doing'] = i['pkOrderInfo']
+                    order['doingCode'] = i['orderCode']
+                elif i['status'] == 5:
+                    order['installments'] = i['pkOrderInfo']
+                    order['installmentsCode'] = i['orderCode']
+                elif i['status'] == 3:
+                    order['cancel'] = i['pkOrderInfo']
+                    order['cancelCode'] = i['orderCode']
+                elif i['status'] == 6:
+                    order['done'] = i['pkOrderInfo']
+                    order['doneCode'] = i['orderCode']
+        print(order)
 
+    @pytest.fixture(params=yml_data['orderDetail']['requestList'])
+    def get_order_detail_data(self, request):
+        if request.param['pkOrderInfo'] == 'notPay':
+            request.param['pkOrderInfo'] = order['notPay']
+        elif request.param['pkOrderInfo'] == 'installments':
+            request.param['pkOrderInfo'] = order['installments']
+        elif request.param['pkOrderInfo'] == 'doing':
+            request.param['pkOrderInfo'] = order['doing']
+        elif request.param['pkOrderInfo'] == 'done':
+            request.param['pkOrderInfo'] = order['done']
+        elif request.param['pkOrderInfo'] == 'cancel':
+            request.param['pkOrderInfo'] = order['cancel']
+        return request.param
+
+    @allure.story("订单详情")
+    def test_order_detail(self, get_order_detail_data, get_headers_h5, get_url, api_http, my_assert):
+        url = get_url(yml_data['orderDetail']['path'])
+        headers = get_headers_h5()
+        method = yml_data['orderDetail']['http_method']
+        except_result = get_order_detail_data.pop("except_result")
+        response = api_http(method, url, headers, get_order_detail_data)
         my_assert(response, except_result)
 
+    @pytest.fixture(params=yml_data['orderComments']['requestList'])
+    def get_order_comment_data(self, request):
+        if request.param['pkOrderInfo'] == 'done':
+            request.param['pkOrderInfo'] = order['done']
+        return request.param
 
+    @allure.story("提交评论")
+    def test_order_comment(self, get_order_comment_data, get_headers_h5, get_url, api_http, my_assert):
+        url = get_url(yml_data['orderComments']['path'])
+        headers = get_headers_h5(type=yml_data['orderComments']['content_type'])
+        method = yml_data['orderComments']['http_method']
+        except_result = get_order_comment_data.pop("except_result")
+        # get_order_comment_data = json.dumps(get_order_comment_data)  # dict转json
+        response = api_http(method, url, headers, get_order_comment_data)
+        my_assert(response, except_result)
+
+    @pytest.fixture(params=yml_data['orderDel']['requestList'])
+    def get_order_del_data(self, request):
+        if request.param['pkOrderInfo'] == 'cancel':
+            request.param['pkOrderInfo'] = order['cancel']
+            request.param['orderCode'] = order['cancelCode']
+        elif request.param['pkOrderInfo'] == 'done':
+            request.param['pkOrderInfo'] = order['done']
+            request.param['orderCode'] = order['doneCode']
+        print(request.param)
+        update_deleted_order = yml_data['orderDel']['sql']['update_deleted_order'].format(
+            pkOrderInfo=request.param['pkOrderInfo'])
+        # print('del sql ===', update_deleted_order)
+        yield request.param  # yield之后的语句用于数据清理，在用例执行完之后执行
+
+        Del(update_deleted_order)
+
+    @allure.story("删除订单")
+    def test_order_del(self, get_order_del_data, get_headers_h5, get_url, api_http, my_assert):
+        url = get_url(yml_data['orderDel']['path'])
+        headers = get_headers_h5(type=yml_data['orderDel']['content_type'])
+        method = yml_data['orderDel']['http_method']
+        except_result = get_order_del_data.pop("except_result")
+        response = api_http(method, url, headers, get_order_del_data)
+        my_assert(response, except_result)
