@@ -51,6 +51,7 @@ sendSMS:
   # 发送验证码
   path: /h5/v1/sendSms
   http_method: get
+  content_type: form
   requestList:
     - phone: 13322222222
       except_result:
@@ -131,6 +132,7 @@ unBind:
   # 重新绑定：账号解除之前的绑定，绑定新的微信号
   path: /h5/v1/unbindPhone
   http_method: get
+  content_type: form
   requestList:
     - phone: 18612345678
 switchCorp:

@@ -2,6 +2,7 @@ allOrderList:
   # 我的订单 特定小微公司与特定代账公司相关订单
   path: /h5/v2/h5Order/orderList
   http_method: post
+  content_type: form
   requestList:
     # 我的全部订单-群组
     - pkManagerCorp: tokenGroup # 登录时输入的pk corp/pk group
@@ -44,6 +45,7 @@ orderDetail:
   # 订单详情
   path: /h5/v2/h5Order/orderDetails
   http_method: get
+  content_type: form
   requestList:
     - pkOrderInfo: notPay  # 待支付订单
       except_result:

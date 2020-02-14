@@ -31,6 +31,7 @@ CopyPaper:
   # 复制试卷
   path: /knowledge/paper/duplicatePaper
   http_method: get
+  content_type: form
   sql:
     allPaper: select pkPaper From tbl_sycs_paper where pkCrop='{pkCorp}'
   requestList:

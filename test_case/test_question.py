@@ -3,7 +3,6 @@ from utils.DBUtil import Search, Del
 import pytest
 import allure
 import os
-import json
 import time
 from urllib3 import encode_multipart_formdata
 
@@ -27,16 +26,6 @@ class Test_Question:
         list_forbid_del_edit = Search(sql2.format(nowTime=nowTime, pkCorp=pkCorp))
         return list_can_del_edit, list_forbid_del_edit
 
-    @allure.step('校验接口响应代码和提示语')
-    def my_assert(self, response, except_result):
-        if response.status_code == 200:
-            response = response.json()
-            assert int(response['code']) == int(except_result['code'])
-            assert response['message'] == except_result['message']
-            return response
-        else:
-            print(response.content)
-
     @allure.step('数据准备和清理')
     @pytest.fixture(params=yml_data['AddQues']['requestList'])
     def get_add_question_data(self, request):
@@ -48,16 +37,16 @@ class Test_Question:
 
     @allure.story("新增试题")
     # @pytest.mark.skip
-    def test_add_question(self, get_add_question_data, get_headers, get_url, api_http):
+    def test_add_question(self, get_add_question_data, get_headers, get_url, api_http, my_assert):
         global DB_result
         headers = get_headers(type=yml_data['AddQues']['content_type'])
         url = get_url(yml_data['AddQues']['path'])
         method = yml_data['AddQues']['http_method']
         except_result = get_add_question_data.pop('except_result')  # 取出请求参数对应的期望结果
         # 数据类型转json
-        get_add_question_data_json = json.dumps(get_add_question_data)
-        response = api_http(method, url, headers, get_add_question_data_json)
-        self.my_assert(response, except_result)  # 校验响应
+        # get_add_question_data_json = json.dumps(get_add_question_data)
+        response = api_http(method, url, headers, get_add_question_data)
+        my_assert(response, except_result)  # 校验响应
         questionContext = get_add_question_data['questionContext']
         # 查询数据库，校验数据是否被插入
         sql = yml_data['AddQues']['sql']['search']
@@ -72,17 +61,15 @@ class Test_Question:
     @allure.story('显示试题')
     @pytest.mark.run(order=1)
     # @pytest.mark.dependency()
-    def test_list_question(self, get_headers, get_url, api_http, get_list_ques_data):
+    def test_list_question(self, get_headers, get_url, api_http, get_list_ques_data, my_assert):
         headers = get_headers(type=yml_data['QuesList']['content_type'])
         url = get_url(yml_data['QuesList']['path'])
         method = yml_data['QuesList']['http_method']
         except_result = get_list_ques_data.pop('except_result')
-        # dict转json
-        get_list_ques_data_json = json.dumps(get_list_ques_data)
 
-        response = api_http(method, url, headers, get_list_ques_data_json)
+        response = api_http(method, url, headers, get_list_ques_data)
 
-        self.my_assert(response, except_result)
+        my_assert(response, except_result)
         # 取出查询参数，截取年月日
         startDate = get_list_ques_data['startDate'].split('T')[0]
         endDate = get_list_ques_data['endDate'].split('T')[0]
@@ -111,13 +98,13 @@ class Test_Question:
     # @pytest.mark.skip
     @allure.story("校验能否删除试题")
     @pytest.mark.run(order=2)
-    def test_check_status(self, get_check_status_data, get_headers, get_url, api_http):
+    def test_check_status(self, get_check_status_data, get_headers, get_url, api_http, my_assert):
         headers = get_headers()
         url = get_url(yml_data['CheckStatus']['path'])
         method = yml_data['CheckStatus']['http_method']
         except_result = get_check_status_data.pop('except_result')
         response = api_http(method, url, headers, get_check_status_data)
-        self.my_assert(response, except_result)
+        my_assert(response, except_result)
 
     @pytest.fixture(params=yml_data['EditQuestion']['requestList'])
     def get_edit_question_data(self, request, get_headers):
@@ -132,7 +119,7 @@ class Test_Question:
     @allure.story("校验能否编辑试题")
     # @pytest.mark.dependency(depends=["test_list_question"])
     @pytest.mark.run(order=2)
-    def test_edit_question(self, get_edit_question_data, get_headers, get_url, api_http):
+    def test_edit_question(self, get_edit_question_data, get_headers, get_url, api_http, my_assert):
         global Question
         Question = {}
         headers = get_headers()
@@ -140,7 +127,7 @@ class Test_Question:
         method = yml_data['EditQuestion']['http_method']
         except_result = get_edit_question_data.pop("except_result")
         response = api_http(method, url, headers, get_edit_question_data)
-        obj = self.my_assert(response, except_result)['data']
+        obj = my_assert(response, except_result)['data']
         if obj:
             Question['answerList'] = obj['answerList']
             Question['pkQuestion'] = obj['pkQuestion']
@@ -169,14 +156,14 @@ class Test_Question:
     # @pytest.mark.dependency(depends=["test_edit_question"])  # 用例被跳过？？
     # @pytest.mark.skip
     @pytest.mark.run(order=3)
-    def test_edit_save_question(self, get_headers, get_url, get_editSave_data, api_http):
+    def test_edit_save_question(self, get_headers, get_url, get_editSave_data, api_http, my_assert):
         headers = get_headers(type=yml_data['EditSaveQuestion']['content_type'])
         url = get_url(yml_data['EditSaveQuestion']['path'])
         except_result = get_editSave_data.pop("except_result")
         method = yml_data['EditSaveQuestion']['http_method']
-        get_editSave_data_json = json.dumps(get_editSave_data)
-        response = api_http(method, url, headers, get_editSave_data_json)
-        self.my_assert(response, except_result)
+        # get_editSave_data_json = json.dumps(get_editSave_data)
+        response = api_http(method, url, headers, get_editSave_data)
+        my_assert(response, except_result)
 
     @pytest.fixture(params=yml_data['DelQuestion']['requestList'])
     def get_del_data(self, request):
@@ -186,13 +173,13 @@ class Test_Question:
         return request.param
 
     @allure.story("删除题目")
-    def test_del_question(self, get_headers, get_url, api_http, get_del_data):
+    def test_del_question(self, get_headers, get_url, api_http, get_del_data, my_assert):
         headers = get_headers()
         url = get_url(yml_data['DelQuestion']['path'])
         method = yml_data['DelQuestion']['http_method']
         except_result = get_del_data.pop('except_result')
         response = api_http(method, url, headers, get_del_data)
-        self.my_assert(response, except_result)
+        my_assert(response, except_result)
 
     @pytest.fixture(params=yml_data['ImportQuestion']['requestList'])
     def get_import_data(self, request):
@@ -208,10 +195,10 @@ class Test_Question:
 
     @allure.story("导入试题")
     # @pytest.mark.skip
-    def test_import_question(self, get_headers, get_url, get_import_data, api_http):
+    def test_import_question(self, get_headers, get_url, get_import_data, api_http, my_assert):
         headers = get_headers(type=yml_data['ImportQuestion']['content_type'], content=get_import_data['file'][1])
         url = get_url(yml_data['ImportQuestion']['path'])
         method = yml_data['ImportQuestion']['http_method']
         except_result = get_import_data.pop('except_result')
         response = api_http(method, url, headers, get_import_data['file'][0])
-        self.my_assert(response, except_result)
+        my_assert(response, except_result)

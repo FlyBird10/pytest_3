@@ -69,6 +69,7 @@ CheckStatus:
   # 校验状态
   path: /knowledge/question/validStatus
   http_method: get
+  content_type: form
   sql:
     # 查询正在考试的题目主键
     get_examing_pkQuestion: select pkQuestion From tbl_sycs_paper_question where pkPaper in (select pkPaper From tbl_sycs_exam where DATE_FORMAT( startDate, '%Y-%m-%d' ) <='{nowTime}' and DATE_FORMAT( endDate, '%Y-%m-%d' ) >='{nowTime}' and pkCorp='{pkCorp}')
@@ -97,6 +98,7 @@ EditQuestion:
   # 校验能否编辑试题，可以编辑时返回试题详情
   path: /knowledge/question/getQuestion4Edit
   http_method: get
+  content_type: form
   requestList:
     - pkQuestion: del_fail_sql # 数据来源sql查询
       controlType: edit
@@ -128,6 +130,7 @@ DelQuestion:
   # 删除题目
   path: /knowledge/question/delQuestion
   http_method: get
+  content_type: form
   requestList:
     - pkQuestion: del_success_sql
       except_result:

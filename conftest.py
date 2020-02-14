@@ -118,7 +118,7 @@ def test_corp(get_Token):
 
 @pytest.fixture()
 def get_headers(get_Token):
-    def _inner(type=None, content=None):
+    def _inner(type='form', content=None):
         headers = {}
         headers['Authorization'] = 'bearer {0}'.format(get_Token[0])
         if get_Token:

@@ -1,0 +1,7 @@
+data目录下yml文件中存放具体用例数据，excel等其他格式文件是导入接口所需文件
+test_case目录中是测试用例，通过读取yml文件数据执行
+api和FactoryData目录用于生成随机测试数据
+utils目录是工具目录，主要是读取配置文件和访问数据库
+report是allure生成的报告
+config.yml是系统级的配置文件
+conftest.py 是pytest特有文件，存放公共的fixture
