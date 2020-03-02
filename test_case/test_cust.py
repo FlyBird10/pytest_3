@@ -12,11 +12,6 @@ yml_data = read_yml(os.path.join(data_path, "customer_my.yml"))
 pkCustomer = None
 
 
-# def yml_data(get_path):
-#     yml_data = read_yml(os.path.join(get_path['data_path'], "customer_my.yml"))
-#     return yml_data
-
-
 @allure.feature("客户模块")
 class Test_customer():
     data_custo = yml_data['customer_my']

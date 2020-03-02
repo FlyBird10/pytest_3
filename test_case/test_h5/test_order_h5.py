@@ -9,7 +9,9 @@ data_path = os.path.join(root_path, "data")
 yml_data = read_yml(os.path.join(data_path, "h5_order.yml"))
 
 
+@allure.feature("H5-我的订单")
 class Test_Order:
+
     @pytest.fixture(params=yml_data['allOrderList']['requestList'])
     def get_order_info_data(self, request, get_Token_h5):
         if request.param['pkManagerCorp'] == 'tokenGroup':
@@ -22,17 +24,18 @@ class Test_Order:
             request.param['pkManagerCorp'] = get_Token_h5()['pkManagerCorp']
         return request.param
 
-    @allure.story("查询订单")
+    @allure.story("查询订单列表")
     @pytest.mark.run(order=1)
     def test_order_info(self, get_order_info_data, get_headers_h5, get_url, api_http, my_assert):
         global order
         order = {}
         url = get_url(yml_data['allOrderList']['path'])
         isGroup = get_order_info_data.pop("isGroup")
-        if isGroup:
-            headers = get_headers_h5(isGroup=True, type=yml_data['allOrderList']['content_type'])
-        else:
-            headers = get_headers_h5(type=yml_data['allOrderList']['content_type'])
+        with allure.step("查询群组和非群组下的订单"):
+            if isGroup:
+                headers = get_headers_h5(isGroup=True, type=yml_data['allOrderList']['content_type'])
+            else:
+                headers = get_headers_h5(type=yml_data['allOrderList']['content_type'])
         method = yml_data['allOrderList']['http_method']
         except_result = get_order_info_data.pop("except_result")
         response = api_http(method, url, headers, get_order_info_data)
@@ -82,8 +85,9 @@ class Test_Order:
 
     @pytest.fixture(params=yml_data['orderComments']['requestList'])
     def get_order_comment_data(self, request):
-        if request.param['pkOrderInfo'] == 'done':
-            request.param['pkOrderInfo'] = order['done']
+        with allure.step("获取已完成订单的pk"):
+            if request.param['pkOrderInfo'] == 'done':
+                request.param['pkOrderInfo'] = order['done']
         return request.param
 
     @allure.story("提交评论")
@@ -114,6 +118,15 @@ class Test_Order:
 
     @allure.story("删除订单")
     def test_order_del(self, get_order_del_data, get_headers_h5, get_url, api_http, my_assert):
+        """
+        已完成和已取消的订单进行假删除
+        :param get_order_del_data: 请求数据
+        :param get_headers_h5:  请求头 定义参数格式和携带token
+        :param get_url:  请求url 确定test/pro环境
+        :param api_http: 发送get/post请求
+        :param my_assert:  断言
+        :return:
+        """
         url = get_url(yml_data['orderDel']['path'])
         headers = get_headers_h5(type=yml_data['orderDel']['content_type'])
         method = yml_data['orderDel']['http_method']

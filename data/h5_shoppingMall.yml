@@ -1,0 +1,52 @@
+# h5商城相关接口
+mall:
+  # 查询指定的商家发布的产品
+  path: /h5/v2/product/mallProducts
+  http_method: post
+  content_type: form
+  requestList:
+    - pkCustomerSort:
+      isSale: 1
+      orderSort: 1
+      type: 0
+      pkCorps: tokenCorp # 登录时输入的pk corp/pk group
+      except_result:
+        code: 0
+        message: 成功
+    - pkCustomerSort:
+      isSale: 1
+      orderSort: 1
+      type: 1
+      pkCorps: tokenGroup # 登录时输入的pk corp/pk group
+      except_result:
+        code: 0
+        message: 成功
+productDetail:
+  # 查询产品详情
+  path: /h5/v2/product/productDetail
+  http_method: get
+  requestList:
+    - pkProductH: single  # 查看单品详情
+      except_result:
+        code: 0
+        message: 成功
+    - pkProductH: complex # 查看套餐详情
+      except_result:
+        code: 0
+        message: 成功
+productComment:
+  # 查询产品评价
+  path: /h5/v2/productComment
+  http_method: post
+  content_type: form
+  requestList:
+    - pkProductH: single
+      pkCorp: singleCorp  # 产品的所属公司PK
+      except_result:
+        code: 0
+        message: 查询成功
+    - pkProductH: complex
+      pkCorp: complexCorp
+      except_result:
+        code: 0
+        message: 查询成功

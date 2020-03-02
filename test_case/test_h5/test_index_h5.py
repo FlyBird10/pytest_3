@@ -3,14 +3,13 @@ from utils.DBUtil import Search_redis, Del, Search
 import pytest
 import allure
 import os
-import json
-import time
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
 yml_data = read_yml(os.path.join(data_path, "h5_index.yml"))
 
 
+@allure.feature("H5首页")
 class TestIndex:
 
     @pytest.fixture(params=yml_data['bind']['requestList'])
@@ -19,6 +18,7 @@ class TestIndex:
 
     @allure.story("查询微信是否被绑定")
     @pytest.mark.run(order=1)
+    @allure.severity('blocker')
     def test_check_bind_phone(self, get_band_data, get_headers_Notoken, get_url, api_http, my_assert):
         global token, pkCorp, pkManagerCorp
         headers = get_headers_Notoken(type=yml_data['bind']['content_type'])
@@ -39,6 +39,7 @@ class TestIndex:
 
     @pytest.mark.run(order=1)
     @pytest.mark.skip
+    @allure.story("发送验证码")
     def test_send_sms(self, get_phoneCode_data, get_headers_Notoken, get_url, api_http, my_assert):
         headers = get_headers_Notoken()
         url = get_url(yml_data['sendSMS']['path'])
@@ -65,6 +66,7 @@ class TestIndex:
             Del(delBindData2)
 
     @pytest.mark.skip
+    @allure.story("绑定微信")
     def test_bind_phone(self, get_bind_phone_data, get_headers_Notoken, get_url, api_http, my_assert):
         headers = get_headers_Notoken(type=yml_data['bindPhone']['content_type'])
         url = get_url(yml_data['bindPhone']['path'])
@@ -78,6 +80,7 @@ class TestIndex:
         request.param['pkCorp'] = pkCorp
         return request.param
 
+    @allure.story("切换公司")
     def test_switch_corp(self, get_switch_corp_data, get_headers_h5, get_url, api_http, my_assert):
         headers = get_headers_h5(type=yml_data['switchCorp']['content_type'])
         method = yml_data['switchCorp']['http_method']

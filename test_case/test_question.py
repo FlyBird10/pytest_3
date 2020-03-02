@@ -156,6 +156,7 @@ class Test_Question:
     # @pytest.mark.dependency(depends=["test_edit_question"])  # 用例被跳过？？
     # @pytest.mark.skip
     @pytest.mark.run(order=3)
+    @allure.story("保存修改的题目")
     def test_edit_save_question(self, get_headers, get_url, get_editSave_data, api_http, my_assert):
         headers = get_headers(type=yml_data['EditSaveQuestion']['content_type'])
         url = get_url(yml_data['EditSaveQuestion']['path'])
