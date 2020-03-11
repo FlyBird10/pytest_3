@@ -8,3 +8,12 @@ userInfo:
       except_result:
         code: 0
         message: success
+focusList:
+  # 查询我的收藏
+  path: /h5/v2/user/listFocusProducts
+  http_method: get
+  requestList:
+    -   # 无参数
+      except_result:
+        code: 0
+        message: success

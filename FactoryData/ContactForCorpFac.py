@@ -1,4 +1,4 @@
-from api.ContactForCorp import Contact
+from api.ContactForCorp import Contact, Subject
 import factory.fuzzy
 import datetime
 
@@ -29,8 +29,24 @@ def get_contact(n=1):
     return contacts_list
 
 
+class SubjectFac(factory.Factory):
+    class Meta:
+        model = Subject
+
+    subjectName = factory.Faker("name", locale="zh_CN")
+
+
+def get_subject(n=1):
+    subjects = factory.build_batch(SubjectFac, n)
+    subject_list = []
+    for item in subjects:
+        subject_list.append(item.__dict__)
+    return subject_list
+
+
 if __name__ == '__main__':
     # birth = get_contact()[0]['birth'].strftime('%Y-%m-%d')
     # print(birth)
     # print(type(birth))
     print(get_contact())
+    print(get_subject())

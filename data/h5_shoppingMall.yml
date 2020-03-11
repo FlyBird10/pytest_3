@@ -50,3 +50,18 @@ productComment:
       except_result:
         code: 0
         message: 查询成功
+addFocus:
+  # 收藏商品
+  path: /h5/v2/product/addFocusProduct
+  http_method: get
+  requestList:
+    - pkProductH: single
+      operateType: true  # 收藏
+      except_result:
+        code: 0
+        message: 成功
+#    - pkProductH: single
+#      operateType: false  # 取消收藏
+#      except_result:
+#        code: 0
+#        message: 成功

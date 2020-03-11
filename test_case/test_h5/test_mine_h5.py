@@ -25,3 +25,17 @@ class Test_Mine:
         response = api_http(method, url, headers, get_user_info_data)
 
         my_assert(response, except_result)
+
+    @pytest.fixture(params=yml_data['focusList']['requestList'])
+    def get_focus_list_data(self, request):
+        return request.param
+
+    @allure.story("查询我的收藏")
+    def test_focus_list(self, get_focus_list_data, get_headers_h5, get_url, api_http, my_assert):
+        url = get_url(yml_data['focusList']['path'])
+        headers = get_headers_h5()
+        method = yml_data['focusList']['http_method']
+        except_result = get_focus_list_data.pop("except_result")
+        response = api_http(method, url, headers, get_focus_list_data)
+
+        my_assert(response, except_result)

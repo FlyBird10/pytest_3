@@ -1,0 +1,66 @@
+initialBalanceList:
+  # 查询科目列表
+  path: /agentAccount/initialBalance/find
+  http_method: post
+  content_type: json
+  requestList:
+    - pkAccountBook: "f44eb88d414742678e62"
+      subjectName: ""
+      subjectTypes:
+        - 资产
+        - 负债
+        - 权益
+        - 成本
+        - 损益
+      except_result:
+        code: 1
+        message: 查询成功
+resetInitial:
+  # 清空科目余额  未结账的情况下才能清空  清空后需校验是否确实被清空了
+  path: /agentAccount/excel/initialValue
+  http_method: post
+  content_type: json
+  requestList:
+    - pkAccountBook: "f44eb88d414742678e62"
+editInitialBalance:
+  # 编辑科目余额
+  path: /agentAccount/initialBalance/edit
+  http_method: post
+  content_type: json
+  requestList:
+    - direction: 0
+      foreignCurrency: false
+      hierarchy: 1
+      initialBalance: 12  # 期初余额
+      parentCode: 0  # 为0说明是一级科目
+      pkAccountBook: f44eb88d414742678e62
+      pkInitialBalance: bbc27115-61e3-11ea-9
+      subjectCode: 1002
+      subjectName: 银行存款
+      subjectType: 资产
+      totalCredit: 3  # 本年累计贷方
+      totalDebit: 8  # 本年累计借方
+      except_result:
+        code: 1
+        message: 编辑成功
+addSubject:
+  # 新增科目  需校验科目编码是否依次递增
+  path: /agentAccount/initialBalance/add
+  http_method: post
+  content_type: json
+  requestList:
+    - accountYear: "2020-03"
+      direction: 0
+      foreignCurrency: false
+      initialBalance: "0"
+      isWL: false
+      parentCode: 1131
+      pkAccountBook: "f44eb88d414742678e62"
+      subjectCode: ""
+      subjectName:   # 同级科目名不能一样
+      subjectType: "资产"
+      totalCredit: "0"
+      totalDebit: "0"
+      except_result:
+        code: 1
+        message: 添加成功

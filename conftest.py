@@ -75,7 +75,7 @@ def get_Token(get_env, account=None):
     :param account: need dict {username:,password:}
     :return:
     '''
-    print('this is token function')
+    # print('this is token function')
     if account is None:
         account = get_env['account']
     else:

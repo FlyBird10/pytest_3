@@ -1,0 +1,29 @@
+platOrderList:
+  # 平台查询物流订单列表
+  path: /logistics/platOrderList
+  http_method: post
+  content_type: form
+  requestList:
+    - ydStatus:
+      tkStatus:
+      startTime:
+      endTime:
+      corpName:
+      userName:
+      cxStatus:
+      pageNo: 1
+      pageSize: 10
+      timeArr:
+      except_result:
+        code: 0
+        message: 查询成功
+searchMyOrder:
+  path: /logistics/expressDelivery/selectMyList
+  http_method: get
+  content_type: form
+  requestList:
+    - pageNo: 1
+      pageSize: 10
+      except_result:
+        code: 0
+        message: 查询成功
