@@ -1,0 +1,16 @@
+findAssetCard:
+  # 查询资产类别
+  path: /agentAccount/assetClass/find
+  http_method: post
+  content_type: json
+  requestList:
+    - pkAccountBook: 5aaa59c1edc947f8b531
+      except_result:
+        code: 0
+        message: 查询成功
+addAsset:
+  # 添加固定资产
+  path: /agentAccount/assetsCard/add
+  http_method: post
+  content_type: json
+  requestList:

@@ -4,7 +4,7 @@ initialBalanceList:
   http_method: post
   content_type: json
   requestList:
-    - pkAccountBook: "f44eb88d414742678e62"
+    - pkAccountBook: 5aaa59c1edc947f8b531
       subjectName: ""
       subjectTypes:
         - 资产
@@ -21,26 +21,75 @@ resetInitial:
   http_method: post
   content_type: json
   requestList:
-    - pkAccountBook: "f44eb88d414742678e62"
+    - pkAccountBook: initialBalanceList
 editInitialBalance:
   # 编辑科目余额
   path: /agentAccount/initialBalance/edit
   http_method: post
   content_type: json
   requestList:
-    - direction: 0
+    - direction: initialBalanceList
       foreignCurrency: false
       hierarchy: 1
-      initialBalance: 12  # 期初余额
+      initialBalance: 1000  # 期初余额
       parentCode: 0  # 为0说明是一级科目
-      pkAccountBook: f44eb88d414742678e62
-      pkInitialBalance: bbc27115-61e3-11ea-9
-      subjectCode: 1002
-      subjectName: 银行存款
-      subjectType: 资产
-      totalCredit: 3  # 本年累计贷方
-      totalDebit: 8  # 本年累计借方
+      pkAccountBook: initialBalanceList
+      pkInitialBalance: initialBalanceList
+      subjectCode: initialBalanceList
+      subjectName: 库存现金
+      subjectType: initialBalanceList
+      totalCredit: 1000  # 本年累计贷方
+      totalDebit: 3000  # 本年累计借方
       except_result:
+        yearsBalance: -1000  # 年初余额
+        code: 1
+        message: 编辑成功
+    - direction: initialBalanceList
+      foreignCurrency: false
+      hierarchy: 1
+      initialBalance: 5000  # 期初余额
+      parentCode: 0  # 为0说明是一级科目
+      pkAccountBook: initialBalanceList
+      pkInitialBalance: initialBalanceList
+      subjectCode: initialBalanceList
+      subjectName: 库存商品
+      subjectType: initialBalanceList
+      totalCredit: 0  # 本年累计贷方
+      totalDebit:  0 # 本年累计借方
+      except_result:
+        yearsBalance: 5000  # 年初余额
+        code: 1
+        message: 编辑成功
+    - direction: initialBalanceList
+      foreignCurrency: false
+      hierarchy: 1
+      initialBalance: 1000  # 期初余额
+      parentCode: 0  # 为0说明是一级科目
+      pkAccountBook: initialBalanceList
+      pkInitialBalance: initialBalanceList
+      subjectCode: initialBalanceList
+      subjectName: 应收账款
+      subjectType: initialBalanceList
+      totalCredit: 100  # 本年累计贷方
+      totalDebit:  500 # 本年累计借方
+      except_result:
+        yearsBalance: 600  # 年初余额
+        code: 1
+        message: 编辑成功
+    - direction: initialBalanceList  # 借贷方向
+      foreignCurrency: false
+      hierarchy: 1
+      initialBalance: 2000  # 期初余额
+      parentCode: 0  # 为0说明是一级科目
+      pkAccountBook: initialBalanceList
+      pkInitialBalance: initialBalanceList
+      subjectCode: initialBalanceList
+      subjectName: 应付账款
+      subjectType: initialBalanceList
+      totalCredit: 500  # 本年累计贷方
+      totalDebit:  1000 # 本年累计借方
+      except_result:
+        yearsBalance: 2500  # 年初余额
         code: 1
         message: 编辑成功
 addSubject:
@@ -54,13 +103,41 @@ addSubject:
       foreignCurrency: false
       initialBalance: "0"
       isWL: false
-      parentCode: 1131
-      pkAccountBook: "f44eb88d414742678e62"
+      parentCode: 1621
+      pkAccountBook: initialBalanceList
       subjectCode: ""
-      subjectName:   # 同级科目名不能一样
-      subjectType: "资产"
+      subjectName: 现金  # 同级科目名不能一样
+      subjectType: initialBalanceList
       totalCredit: "0"
       totalDebit: "0"
       except_result:
         code: 1
         message: 添加成功
+opt:
+  # 查询辅助列表
+  path: /agentAccount/contacts/opt
+  http_method: post
+  content_type: json
+  requestList:
+    - category: 1  # 1是客户
+      pkAccountBook: initialBalanceList
+      except_result:
+        code: 1
+        message: 设置成功
+setWL:
+  # 设置往来：科目有余额，账套无客户时不能启用辅助
+  path: /agentAccount/initialBalance/setWL
+  http_method: post
+  content_type: json
+  requestList:
+    - contactsCategory: 1
+      # 科目有余额时需把数据带入对应的客户下
+      hierarchy: 1
+      isWL: true
+      pkAccountBook: initialBalanceList
+      pkContacts: opt
+      pkInitialBalance: initialBalanceList
+      subjectCode: 1122
+      except_result:
+        code: 1
+        message: 设置成功

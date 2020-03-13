@@ -1,0 +1,30 @@
+findAllBook:
+  path: /agentAccount/accountBook/queryAccountBookByWhere
+  http_method: post
+  content_type: form
+  requestList:
+    - pkDept:
+      accountStatus:
+      isShare:
+      customerName:
+      customerManager:
+      serviceManager:
+      currentPage: 0
+      pageSize: 200
+      except_result:
+        code: 0
+        message: 操作成功
+createBook:
+  # 新建账套
+  path: /agentAccount/accountBook/createNewAccountBook
+  http_method: post
+  content_type: json
+  requestList:
+    - accountBookName: "新建的账套12"  # 账套名不能重复
+      pkDept: "a18984a3636b4e4186e5"
+      serviceEnd: "2021-02-28"
+      serviceStart: "2020-03-01"
+      voucherStatus: 0
+      except_result:
+        code: 0
+        message: 新建账套成功!

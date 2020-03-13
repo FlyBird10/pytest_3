@@ -3,6 +3,7 @@ import pytest
 import allure
 import os
 from FactoryData.ContactForCorpFac import get_subject
+from test_case.test_finance.test_assistAccoun import TestAssisAccoun
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
@@ -28,10 +29,11 @@ class Test_finance_initbalance:
         with allure.step("调用查询科目接口"):
             response = api_http(method, url, headers, get_find_init_balance_data)
         with allure.step("断言接口响应成功"):
-            resp = my_assert(response, except_result)
-            assert len(resp['data']) > 0  # 校验至少返回了一个科目
+            global respAllInitBalance
+            respAllInitBalance = my_assert(response, except_result)
+            assert len(respAllInitBalance['data']) > 0  # 校验至少返回了一个科目
         with allure.step("校验父级科目余额等于其子级科目余额之和"):
-            initBalanceList = resp['data']
+            initBalanceList = respAllInitBalance['data']
             totalCreditList = []
             totalDebitList = []
             initialBalanceList = []
@@ -68,46 +70,31 @@ class Test_finance_initbalance:
                     yearsBalanceList.append(initBalance['yearsBalance'])
         get_find_init_balance_data['except_result'] = except_result  # 删除的期望结果再加入dict中，以便后续使用
         # print('科目数量：', len(resp['data']))
-        return resp
-
-    @pytest.fixture(params=yml_data['resetInitial']['requestList'])
-    def get_reset_init_balance_data(self, request):
-        return request.param
-
-    @allure.story("清空科目及期初余额")
-    @pytest.mark.run(order=2)
-    def test_reset_init_balance(self, get_reset_init_balance_data, get_headers, get_url, api_http, my_assert,
-                                get_find_init_balance_data):
-        headers = get_headers(type=yml_data['resetInitial']['content_type'])
-        url = get_url(yml_data['resetInitial']['path'])
-        method = yml_data['resetInitial']['http_method']
-        with allure.step("调用清空余额接口"):
-            # 清空接口
-            api_http(method, url, headers, get_reset_init_balance_data)
-        with allure.step("调用查询接口校验余额是否清零"):
-            # 查询接口
-            initBalanceList = \
-                self.test_find_init_balance(get_find_init_balance_data, get_headers, get_url, api_http, my_assert)[
-                    'data']
-            for initBalance in initBalanceList:
-                # 校验对应数据是否被清空
-                assert initBalance['totalCredit'] == 0  # 本年累计贷方
-                assert initBalance['totalDebit'] == 0  # 本年累计借方
-                assert initBalance['initialBalance'] == 0  # 期初余额
-                assert initBalance['yearsBalance'] == 0  # 年初余额
+        return respAllInitBalance
 
     @pytest.fixture(params=yml_data['editInitialBalance']['requestList'])
     def get_edit_init_balance_data(self, request):
+        for initBalance in respAllInitBalance['data']:  # 遍历科目列表，替换对应科目的相关信息
+            if initBalance['subjectName'] == request.param['subjectName']:
+                request.param['pkAccountBook'] = initBalance['pkAccountBook']
+                request.param['pkInitialBalance'] = initBalance['pkInitialBalance']
+                request.param['subjectCode'] = initBalance['subjectCode']
+                request.param['subjectType'] = initBalance['subjectType']
+                request.param['direction'] = initBalance['direction']
         return request.param
 
     @allure.story("编辑科目及期初余额")
+    @pytest.mark.run(order=2)
     def test_edit_init_balance(self, get_edit_init_balance_data, get_headers, get_url, api_http, my_assert,
                                get_find_init_balance_data):
         headers = get_headers(type=yml_data['editInitialBalance']['content_type'])
         url = get_url(yml_data['editInitialBalance']['path'])
         method = yml_data['editInitialBalance']['http_method']
         except_result = get_edit_init_balance_data.pop("except_result")
+        yearsBalance = except_result.pop("yearsBalance")
+        print(get_edit_init_balance_data)
         response = api_http(method, url, headers, get_edit_init_balance_data)
+        get_edit_init_balance_data['except_result'] = except_result
         my_assert(response, except_result)
         with allure.step("调用查询接口校验余额是否修改成功"):
             # 查询接口 校验数据被修改成功
@@ -119,13 +106,16 @@ class Test_finance_initbalance:
                     assert initBalance['initialBalance'] == get_edit_init_balance_data['initialBalance']
                     assert initBalance['totalCredit'] == get_edit_init_balance_data['totalCredit']
                     assert initBalance['totalDebit'] == get_edit_init_balance_data['totalDebit']
+                    assert initBalance['yearsBalance'] == yearsBalance
 
     @pytest.fixture(params=yml_data['addSubject']['requestList'])
     def get_add_subject_data(self, request):
         request.param['subjectName'] = get_subject()[0]['subjectName']  # 科目名称随机生成
+        request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
         return request.param
 
     @allure.story("添加科目")
+    @pytest.mark.skip
     def test_add_subject(self, get_add_subject_data, get_headers, get_url, api_http, my_assert,
                          get_find_init_balance_data):
         with allure.step("查询父级已有子级数"):
@@ -152,8 +142,83 @@ class Test_finance_initbalance:
             response = api_http(method, url, headers, get_add_subject_data)
             resp = my_assert(response, except_result)['data']
             assert resp['subjectCode'] == childCode + 1
+        get_add_subject_data['except_result'] = except_result
         with allure.step("查询科目数是否增加"):
             initBalanceListNew = \
                 self.test_find_init_balance(get_find_init_balance_data, get_headers, get_url, api_http, my_assert)[
                     'data']
             assert len(initBalanceListNew) == subNum + 1
+
+    @pytest.fixture(params=yml_data['resetInitial']['requestList'])
+    def get_reset_init_balance_data(self, request):
+        request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
+        return request.param
+
+    @allure.story("清空科目及期初余额")
+    @pytest.mark.run(order=3)
+    @pytest.mark.skip
+    def test_reset_init_balance(self, get_reset_init_balance_data, get_headers, get_url, api_http, my_assert,
+                                get_find_init_balance_data):
+        headers = get_headers(type=yml_data['resetInitial']['content_type'])
+        url = get_url(yml_data['resetInitial']['path'])
+        method = yml_data['resetInitial']['http_method']
+        with allure.step("调用清空余额接口"):
+            # 清空接口
+            api_http(method, url, headers, get_reset_init_balance_data)
+        with allure.step("调用查询接口校验余额是否清零"):
+            # 查询接口
+            initBalanceList = \
+                self.test_find_init_balance(get_find_init_balance_data, get_headers, get_url, api_http, my_assert)[
+                    'data']
+            for initBalance in initBalanceList:
+                # 校验对应数据是否被清空
+                assert initBalance['totalCredit'] == 0  # 本年累计贷方
+                assert initBalance['totalDebit'] == 0  # 本年累计借方
+                assert initBalance['initialBalance'] == 0  # 期初余额
+                assert initBalance['yearsBalance'] == 0  # 年初余额
+
+    @pytest.fixture(params=yml_data['opt']['requestList'])
+    def get_opt_data(self, request):
+        request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
+        return request.param
+
+    @allure.story("查询辅助列表")
+    def test_opt(self, get_opt_data, get_headers, get_url, api_http, my_assert):
+        headers = get_headers(type=yml_data['opt']['content_type'])
+        url = get_url(yml_data['opt']['path'])
+        method = yml_data['opt']['http_method']
+        except_result = get_opt_data.pop("except_result")
+        response = api_http(method, url, headers, get_opt_data)
+        global optList
+        optList = my_assert(response, except_result)
+        # return optList
+
+    @pytest.fixture(params=yml_data['setWL']['requestList'])
+    def get_set_WL_data(self, request):
+        request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
+        return request.param
+
+    @allure.story("设置往来")
+    def test_setWL(self, get_set_WL_data, get_headers, get_url, api_http, my_assert, get_opt_data,
+                   get_add_contacts_data, get_find_all_contacts_data, get_find_init_balance_data):
+        with allure.step("查询账套是否有客户"):
+            TestAssisAccoun().test_add_contacts(get_add_contacts_data, get_headers, get_url, api_http, my_assert)
+            projectList = TestAssisAccoun().test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url,
+                                                                   api_http,
+                                                                   my_assert)
+            get_set_WL_data['pkContacts'] = projectList[0]['pkContacts']  # 设置客户主键
+        print('pkContacts:====', get_set_WL_data['pkContacts'])
+        with allure.step("查询科目是否有余额"):
+            AllInitBalancelist = respAllInitBalance['data']
+            for AllInitBalance in AllInitBalancelist:
+                if AllInitBalance['subjectCode'] == get_set_WL_data['subjectCode']:
+                    get_set_WL_data['pkInitialBalance'] = AllInitBalance['pkInitialBalance']
+        print('pkInitialBalance:====', get_set_WL_data['pkInitialBalance'])
+        headers = get_headers(type=yml_data['setWL']['content_type'])
+        url = get_url(yml_data['setWL']['path'])
+        method = yml_data['setWL']['http_method']
+        except_result = get_set_WL_data.pop("except_result")
+        response = api_http(method, url, headers, get_set_WL_data)
+        resp = my_assert(response, except_result)
+        get_set_WL_data['except_result'] = except_result
+        print(resp)
