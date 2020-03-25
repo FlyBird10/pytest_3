@@ -10,7 +10,7 @@ data_path = os.path.join(root_path, "data")
 finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_initbalance.yml"))
 
-
+@pytest.mark.skip
 @allure.feature("科目及期初")
 class Test_finance_initbalance:
 

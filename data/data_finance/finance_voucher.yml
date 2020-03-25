@@ -1,0 +1,708 @@
+findInit6:
+# 查询科目
+  # path: /agentAccount/initialBalance/find6 废弃
+  path: /agentAccount/initialBalance/find2
+  http_method: post
+  content_type: json
+  requestList:
+    - currentMonth: true
+      pkAccountBook: ef75c6d19a0442958c3d
+      start: "2020-03"
+      except_result:
+        code: 1
+        message: 查询成功
+
+addVoucher:
+  # 新增凭证
+  path: /agentAccount/voucher/saveOrUpdateVoucher
+  http_method: post
+  content_type: json
+  requestList:
+    - explanation: ""  # 测试销售成本
+      period: "2020-03"
+      pjzs: 0
+      pkAccountBook: findInit6
+      pkVoucher: ""
+      tallyDate: "2020-03-31"
+      templetName: ""
+      totalCredit: 5000
+      totalDebit: 5000
+      voucherDetailList:
+        - amountCredit: 0
+          amountDebit: 5000
+          direction: ""
+          explanation: "测试销售成本"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "97832ac7-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 1002-银行存款
+        - amountCredit: 4000
+          amountDebit: 0
+          direction: ""
+          explanation: "测试销售成本"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: findInit6  # 币种主键
+          pkInitContacts: ""
+          pkInitialBalance: findInit6  # 科目主键
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:  # 科目对象
+            subjectName: 5001-主营业务收入
+        - amountCredit: 1000
+          amountDebit: 0
+          direction: ""
+          explanation: "测试销售成本"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "9783541a-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:  # 科目对象
+            subjectName: 22210106-应交税费-应交增值税-销项税额
+      voucherNum: 1
+      except_result:
+        code: 0
+        message: 保存凭证成功
+    - explanation: ""  # 测试未交增值税
+      period: "2020-03"
+      pjzs: 0
+      pkAccountBook: "5aaa59c1edc947f8b531"
+      pkVoucher: ""
+      tallyDate: "2020-03-31"
+      templetName: ""
+      totalCredit: 500
+      totalDebit: 500
+      voucherDetailList:
+        - amountCredit: 0
+          amountDebit: 500
+          direction: ""
+          explanation: "测试未交增值税"
+          firstCell: false
+          forthCell: false
+          iconShowHide: true
+          isActive: true
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "97856d49-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 22210101-应交税费-应交增值税-进项税额
+        - amountCredit: 500
+          amountDebit: 0
+          direction: ""
+          explanation: "测试未交增值税"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "97832ac7-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 1002-银行存款
+      voucherNum: 2
+      except_result:
+        code: 0
+        message: 保存凭证成功
+    - explanation: ""  # 测试利息费用
+      period: "2020-03"
+      pjzs: 0
+      pkAccountBook: "39cea2f87f09410096ee"
+      pkVoucher: ""
+      tallyDate: "2020-03-31"
+      templetName: ""
+      totalCredit: 0
+      totalDebit: 0
+      voucherDetailList:
+        - amountCredit: 0
+          amountDebit: 100
+          direction: ""
+          explanation: "测试利息费用"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d50735-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 1002-银行存款
+        - amountCredit: 0
+          amountDebit: -100
+          direction: ""
+          explanation: "测试利息费用"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d05092-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 560301-财务费用-利息费用
+      voucherNum: 3
+      except_result:
+        code: 0
+        message: 保存凭证成功
+    - explanation: ""  # 测试损益
+      period: "2020-03"
+      pjzs: 0
+      pkAccountBook: "39cea2f87f09410096ee"
+      pkVoucher: ""
+      tallyDate: "2020-03-31"
+      templetName: ""
+      totalCredit: 55000
+      totalDebit: 55000
+      voucherDetailList:
+        - amountCredit: 0
+          amountDebit: 1000
+          direction: ""
+          explanation: "测试损益"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d50735-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: "1002-银行存款"
+        - amountCredit: 0
+          amountDebit: 6000
+          direction: ""
+          explanation: "测试损益"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d758af-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 5111-投资收益
+        - amountCredit: 0
+          amountDebit: 5000
+          direction: ""
+          explanation: "测试损益"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41cee22c-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 5401-主营业务成本
+        - amountCredit: 0
+          amountDebit: 5000
+          direction: ""
+          explanation: "测试损益"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d54cb2-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 560101-销售费用-销售人员职工薪酬
+        - amountCredit: 0
+          amountDebit: 5000
+          direction: ""
+          explanation: "测试损益"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d88384-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 560216-管理费用-汽车使用费
+        - amountCredit: 0
+          amountDebit: 33000
+          direction: ""
+          explanation: "测试损益"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d90d6e-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 5801-所得税费用
+        - amountCredit: 50000
+          amountDebit: 0
+          direction: ""
+          explanation: "测试损益"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d90414-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 505101-其他业务收入-销售材料
+        - amountCredit: 5000
+          amountDebit: 0
+          direction: ""
+          explanation: "测试损益"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d8d62b-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: 530102-营业外收入-政府补助
+      voucherNum: 4
+      except_result:
+        code: 0
+        message: 保存凭证成功
+    - explanation: ""
+      period: "2020-03"
+      pjzs: 0
+      pkAccountBook: "39cea2f87f09410096ee"
+      pkVoucher: ""
+      tallyDate: "2020-03-31"
+      templetName: ""
+      totalCredit: 1000
+      totalDebit: 1000
+      voucherDetailList:
+        - amountCredit: 0
+          amountDebit: 1000
+          direction: ""
+          explanation: "应收账款"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          initialBalance:
+            subjectName: 1001-库存现金
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d801ee-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+        - amountCredit: 1000
+          amountDebit: 0
+          direction: ""
+          explanation: "应收账款"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: "5d8c56d2f1f64375b72f"
+          pkInitialBalance: "41d7b3b1-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          secondCell: false
+          thirdCell: false
+          wlArr: []
+          initialBalance:
+            subjectName: 1122-应收账款
+            pkInitContacts: "5d8c56d2f1f64375b72f"
+      voucherNum: 5
+      except_result:
+        code: 0
+        message: 保存凭证成功
+    - explanation: ""
+      period: "2020-03"
+      pjzs: 0
+      pkAccountBook: "4368f82cae0d4d34993d"
+      pkVoucher: ""
+      tallyDate: "2020-03-31"
+      templetName: ""
+      totalCredit: 5000
+      totalDebit: 5000
+      voucherDetailList:
+        - amountCredit: 5000
+          amountDebit: 0
+          direction: ""
+          explanation: "测试应收账款"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d50735-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: "1002-银行存款"
+        - amountCredit: 0
+          amountDebit: 5000
+          direction: ""
+          explanation: "测试应收账款"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: "7225dfc89d884f5785a5"
+          pkInitialBalance: "41d7b3b1-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            pkInitContacts: "7225dfc89d884f5785a5"  # 往来
+            subjectName: "1122-应收账款"
+      voucherNum: 6  # 凭证号
+      except_result:
+        code: 0
+        message: 保存凭证成功
+    - explanation: ""
+      period: "2020-03"
+      pjzs: 0
+      pkAccountBook: "39cea2f87f09410096ee"
+      pkVoucher: ""
+      tallyDate: "2020-03-31"
+      templetName: ""
+      totalCredit: 5000
+      totalDebit: 5000
+      voucherDetailList:
+        - amountCredit: 0
+          amountDebit: 5000
+          direction: ""
+          explanation: "测试应付账款"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d50735-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: "1002-银行存款"
+        - amountCredit: 5000
+          amountDebit: 0
+          direction: ""
+          explanation: "测试应付账款"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "b7ca012d8b954e05a331"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: "220201-应付账款-测试A"
+      voucherNum: 7
+      except_result:
+        code: 0
+        message: 保存凭证成功
+    - explanation: ""
+      period: "2020-03"
+      pjzs: 0
+      pkAccountBook: "39cea2f87f09410096ee"
+      pkVoucher: ""
+      tallyDate: "2020-03-31"
+      templetName: ""
+      totalCredit: 1000
+      totalDebit: 1000
+      voucherDetailList:
+        - amountCredit: 0
+          amountDebit: 1000
+          direction: ""
+          explanation: "测试应付账款"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "46e0c4c14d054a61ab44"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: "220202-应付账款-测试B"
+        - amountCredit: 1000
+          amountDebit: 0
+          direction: ""
+          explanation: "测试应付账款"
+          firstCell: false
+          forthCell: false
+          iconShowHide: false
+          isActive: false
+          number: null
+          pkContacts: ""
+          pkCurrency: "85ed0b0934f04eaea0aa"
+          pkInitContacts: ""
+          pkInitialBalance: "41d801ee-64e0-11ea-9"
+          pkInitialBalanceArr: []
+          pkVoucherDetail: ""
+          price: null
+          rate: null
+          secondCell: false
+          thirdCell: false
+          value: null
+          wlArr: []
+          initialBalance:
+            subjectName: "1001-库存现金"
+      voucherNum: 8
+      except_result:
+        code: 0
+        message: 保存凭证成功
+
+addOne:
+  # 新增凭证页面新增科目
+  path: /agentAccount/initialBalance/addOne
+  http_method: post
+  content_type: json
+  requestList:
+    - parentPk: findInit6
+      parentname: "2202-应付账款"
+      pkAccountBook: findInit6
+      subjectName: "测试A"
+      except_result:
+        code: 0
+        message: 添加成功
+    - parentPk: findInit6
+      parentname: "2202-应付账款"
+      pkAccountBook: findInit6
+      subjectName: "测试B"
+      except_result:
+        code: 0
+        message: 添加成功
+searchVoucher:
+  # 查询凭证
+  path: /agentAccount/voucher/queryVoucherInfo
+  http_method: post
+  content_type: form
+  requestList:
+    - checkStatus:
+      pkAccountBook: findInit6
+      period: 2020-03
+      keyWord:
+      except_result:
+        code: 0
+        message: 操作成功
+    - checkStatus:
+      pkAccountBook: findInit6
+      period: 2020-12
+      keyWord:
+      except_result:
+        code: 0
+        message: 操作成功
+delVoucher:
+  # 删除凭证
+  path: /agentAccount/voucher/deleteVoucher
+  http_method: post
+  content_type: form
+  requestList:
+    - pkVoucher:
+      except_result:
+        code: 0
+        message: 操作成功
+

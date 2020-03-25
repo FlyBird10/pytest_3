@@ -4,7 +4,7 @@ initialBalanceList:
   http_method: post
   content_type: json
   requestList:
-    - pkAccountBook: 5aaa59c1edc947f8b531
+    - pkAccountBook: ef75c6d19a0442958c3d
       subjectName: ""
       subjectTypes:
         - 资产

@@ -13,6 +13,15 @@ yml_data = read_yml(os.path.join(finance_path, "finance_assistAccoun.yml"))
 @allure.feature("辅助核算")
 class TestAssisAccoun:
 
+    @pytest.fixture(params=yml_data['addContacts']['requestList'])
+    def get_add_contacts_data(self, request):
+        # 数据准备
+        request.param['pkAccountBook'] = yml_data['findContacts']['requestList'][0]['pkAccountBook']
+        request.param['contactsCrop'] = get_subject()[0]['subjectName']
+        yield request.param
+        # 数据清理
+
+
     @allure.story("添加客户")
     @pytest.mark.run(order=1)
     @allure.severity('blocker')

@@ -5,6 +5,8 @@ import pymysql
 import os
 import allure
 import json
+# from test_case.test_finance.test_O3_voucher import TestVoucher
+# from test_case.test_finance.test_O3_voucher import TestVoucher
 
 
 @pytest.fixture()
@@ -203,7 +205,6 @@ def my_assert():
             print(response.content)
             assert 0
 
-
     return _inner
 
 
@@ -233,3 +234,15 @@ def pytest_configure(config):
         config.addinivalue_line(
             "markers", markers
         )
+
+
+# @pytest.fixture(scope='session')
+# def dealData(get_find_voucher, get_del_voucher):
+#     print("执行dealData fixture")
+#     # 清理测试过程中产生的数据
+#     pkVouchers = TestVoucher().test_find_voucher(get_find_voucher, get_headers, get_url, api_http, my_assert)
+#     for pkVoucher in pkVouchers:
+#         get_del_voucher['pkVoucher'] = pkVoucher  # 更新凭证主键
+#         print("pkVoucher: ", pkVoucher)
+#         TestVoucher().del_voucher(get_del_voucher, get_headers, get_url, api_http, my_assert)
+

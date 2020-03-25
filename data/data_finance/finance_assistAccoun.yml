@@ -6,7 +6,7 @@ findContacts:
   requestList:
     - category: 1  # 1-客户 2-供应商 3-项目 4-存货
       contactsCrop: ""
-      pkAccountBook: 5aaa59c1edc947f8b531
+      pkAccountBook: ef75c6d19a0442958c3d
       except_result:
         code: "1"
         message: "设置成功"
@@ -15,8 +15,11 @@ addContacts:
   path: /agentAccount/contacts/add
   http_method: post
   content_type: json
+  sql:
+    delCon: delete from tbl_sycs_contacts where pkAccountBook='{pkAccountBook}' and contactsCrop='{contactsCrop}'
   requestList:
     - category: 1
+      # 只能一组数据，不然启用辅助核算有问题
       contactsCrop: "客户A"
       linkman: ""
       phone: ""
@@ -25,6 +28,7 @@ addContacts:
       except_result:
         code: "1"
         message: "添加成功"
+
 
 delContacts:
   # 删除客户

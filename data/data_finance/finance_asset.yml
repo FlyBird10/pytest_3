@@ -4,7 +4,7 @@ findAssetCard:
   http_method: post
   content_type: json
   requestList:
-    - pkAccountBook: 5aaa59c1edc947f8b531
+    - pkAccountBook: ef75c6d19a0442958c3d
       except_result:
         code: 0
         message: 查询成功
@@ -14,3 +14,151 @@ addAsset:
   http_method: post
   content_type: json
   requestList:
+    - assetNum: "DZ"
+      assetsBalance: "3548.61"
+      assetsName:  资产A # 随机生成
+      assetsNum: "DZ000001"  # 资产编号 递增
+      beforDepTimes: 11  # 购买日期距离入账日期的月数
+      beforDepValue: "1451.39"  # 入账前已累计折旧=月折旧额*购买日期距离入账日期的月数
+      buyDate: "2019-02-28T16:00:00.000Z"  # 购买日期
+      className: "电子设备"
+      costsAccount: "560207-固定资产折旧"   # 费用科目名称
+      countDepTimes: 11  # 累计折旧期次
+      countDepValue: "1451.39"  # 累计折旧额
+      createDate: findAssetCard
+      depreciation: "年均折旧"  # 折旧方法
+      depreciationAccount: "1602-累计折旧"  # 折旧科目名称
+      depreciationStatus: "1"
+      durableYears: 36  # 折旧周期
+      id: null
+      judgeUpdate: true
+      monthDep: "131.94"  # 月折旧额=（资产原值-预计净残值）/折旧周期
+      operator: findAssetCard
+      originalValue: "5000"  # 资产原值
+      pkAccountBook: findAssetCard
+      pkAssetClass: "d297e9b066d749b0b1df"  # 资产类别主键
+      pkCostsAccount: "97843659-64e0-11ea-9"  # 费用科目
+      pkDepreciationAccount: "9785393c-64e0-11ea-9"  # 折旧科目
+      pkManageCorp: findAssetCard
+      salvage: "250.00"  # 预计净残值=资产原值*净残率
+      scrapValue: findAssetCard  # 净残率
+      except_result:
+        code: 0
+        message: 添加成功
+    - assetNum: "DZ"
+      assetsBalance: "5000.00"
+      assetsName: "资产B"
+      assetsNum: "DZ000002"
+      beforDepTimes: 0
+      beforDepValue: "0.00"
+      buyDate: "2020-03-04T16:00:00.000Z"
+      className: "电子设备"
+      costsAccount: "410104-制造费用-折旧费"
+      countDepTimes: 0
+      countDepValue: "0.00"
+      createDate: findAssetCard
+      depreciation: "年均折旧"
+      depreciationAccount: "1602-累计折旧"
+      depreciationStatus: "1"
+      durableYears: 36
+      id: null
+      judgeUpdate: true
+      monthDep: "131.94"
+      operator: findAssetCard
+      originalValue: "5000"
+      pkAccountBook: findAssetCard
+      pkAssetClass: "d297e9b066d749b0b1df"
+      pkCostsAccount: "97840d20-64e0-11ea-9"
+      pkDepreciationAccount: "9785393c-64e0-11ea-9"
+      pkManageCorp: findAssetCard
+      salvage: "250.00"
+      scrapValue: findAssetCard
+      except_result:
+        code: 0
+        message: 添加成功
+    - assetNum: "DZ"
+      assetsBalance: "250.00"
+      assetsName: "资产C"
+      assetsNum: "DZ000003"
+      beforDepTimes: 36
+      beforDepValue: "4750.00"
+      buyDate: "2014-03-03T16:00:00.000Z"
+      className: "电子设备"
+      costsAccount: "410104-制造费用-折旧费"
+      countDepTimes: 36
+      countDepValue: "4750.00"
+      createDate: findAssetCard
+      depreciation: "年均折旧"
+      depreciationAccount: "1602-累计折旧"
+      depreciationStatus: "1"
+      durableYears: 36
+      id: null
+      judgeUpdate: true
+      monthDep: "131.94"
+      operator: findAssetCard
+      originalValue: "5000"
+      pkAccountBook: findAssetCard
+      pkAssetClass: "d297e9b066d749b0b1df"
+      pkCostsAccount: "97840d20-64e0-11ea-9"
+      pkDepreciationAccount: "9785393c-64e0-11ea-9"
+      pkManageCorp: findAssetCard
+      salvage: "250.00"
+      scrapValue: findAssetCard
+      except_result:
+        code: 0
+        message: 添加成功
+    - assetNum: "YS"
+      # 测试删除用
+      assetsBalance: "1000.00"
+      assetsName: "测试"
+      assetsNum: "YS000001"
+      beforDepTimes: 0
+      beforDepValue: "0.00"
+      buyDate: "2020-02-29T16:00:00.000Z"
+      className: "运输工具"
+      costsAccount: "560207-固定资产折旧"
+      countDepTimes: 0
+      countDepValue: "0.00"
+      createDate: 1584072637000
+      depreciation: "年均折旧"
+      depreciationAccount: "1602-累计折旧"
+      depreciationStatus: "1"
+      durableYears: 48
+      id: null
+      judgeUpdate: true
+      monthDep: "19.79"
+      operator: "a0ec9cc936e14279a0ea"
+      originalValue: "1000"
+      pkAccountBook: "5aaa59c1edc947f8b531"
+      pkAssetClass: "10b337adc221499681f1"
+      pkCostsAccount: "97843659-64e0-11ea-9"
+      pkDepreciationAccount: "9785393c-64e0-11ea-9"
+      pkManageCorp: "a18984a3636b4e4186e5"
+      salvage: "50.00"
+      scrapValue: 5
+      except_result:
+        code: 0
+        message: 添加成功
+findAsset:
+  # 查询固定资产
+  path: /agentAccount/assetsCard/findFuzzy
+  http_method: post
+  content_type: json
+  requestList:
+    - assetsName: ""
+      period: "2020-03"
+      pkAccountBook: findAssetCard
+      status: 0
+      except_result:
+        code: 0
+        message: 查询完成
+delAsset:
+  # 删除固定资产
+  path: /agentAccount/assetsCard/delete
+  http_method: post
+  content_type: json
+  requestList:
+    - pkAssetsCard:
+      except_result:
+        code: 0
+        message: 删除完成
