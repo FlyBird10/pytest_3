@@ -3,6 +3,7 @@ import pytest
 import allure
 import os
 from FactoryData.ContactForCorpFac import get_subject
+from utils.DBUtil import Del, Search
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
@@ -18,9 +19,19 @@ class TestAssisAccoun:
         # 数据准备
         request.param['pkAccountBook'] = yml_data['findContacts']['requestList'][0]['pkAccountBook']
         request.param['contactsCrop'] = get_subject()[0]['subjectName']
+        # print('客户名：', request.param['contactsCrop'])
+        print('添加客户的数据准备')
         yield request.param
-        # 数据清理
-
+        # 数据清理 删除新增的客户
+        # sql = yml_data['addContacts']['sql']
+        # selectCon = sql['selectCon'].format(pkAccountBook=request.param['pkAccountBook'],
+        #                               contactsCrop=request.param['contactsCrop'])
+        print('添加客户的数据清理')
+        # pkContacts = Search(selectCon)[0][0]
+        # delCon = sql['delCon'].format(pkContacts=pkContacts)
+        # delCon2 = sql['delCon2'].format(pkContacts=pkContacts)
+        # Del(delCon)
+        # Del(delCon2)
 
     @allure.story("添加客户")
     @pytest.mark.run(order=1)
@@ -50,7 +61,7 @@ class TestAssisAccoun:
         with allure.step("断言接口响应成功"):
             global projectList
             projectList = my_assert(response, except_result)['data']
-            print(projectList)
+            print("查询辅助核算列表", projectList)
         return projectList
 
     @pytest.fixture(params=yml_data['delContacts']['requestList'])

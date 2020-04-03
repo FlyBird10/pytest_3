@@ -197,6 +197,7 @@ def my_assert():
                 print(response.request.url)
                 print(response.request.body)
                 print(response.request.headers)
+                assert 0
             return response_json
         else:
             print(response.request.url)

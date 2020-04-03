@@ -4,7 +4,7 @@ findAssetCard:
   http_method: post
   content_type: json
   requestList:
-    - pkAccountBook: ef75c6d19a0442958c3d
+    - pkAccountBook: 32a01483fba649dfabf7
       except_result:
         code: 0
         message: 查询成功

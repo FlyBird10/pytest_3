@@ -4,7 +4,7 @@ initialBalanceList:
   http_method: post
   content_type: json
   requestList:
-    - pkAccountBook: ef75c6d19a0442958c3d
+    - pkAccountBook: 32a01483fba649dfabf7
       subjectName: ""
       subjectTypes:
         - 资产
@@ -135,8 +135,8 @@ setWL:
       hierarchy: 1
       isWL: true
       pkAccountBook: initialBalanceList
-      pkContacts: opt
-      pkInitialBalance: initialBalanceList
+      pkContacts: 5447cd46161b4e0492bf
+      pkInitialBalance: 389de134-676c-11ea-9
       subjectCode: 1122
       except_result:
         code: 1

@@ -10,7 +10,7 @@ data_path = os.path.join(root_path, "data")
 finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_initbalance.yml"))
 
-@pytest.mark.skip
+
 @allure.feature("科目及期初")
 class Test_finance_initbalance:
 
@@ -194,14 +194,20 @@ class Test_finance_initbalance:
         # return optList
 
     @pytest.fixture(params=yml_data['setWL']['requestList'])
-    def get_set_WL_data(self, request):
+    def get_set_WL_data(self, request, get_add_contacts_data, get_headers, get_url, api_http, my_assert,
+                        get_find_all_contacts_data, get_find_init_balance_data):
+        respAllInitBalance = self.test_find_init_balance(get_find_init_balance_data, get_headers, get_url, api_http,
+                                                         my_assert)
         request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
-        return request.param
+        # TODO (heli)： 数据准备，添加客户
+        print('设置往来的数据准备')
+        yield request.param
+        print('设置往来的数据清理')
 
     @allure.story("设置往来")
-    def test_setWL(self, get_set_WL_data, get_headers, get_url, api_http, my_assert, get_opt_data,
-                   get_add_contacts_data, get_find_all_contacts_data, get_find_init_balance_data):
-        with allure.step("查询账套是否有客户"):
+    def test_setWL(self, get_set_WL_data, get_headers, get_url, api_http, my_assert, get_find_init_balance_data,
+                   get_add_contacts_data, get_find_all_contacts_data):
+        with allure.step("新增客户并查询其PK"):
             TestAssisAccoun().test_add_contacts(get_add_contacts_data, get_headers, get_url, api_http, my_assert)
             projectList = TestAssisAccoun().test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url,
                                                                    api_http,
@@ -222,3 +228,7 @@ class Test_finance_initbalance:
         resp = my_assert(response, except_result)
         get_set_WL_data['except_result'] = except_result
         print(resp)
+        # assert 0
+
+
+

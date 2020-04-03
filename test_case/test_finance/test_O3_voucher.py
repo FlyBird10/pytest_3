@@ -2,6 +2,7 @@ from utils.generator import read_yml
 import pytest
 import allure
 import os
+import json
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
@@ -33,16 +34,17 @@ class TestVoucher:
         url = get_url(yml_data['addVoucher']['path'])
         method = yml_data['addVoucher']['http_method']
         except_result = get_save_voucher_data.pop("except_result")
-        # print(get_save_voucher_data)
+        # print(json.dumps(get_save_voucher_data))
         with allure.step("调用接口"):
             response = api_http(method, url, headers, get_save_voucher_data)
+            # print(response)
         with allure.step("断言接口响应成功"):
             my_assert(response, except_result)
 
     @pytest.fixture(params=yml_data['addVoucher']['requestList'])
-    def get_save_voucher_data(self, request, get_find_init6_data, get_headers, get_url, api_http, my_assert,
-                              test_find_init6):
-        allInit6List = test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_assert)
+    def get_save_voucher_data(self, request, test_find_init6):
+        # allInit6List = test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_assert)
+        allInit6List = test_find_init6
         request.param['pkAccountBook'] = yml_data['findInit6']['requestList'][0]['pkAccountBook']
         for allInit6 in allInit6List:
             for voucherDetail in request.param['voucherDetailList']:
@@ -67,8 +69,8 @@ class TestVoucher:
         request.param['pkAccountBook'] = yml_data['findInit6']['requestList'][0]['pkAccountBook']
         yield request.param
         # 查询完成后删除凭证
-        for pkVoucher in pkVouchers:
-            self.del_voucher(get_del_voucher, get_headers, get_url, api_http, my_assert, pkVoucher)
+        # for pkVoucher in pkVouchers:
+        #     self.del_voucher(get_del_voucher, get_headers, get_url, api_http, my_assert, pkVoucher)
 
     @allure.story("查询凭证")
     @pytest.mark.run(order=3)
@@ -95,6 +97,7 @@ class TestVoucher:
         return request.param
 
     @allure.story("删除凭证")
+    @pytest.mark.skip
     @pytest.mark.run(order=3)
     def del_voucher(self, get_del_voucher, get_headers, get_url, api_http, my_assert, pkVoucher):
         headers = get_headers(type=yml_data['delVoucher']['content_type'])

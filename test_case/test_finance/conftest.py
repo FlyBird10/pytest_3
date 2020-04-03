@@ -4,6 +4,7 @@ import os
 from FactoryData.ContactForCorpFac import get_subject
 import allure
 from test_case.test_finance.test_O3_voucher import TestVoucher
+from utils.DBUtil import Del
 
 # 存放公共使用的函数
 
@@ -15,11 +16,16 @@ yml_data = read_yml(os.path.join(finance_path, "finance_assistAccoun.yml"))
 yml_data1 = read_yml(os.path.join(finance_path, "finance_voucher.yml"))
 
 
-# @pytest.fixture(params=yml_data['addContacts']['requestList'])
-# def get_add_contacts_data(request):
-#     request.param['pkAccountBook'] = yml_data['findContacts']['requestList'][0]['pkAccountBook']
-#     request.param['contactsCrop'] = get_subject()[0]['subjectName']
-#     return request.param
+@pytest.fixture(params=yml_data['addContacts']['requestList'])
+def get_add_contacts_data(request):
+    request.param['pkAccountBook'] = yml_data['findContacts']['requestList'][0]['pkAccountBook']
+    request.param['contactsCrop'] = get_subject()[0]['subjectName']
+    yield request.param
+    # 数据清理 删除新增的客户
+    sql = yml_data['addContacts']['sql']
+    delCon = sql['delCon'].format(pkAccountBook=request.param['pkAccountBook'],
+                                  contactsCrop=request.param['contactsCrop'])
+    Del(delCon)
 
 
 # 查询辅助核算列表
@@ -55,12 +61,12 @@ def test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_asse
 
 
 
-@pytest.fixture()
-def dealData(get_find_voucher, get_del_voucher, get_headers, get_url, api_http, my_assert):
-    print("执行dealData fixture")
-    # 清理测试过程中产生的数据
-    pkVouchers = TestVoucher().test_find_voucher(get_find_voucher, get_headers, get_url, api_http, my_assert)
-    for pkVoucher in pkVouchers:
-        get_del_voucher['pkVoucher'] = pkVoucher  # 更新凭证主键
-        print("pkVoucher: ", pkVoucher)
-        TestVoucher().del_voucher(get_del_voucher, get_headers, get_url, api_http, my_assert)
+# @pytest.fixture()
+# def dealData(get_find_voucher, get_del_voucher, get_headers, get_url, api_http, my_assert):
+#     print("执行dealData fixture")
+#     # 清理测试过程中产生的数据
+#     pkVouchers = TestVoucher().test_find_voucher(get_find_voucher, get_headers, get_url, api_http, my_assert)
+#     for pkVoucher in pkVouchers:
+#         get_del_voucher['pkVoucher'] = pkVoucher  # 更新凭证主键
+#         print("pkVoucher: ", pkVoucher)
+#         TestVoucher().del_voucher(get_del_voucher, get_headers, get_url, api_http, my_assert)

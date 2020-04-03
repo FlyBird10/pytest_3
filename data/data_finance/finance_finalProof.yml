@@ -1,0 +1,208 @@
+findAll:
+  # 查询期末凭证模板
+  path: /agentAccount/voucherTemplate/findAllByPkAccountBook
+  http_method: post
+  content_type: form
+  requestList:
+    - pkAccountBook: 32a01483fba649dfabf7
+      date: 2020-03
+      except_result:
+        code: 0
+        message: 查询成功
+generateVoucher:
+  # 生成期末凭证
+  path: /agentAccount/voucherTemplate/generateVoucher
+  http_method: post
+  content_type: json
+  requestList:
+    - date: findAll
+      pkAccountBook: findAll
+      pkVoucherTemplate: 结转销售成本  # 结转销售成本
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 结转销售成本
+          newName: 5401-主营业务成本
+          amountDebit: 3200  # 借方金额
+          amountCredit: 0
+        - explanation: 结转销售成本
+          newName: 1405-库存商品
+          amountCredit: 3200  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 生成凭证成功!
+    - date: findAll
+      pkAccountBook: findAll
+      pkVoucherTemplate: 结转未交增值税
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 结转未交增值税
+          newName: 22210103-应交税费-应交增值税-转出未交增值税
+          amountDebit: 500  # 借方金额
+          amountCredit: 0
+        - explanation: 结转未交增值税
+          newName: 222102-应交税费-未交增值税
+          amountCredit: 500  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 生成凭证成功!
+    - date: findAll
+      pkAccountBook: findAll
+      pkVoucherTemplate: 计提税金
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 计提税金
+          newName: 5403-税金及附加
+          amountDebit: 60  # 借方金额
+          amountCredit: 0
+        - explanation: 计提税金
+          newName: 222116-应交税费-地方教育费附加
+          amountCredit: 10  # 贷方金额
+          amountDebit: 0
+        - explanation: 计提税金
+          newName: 222112-应交税费-应交教育附加费
+          amountCredit: 15  # 贷方金额
+          amountDebit: 0
+        - explanation: 计提税金
+          newName: 222107-应交税费-应交城市维护建设税
+          amountCredit: 35  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 生成凭证成功!
+    - date: findAll
+      pkAccountBook: findAll
+      pkVoucherTemplate: 计提折旧
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 计提折旧
+          newName: 560207-管理费用-固定资产折旧本
+          amountDebit: 131.94  # 借方金额
+          amountCredit: 0
+        - explanation: 计提折旧
+          newName: 1602-累计折旧
+          amountCredit: 131.94  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 生成凭证成功!
+    - date: findAll
+      pkAccountBook: findAll
+      pkVoucherTemplate: 结转损益
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 结转损益
+          newName: 5401-主营业务成本
+          amountDebit: 0  # 借方金额
+          amountCredit: 8200
+        - explanation: 结转损益
+          newName: 5403-税金及附加
+          amountCredit: 60  # 贷方金额
+          amountDebit: 0
+        - explanation: 结转损益
+          newName: 560301-财务费用-利息费用
+          amountCredit: -100  # 贷方金额
+          amountDebit: 0
+        - explanation: 结转损益
+          newName: 560101-销售费用-销售人员职工薪酬
+          amountCredit: 5000  # 贷方金额
+          amountDebit: 0
+        - explanation: 结转损益
+          newName: 5111-投资收益
+          amountCredit: 6000  # 贷方金额
+          amountDebit: 0
+        - explanation: 结转损益
+          newName: 560207-管理费用-固定资产折旧
+          amountCredit: 131.94  # 贷方金额
+          amountDebit: 0
+        - explanation: 结转损益
+          newName: 5001-主营业务收入
+          amountCredit: 0  # 贷方金额
+          amountDebit: 4000
+        - explanation: 结转损益
+          newName: 560216-管理费用-汽车使用费
+          amountCredit: 5000  # 贷方金额
+          amountDebit: 0
+        - explanation: 结转损益
+          newName: 530102-营业外收入-政府补助
+          amountCredit: 0  # 贷方金额
+          amountDebit: 5000
+        - explanation: 结转损益
+          newName: 505101-其他业务收入-销售材料
+          amountCredit: 0  # 贷方金额
+          amountDebit: 50000
+        - explanation: 结转损益
+          newName: 5801-所得税费用
+          amountCredit: 33000  # 贷方金额
+          amountDebit: 0
+        - explanation: 结转损益
+          newName: 3103-本年利润
+          amountCredit: 1708.06  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 生成凭证成功!
+    - date: 2020-12
+      pkAccountBook: findAll
+      pkVoucherTemplate: 计提折旧
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 计提折旧
+          newName: 410104-制造费用-折旧费
+          amountDebit: 131.94  # 借方金额
+          amountCredit: 0
+        - explanation: 计提折旧
+          newName: 560207-管理费用-固定资产折旧
+          amountCredit: 0  # 贷方金额
+          amountDebit: 131.94
+        - explanation: 计提折旧
+          newName: 1602-累计折旧
+          amountCredit: 263.88  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 生成凭证成功!
+    - date: 2020-12
+      pkAccountBook: findAll
+      pkVoucherTemplate: 结转损益
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 结转损益
+          newName: 560207-管理费用-固定资产折旧
+          amountDebit: 0  # 借方金额
+          amountCredit: 131.94
+        - explanation: 结转损益
+          newName: 3103-本年利润
+          amountCredit: 0  # 贷方金额
+          amountDebit: 131.94
+      except_result:
+        code: 0
+        message: 生成凭证成功!
+    - date: 2020-12
+      pkAccountBook: findAll
+      pkVoucherTemplate: 结转本年利润
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 结转本年利润
+          newName: 3103-本年利润
+          amountDebit: 1576.12  # 借方金额
+          amountCredit: 0
+        - explanation: 结转本年利润
+          newName: 310406-利润分配-未分配利润
+          amountCredit: 1576.12  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 生成凭证成功!
+
+queryVoucherByPK:
+  # 通过凭证PK查询凭证详情
+  path: /agentAccount/voucher/queryVoucher
+  http_method: post
+  content_type: form
+  requestList:
+    - pkVoucher:
+      except_result:
+        code: 0
+        message: 操作成功
