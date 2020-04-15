@@ -14,8 +14,10 @@ yml_data = read_yml(os.path.join(finance_path, "finance_voucher.yml"))
 class TestVoucher:
 
     @allure.story("添加凭证页面新增科目")
-    @pytest.mark.skip
+    @pytest.mark.run(order=1)
+    # @pytest.mark.skip
     def test_add_one(self, get_add_one_data, get_headers, get_url, api_http, my_assert):
+        print(get_add_one_data)
         headers = get_headers(type=yml_data['addOne']['content_type'])
         url = get_url(yml_data['addOne']['path'])
         method = yml_data['addOne']['http_method']
@@ -59,8 +61,12 @@ class TestVoucher:
         return request.param
 
     @pytest.fixture(params=yml_data['addOne']['requestList'])
-    def get_add_one_data(self, request):
+    def get_add_one_data(self, request, test_find_all_init):
         request.param['pkAccountBook'] = yml_data['findInit6']['requestList'][0]['pkAccountBook']
+        for allInit6 in test_find_all_init:
+            if request.param['parentname'] == allInit6['subjectName']:
+                print('='*20)
+                request.param['parentPk'] = allInit6['pkInitialBalance']
         return request.param
 
     # 查询凭证
@@ -91,22 +97,6 @@ class TestVoucher:
                 pkVouchers.append(voucher['pkVoucher'])
         return pkVouchers
 
-    @pytest.fixture(params=yml_data['delVoucher']['requestList'])
-    def get_del_voucher(self, request):
-        # request.param['pkVoucher'] = pkVouchers[0]
-        return request.param
 
-    @allure.story("删除凭证")
-    @pytest.mark.skip
-    @pytest.mark.run(order=3)
-    def del_voucher(self, get_del_voucher, get_headers, get_url, api_http, my_assert, pkVoucher):
-        headers = get_headers(type=yml_data['delVoucher']['content_type'])
-        url = get_url(yml_data['delVoucher']['path'])
-        method = yml_data['delVoucher']['http_method']
-        get_del_voucher['pkVoucher'] = pkVoucher
-        except_result = get_del_voucher.pop("except_result")
-        with allure.step("调用接口"):
-            response = api_http(method, url, headers, get_del_voucher)
-        with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
-        get_del_voucher['except_result'] = except_result
+
+

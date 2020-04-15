@@ -1,0 +1,177 @@
+statementAllData:
+  # 资产负债表
+  path: /financial/statement/statementAllData
+  http_method: post
+  content_type: form
+  requestList:
+    - pkAccountBook: 32a01483fba649dfabf7
+      reportType: 1
+      date: 2020-03
+      type: 2  # 重分类
+      assert_data:  # 校验数据
+        - name: 货币资金
+          finalBalance: 6600 # 期末余额
+          beginBalance: -1000 # 年初余额
+        - name: 应收账款
+          finalBalance: 5000 # 期末余额
+          beginBalance: 600 # 年初余额
+        - name: 预付账款
+          finalBalance: 1000 # 期末余额
+          beginBalance:  0 # 年初余额
+        - name: 存货
+          finalBalance: 1800 # 期末余额
+          beginBalance: 5000 # 年初余额
+        - name: 库存商品
+          finalBalance: 1800 # 期末余额
+          beginBalance: 5000 # 年初余额
+        - name: 流动资产合计
+          finalBalance: 14400 # 期末余额
+          beginBalance: 4600 # 年初余额
+        - name: 减：累计折旧
+          finalBalance: 131.94 # 期末余额
+          beginBalance:  0 # 年初余额
+        - name: 固定资产账面价值
+          finalBalance: -131.94 # 期末余额
+          beginBalance:  0 # 年初余额
+        - name: 非流动资产合计
+          finalBalance: -131.94 # 期末余额
+          beginBalance:  0 # 年初余额
+        - name: 资产总计
+          finalBalance: 14268.06 # 期末余额
+          beginBalance:  4600 # 年初余额
+        - name: 应付账款
+          finalBalance: 7000 # 期末余额
+          beginBalance: 2500 # 年初余额
+        - name: 应交税费
+          finalBalance: 560 # 期末余额
+          beginBalance: 0  # 年初余额
+        - name: 流动负债合计
+          finalBalance: 7560 # 期末余额
+          beginBalance: 2500  # 年初余额
+        - name: 负债合计
+          finalBalance: 7560 # 期末余额
+          beginBalance: 2500  # 年初余额
+        - name: 未分配利润
+          finalBalance: 1708.06 # 期末余额
+          beginBalance:  0  # 年初余额
+        - name: 所有者权益（或股东权益）合计
+          finalBalance: 1708.06 # 期末余额
+          beginBalance:  0  # 年初余额
+        - name: 负债和所有者权益（或股东权益）总计
+          finalBalance: 9268.06 # 期末余额
+          beginBalance: 2500  # 年初余额
+    - pkAccountBook: statementAllData
+      reportType: 1
+      date: 2020-03
+      type: 1  # 不重分类
+      assert_data:  # 校验数据
+        - name: 货币资金
+          finalBalance: 6600 # 期末余额
+          beginBalance: -1000 # 年初余额
+        - name: 应收账款
+          finalBalance: 5000 # 期末余额
+          beginBalance: 600 # 年初余额
+        - name: 预付账款
+          finalBalance:  0 # 期末余额
+          beginBalance: 0  # 年初余额
+        - name: 存货
+          finalBalance: 1800 # 期末余额
+          beginBalance: 5000 # 年初余额
+        - name: 库存商品
+          finalBalance: 1800 # 期末余额
+          beginBalance: 5000 # 年初余额
+        - name: 流动资产合计
+          finalBalance: 13400 # 期末余额
+          beginBalance: 4600 # 年初余额
+        - name: 减：累计折旧
+          finalBalance: 131.94 # 期末余额
+          beginBalance:  0 # 年初余额
+        - name: 固定资产账面价值
+          finalBalance: -131.94 # 期末余额
+          beginBalance:  0 # 年初余额
+        - name: 非流动资产合计
+          finalBalance: -131.94 # 期末余额
+          beginBalance:  0 # 年初余额
+        - name: 资产总计
+          finalBalance: 13268.06 # 期末余额
+          beginBalance:  4600 # 年初余额
+        - name: 应付账款
+          finalBalance: 6000 # 期末余额
+          beginBalance: 2500 # 年初余额
+        - name: 应交税费
+          finalBalance: 560 # 期末余额
+          beginBalance: 0  # 年初余额
+        - name: 流动负债合计
+          finalBalance: 6560 # 期末余额
+          beginBalance: 2500  # 年初余额
+        - name: 负债合计
+          finalBalance: 6560 # 期末余额
+          beginBalance: 2500  # 年初余额
+        - name: 未分配利润
+          finalBalance: 1708.06 # 期末余额
+          beginBalance:  0  # 年初余额
+        - name: 所有者权益（或股东权益）合计
+          finalBalance: 1708.06 # 期末余额
+          beginBalance:  0  # 年初余额
+        - name: 负债和所有者权益（或股东权益）总计
+          finalBalance: 8268.06 # 期末余额
+          beginBalance: 2500  # 年初余额
+getProfitData:
+  # 利润表
+  path: /financial/statement/getProfitData
+  http_method: post
+  content_type: form
+  requestList:
+    - pkAccountBook: statementAllData
+      reportType: 2
+      date: 2020-03
+      assert_data:
+        - name: 一、营业收入
+          bigDecimalYearAll: 54000 # 本年累计金额
+          bigDecimalCurrentAll: 54000 # 本期累计金额
+        - name: 减：营业成本
+          bigDecimalYearAll: 8200 # 本年累计金额
+          bigDecimalCurrentAll: 8200 # 本期累计金额
+        - name: 税金及附加
+          bigDecimalYearAll: 60 # 本年累计金额
+          bigDecimalCurrentAll: 60 # 本期累计金额
+        - name: 城市维护建设税
+          bigDecimalYearAll: 35 # 本年累计金额
+          bigDecimalCurrentAll: 35 # 本期累计金额
+        - name: 教育费附加、矿产资源补偿费、排污费
+          bigDecimalYearAll: 25 # 本年累计金额
+          bigDecimalCurrentAll: 25 # 本期累计金额
+        - name: 销售费用
+          bigDecimalYearAll: 5000 # 本年累计金额
+          bigDecimalCurrentAll: 5000 # 本期累计金额
+        - name: 管理费用
+          bigDecimalYearAll: 5131.94 # 本年累计金额
+          bigDecimalCurrentAll: 5131.94 # 本期累计金额
+        - name: 财务费用
+          bigDecimalYearAll: -100 # 本年累计金额
+          bigDecimalCurrentAll: -100 # 本期累计金额
+        - name: 其中：利息费用（收入以“-”号填列）
+          bigDecimalYearAll: -100 # 本年累计金额
+          bigDecimalCurrentAll: -100 # 本期累计金额
+        - name: 加：投资收益（损失以“-”号填列）
+          bigDecimalYearAll: -6000 # 本年累计金额
+          bigDecimalCurrentAll: -6000 # 本期累计金额
+        - name: 二、营业利润
+          bigDecimalYearAll: 29708.06 # 本年累计金额
+          bigDecimalCurrentAll: 29708.06 # 本期累计金额
+        - name: 加：营业外收入
+          bigDecimalYearAll: 5000 # 本年累计金额
+          bigDecimalCurrentAll: 5000 # 本期累计金额
+        - name: 其中：政府补助
+          bigDecimalYearAll: 5000 # 本年累计金额
+          bigDecimalCurrentAll: 5000 # 本期累计金额
+        - name: 三、利润总额（亏损总额以“-”号填列）
+          bigDecimalYearAll: 34708.06 # 本年累计金额
+          bigDecimalCurrentAll: 34708.06 # 本期累计金额
+        - name: 减：所得税费用
+          bigDecimalYearAll: 33000 # 本年累计金额
+          bigDecimalCurrentAll: 33000 # 本期累计金额
+        - name: 四、净利润（净亏损以“-”号填列）
+          bigDecimalYearAll: 1708.06 # 本年累计金额
+          bigDecimalCurrentAll: 1708.06 # 本期累计金额
+

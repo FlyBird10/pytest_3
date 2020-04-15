@@ -2,7 +2,7 @@ from utils.generator import read_yml
 import pytest
 import allure
 import os
-from test_case.test_finance.conftest import test_find_init6
+# from test_case.test_finance.conftest import test_find_init6
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
@@ -10,7 +10,7 @@ finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_asset.yml"))
 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 @allure.feature("固定资产")
 class TestAsset:
 
@@ -35,8 +35,9 @@ class TestAsset:
             # print(allAssetClassList)
 
     @pytest.fixture(params=yml_data['addAsset']['requestList'])
-    def get_add_asset_data(self, request, get_find_init6_data, get_headers, get_url, api_http, my_assert):
-        allInit6List = test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_assert)
+    def get_add_asset_data(self, request, test_find_init6):
+        # allInit6List = test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_assert)
+        # allInit6List = test_find_init6
         for allAssetClass in allAssetClassList:
             if allAssetClass['className'] == request.param['className']:
                 request.param['createDate'] = allAssetClass['createDate']
@@ -47,7 +48,7 @@ class TestAsset:
                 request.param['pkCostsAccount'] = allAssetClass['pkCostsAccount']
                 request.param['pkAssetClass'] = allAssetClass['pkAssetClass']
                 request.param['pkDepreciationAccount'] = allAssetClass['pkDepreciationAccount']
-        for allInit6 in allInit6List:
+        for allInit6 in test_find_init6:
             if request.param['costsAccount'] == allInit6['subjectName']:
                 request.param['pkCostsAccount'] = allInit6['pkInitialBalance']
 
@@ -100,6 +101,7 @@ class TestAsset:
 
     @allure.story("删除固定资产")
     @pytest.mark.run(order=4)
+    @pytest.mark.skip
     def test_del_asset(self, get_del_asset_data, get_headers, get_url, api_http, my_assert):
         headers = get_headers(type=yml_data['delAsset']['content_type'])
         url = get_url(yml_data['delAsset']['path'])

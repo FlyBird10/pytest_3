@@ -1,5 +1,5 @@
 findInit6:
-# 查询科目
+# 查询科目 仅查询了末级科目
   # path: /agentAccount/initialBalance/find6 废弃
   path: /agentAccount/initialBalance/find2
   http_method: post
@@ -7,6 +7,18 @@ findInit6:
   requestList:
     - currentMonth: true
       pkAccountBook: 32a01483fba649dfabf7
+      start: "2020-03"
+      except_result:
+        code: 1
+        message: 查询成功
+findAllInit:
+  # 查询所有科目
+  path: /agentAccount/initialBalance/find6
+  http_method: post
+  content_type: json
+  requestList:
+    - currentMonth: true
+      pkAccountBook: findInit6
       start: "2020-03"
       except_result:
         code: 1
@@ -662,16 +674,16 @@ addOne:
   content_type: json
   requestList:
     - parentPk: findInit6
-      parentname: "2202-应付账款"
+      parentname: 2202-应付账款
       pkAccountBook: findInit6
-      subjectName: "测试A"
+      subjectName: 测试A
       except_result:
         code: 0
         message: 添加成功
     - parentPk: findInit6
-      parentname: "2202-应付账款"
+      parentname: 2202-应付账款
       pkAccountBook: findInit6
-      subjectName: "测试B"
+      subjectName: 测试B
       except_result:
         code: 0
         message: 添加成功

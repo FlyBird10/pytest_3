@@ -149,33 +149,6 @@ class Test_finance_initbalance:
                     'data']
             assert len(initBalanceListNew) == subNum + 1
 
-    @pytest.fixture(params=yml_data['resetInitial']['requestList'])
-    def get_reset_init_balance_data(self, request):
-        request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
-        return request.param
-
-    @allure.story("清空科目及期初余额")
-    @pytest.mark.run(order=3)
-    @pytest.mark.skip
-    def test_reset_init_balance(self, get_reset_init_balance_data, get_headers, get_url, api_http, my_assert,
-                                get_find_init_balance_data):
-        headers = get_headers(type=yml_data['resetInitial']['content_type'])
-        url = get_url(yml_data['resetInitial']['path'])
-        method = yml_data['resetInitial']['http_method']
-        with allure.step("调用清空余额接口"):
-            # 清空接口
-            api_http(method, url, headers, get_reset_init_balance_data)
-        with allure.step("调用查询接口校验余额是否清零"):
-            # 查询接口
-            initBalanceList = \
-                self.test_find_init_balance(get_find_init_balance_data, get_headers, get_url, api_http, my_assert)[
-                    'data']
-            for initBalance in initBalanceList:
-                # 校验对应数据是否被清空
-                assert initBalance['totalCredit'] == 0  # 本年累计贷方
-                assert initBalance['totalDebit'] == 0  # 本年累计借方
-                assert initBalance['initialBalance'] == 0  # 期初余额
-                assert initBalance['yearsBalance'] == 0  # 年初余额
 
     @pytest.fixture(params=yml_data['opt']['requestList'])
     def get_opt_data(self, request):

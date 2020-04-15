@@ -33,7 +33,7 @@ class TestFinalProof:
     @pytest.fixture(params=yml_data['generateVoucher']['requestList'])
     def get_generate_voucher_data(self, request, get_find_all_data, get_headers, get_url, api_http, my_assert,
                                   get_query_voucher_data):
-        assert_data = request.param.pop("assert_data")  # 提取校验数据
+        assert_data = request.param.pop("assert_data")  # 提取校验数据generateVoucher
         if request.param['date'] == 'findAll':
             request.param['date'] = yml_data['findAll']['requestList'][0]['date']
         request.param['pkAccountBook'] = yml_data['findAll']['requestList'][0]['pkAccountBook']
