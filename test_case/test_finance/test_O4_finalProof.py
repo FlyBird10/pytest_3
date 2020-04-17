@@ -7,12 +7,14 @@ root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
 finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_finalProof.yml"))
+common = read_yml(os.path.join(finance_path, "common.yml"))
 
 
 @allure.feature("期末凭证")
 class TestFinalProof:
     @pytest.fixture(params=yml_data['findAll']['requestList'])
     def get_find_all_data(self, request):
+        request.param['pkAccountBook'] = common['pkAccountBook']
         return request.param
 
     @allure.story("查询所有期末凭证模板")
@@ -36,7 +38,8 @@ class TestFinalProof:
         assert_data = request.param.pop("assert_data")  # 提取校验数据generateVoucher
         if request.param['date'] == 'findAll':
             request.param['date'] = yml_data['findAll']['requestList'][0]['date']
-        request.param['pkAccountBook'] = yml_data['findAll']['requestList'][0]['pkAccountBook']
+        # request.param['pkAccountBook'] = yml_data['findAll']['requestList'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         for voucherTemplate in voucherTemplateList:
             if request.param['pkVoucherTemplate'] == voucherTemplate['templateName']:
                 request.param['pkVoucherTemplate'] = voucherTemplate['pkVoucherTemplate']

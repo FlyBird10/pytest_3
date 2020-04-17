@@ -9,13 +9,15 @@ root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
 finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_sheet.yml"))
+common = read_yml(os.path.join(finance_path, "common.yml"))
 
 
 @allure.feature("报表")
 class TestSheet:
     @pytest.fixture(params=yml_data['statementAllData']['requestList'])
     def get_find_all_data(self, request):
-        request.param['pkAccountBook'] = yml_data['statementAllData']['requestList'][0]['pkAccountBook']
+        # request.param['pkAccountBook'] = yml_data['statementAllData']['requestList'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         yield request.param
 
     @allure.story("查询资产负债表")
@@ -39,10 +41,9 @@ class TestSheet:
 
     @pytest.fixture(params=yml_data['getProfitData']['requestList'])
     def get_ProfitData_data(self, request):
-        request.param['pkAccountBook'] = yml_data['statementAllData']['requestList'][0]['pkAccountBook']
+        # request.param['pkAccountBook'] = yml_data['statementAllData']['requestList'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         yield request.param
-        # 清理所有数据
-        # dealData(get_find_voucher, get_del_voucher, get_headers, get_url, api_http, my_assert)
 
     @allure.story("利润表")
     def test_ProfitData(self, get_ProfitData_data, get_headers, get_url, api_http):
@@ -81,3 +82,7 @@ class TestSheet:
     def test_del_contact(self, del_contacts, get_del_contacts_data, get_headers, get_url, api_http, my_assert):
         # 四、删除新增的客户
         del_contacts(get_del_contacts_data, get_headers, get_url, api_http, my_assert)
+
+    def test_del_asset(self, del_asset, get_del_asset_data, get_headers, get_url, api_http, my_assert):
+        # 五、删除新增的资产
+        del_asset(get_del_asset_data, get_headers, get_url, api_http, my_assert)

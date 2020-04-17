@@ -15,6 +15,8 @@ finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_assistAccoun.yml"))
 yml_data1 = read_yml(os.path.join(finance_path, "finance_voucher.yml"))
 yml_data2 = read_yml(os.path.join(finance_path, "finance_initbalance.yml"))
+yml_data3 = read_yml(os.path.join(finance_path, "finance_asset.yml"))
+common = read_yml(os.path.join(finance_path, "common.yml"))
 
 
 # @pytest.fixture(params=yml_data['addContacts']['requestList'])
@@ -32,25 +34,28 @@ yml_data2 = read_yml(os.path.join(finance_path, "finance_initbalance.yml"))
 # 查询辅助核算列表
 @pytest.fixture(params=yml_data['findContacts']['requestList'])
 def get_find_all_contacts_data(request):
+    request.param['pkAccountBook'] = common['pkAccountBook']
     return request.param
 
 
 # 查询科目
 @pytest.fixture(params=yml_data1['findInit6']['requestList'])
 def get_find_init6_data(request):
+    request.param['pkAccountBook'] = common['pkAccountBook']
     return request.param
 
 
 # 查询科目
 @pytest.fixture(params=yml_data1['findAllInit']['requestList'])
 def get_find_all_init_data(request):
-    request.param['pkAccountBook'] = yml_data1['findInit6']['requestList'][0]['pkAccountBook']
+    request.param['pkAccountBook'] = common['pkAccountBook']
     return request.param
 
 
 @pytest.fixture(params=yml_data1['searchVoucher']['requestList'])
 def get_find_voucher(request):
-    request.param['pkAccountBook'] = yml_data1['findInit6']['requestList'][0]['pkAccountBook']
+    request.param['pkAccountBook'] = common['pkAccountBook']
+    # request.param['pkAccountBook'] = yml_data1['findInit6']['requestList'][0]['pkAccountBook']
     yield request.param
 
 
@@ -136,7 +141,8 @@ def del_voucher():
 
 @pytest.fixture(params=yml_data2['resetInitial']['requestList'])
 def get_reset_init_balance_data(request):
-    request.param['pkAccountBook'] = yml_data1['findInit6']['requestList'][0]['pkAccountBook']
+    request.param['pkAccountBook'] = common['pkAccountBook']
+    # request.param['pkAccountBook'] = yml_data1['findInit6']['requestList'][0]['pkAccountBook']
     return request.param
 
 
@@ -163,7 +169,8 @@ def reset_init_balance():
 
 @pytest.fixture(params=yml_data2['delete']['requestList'])
 def get_delete_subject_data(request, test_find_init6):
-    request.param['pkAccountBook'] = yml_data1['findInit6']['requestList'][0]['pkAccountBook']
+    request.param['pkAccountBook'] = common['pkAccountBook']
+    # request.param['pkAccountBook'] = yml_data1['findInit6']['requestList'][0]['pkAccountBook']
     for initBalance in test_find_init6:
         # print(initBalance)
         if request.param['pkInitialBalance'] in initBalance['subjectName']:
@@ -190,7 +197,8 @@ def delete_subject():
 
 @pytest.fixture(params=yml_data['delContacts']['requestList'])
 def get_del_contacts_data(request, test_find_all_contacts):
-    request.param['pkContacts'] = test_find_all_contacts[0]['pkContacts']
+    request.param['pkAccountBook'] = common['pkAccountBook']
+    # request.param['pkContacts'] = test_find_all_contacts[0]['pkContacts']
     test_find_all_contacts.pop(0)
     return request.param
 
@@ -230,9 +238,10 @@ def test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url, api
     return projectList
 
 
-@pytest.fixture(params=yml_data['findAsset']['requestList'])
+@pytest.fixture(params=yml_data3['findAsset']['requestList'])
 def get_find_asset_data(request):
-    request.param['pkAccountBook'] = yml_data['findAssetCard']['requestList'][0]['pkAccountBook']
+    request.param['pkAccountBook'] = common['pkAccountBook']
+    # request.param['pkAccountBook'] = yml_data['findAssetCard']['requestList'][0]['pkAccountBook']
     return request.param
 
 
@@ -240,9 +249,9 @@ def get_find_asset_data(request):
 @pytest.mark.run(order=3)
 @pytest.fixture
 def test_find_asset(get_find_asset_data, get_headers, get_url, api_http, my_assert):
-    headers = get_headers(type=yml_data['findAsset']['content_type'])
-    url = get_url(yml_data['findAsset']['path'])
-    method = yml_data['findAsset']['http_method']
+    headers = get_headers(type=yml_data3['findAsset']['content_type'])
+    url = get_url(yml_data3['findAsset']['path'])
+    method = yml_data3['findAsset']['http_method']
     except_result = get_find_asset_data.pop("except_result")
     with allure.step("调用查询接口"):
         response = api_http(method, url, headers, get_find_asset_data)
@@ -255,26 +264,30 @@ def test_find_asset(get_find_asset_data, get_headers, get_url, api_http, my_asse
                 assert allAsset['status'] == 1
             elif allAsset['assetsName'] == '资产C':
                 assert allAsset['status'] == 3
+    get_find_asset_data['except_result'] = except_result
+    return allAssetList
 
 
-@pytest.fixture(params=yml_data['delAsset']['requestList'])
-def get_del_asset_data(request):
-    for allAsset in allAssetList:
-        if allAsset['assetsName'] == '测试':
-            request.param['pkAssetsCard'] = allAsset['pkAssetsCard']
+@pytest.fixture(params=yml_data3['delAsset']['requestList'])
+def get_del_asset_data(request, test_find_asset):
+    for allAsset in test_find_asset:
+        request.param['pkAssetsCard'] = allAsset['pkAssetsCard']
+        # if allAsset['assetsName'] == '测试':
+        #     request.param['pkAssetsCard'] = allAsset['pkAssetsCard']
     return request.param
 
 
 @allure.story("删除固定资产")
-@pytest.mark.run(order=4)
 @pytest.fixture
-def test_del_asset(get_del_asset_data, get_headers, get_url, api_http, my_assert):
-    headers = get_headers(type=yml_data['delAsset']['content_type'])
-    url = get_url(yml_data['delAsset']['path'])
-    method = yml_data['delAsset']['http_method']
-    except_result = get_del_asset_data.pop("except_result")
-    # print(get_del_asset_data)
-    with allure.step("调用删除接口"):
-        response = api_http(method, url, headers, get_del_asset_data)
-    with allure.step("断言接口响应成功"):
-        my_assert(response, except_result)
+def del_asset():
+    def _inner(get_del_asset_data, get_headers, get_url, api_http, my_assert):
+        headers = get_headers(type=yml_data3['delAsset']['content_type'])
+        url = get_url(yml_data3['delAsset']['path'])
+        method = yml_data3['delAsset']['http_method']
+        except_result = get_del_asset_data.pop("except_result")
+        # print(get_del_asset_data)
+        with allure.step("调用删除接口"):
+            response = api_http(method, url, headers, get_del_asset_data)
+        with allure.step("断言接口响应成功"):
+            my_assert(response, except_result)
+    return _inner

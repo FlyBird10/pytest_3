@@ -8,6 +8,7 @@ root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
 finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_voucher.yml"))
+common = read_yml(os.path.join(finance_path, "common.yml"))
 
 
 @allure.feature("凭证管理")
@@ -47,7 +48,7 @@ class TestVoucher:
     def get_save_voucher_data(self, request, test_find_init6):
         # allInit6List = test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_assert)
         allInit6List = test_find_init6
-        request.param['pkAccountBook'] = yml_data['findInit6']['requestList'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         for allInit6 in allInit6List:
             for voucherDetail in request.param['voucherDetailList']:
                 if allInit6['subjectName'] == voucherDetail['initialBalance']['subjectName']:
@@ -62,7 +63,8 @@ class TestVoucher:
 
     @pytest.fixture(params=yml_data['addOne']['requestList'])
     def get_add_one_data(self, request, test_find_all_init):
-        request.param['pkAccountBook'] = yml_data['findInit6']['requestList'][0]['pkAccountBook']
+        # request.param['pkAccountBook'] = yml_data['findInit6']['requestList'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         for allInit6 in test_find_all_init:
             if request.param['parentname'] == allInit6['subjectName']:
                 print('='*20)
@@ -71,12 +73,10 @@ class TestVoucher:
 
     # 查询凭证
     @pytest.fixture(params=yml_data['searchVoucher']['requestList'])
-    def get_find_voucher(self, request, get_del_voucher, get_headers, get_url, api_http, my_assert):
-        request.param['pkAccountBook'] = yml_data['findInit6']['requestList'][0]['pkAccountBook']
+    def get_find_voucher(self, request):
+        request.param['pkAccountBook'] = common['pkAccountBook']
         yield request.param
-        # 查询完成后删除凭证
-        # for pkVoucher in pkVouchers:
-        #     self.del_voucher(get_del_voucher, get_headers, get_url, api_http, my_assert, pkVoucher)
+
 
     @allure.story("查询凭证")
     @pytest.mark.run(order=3)

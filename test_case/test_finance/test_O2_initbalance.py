@@ -9,6 +9,7 @@ root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
 finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_initbalance.yml"))
+common = read_yml(os.path.join(finance_path, "common.yml"))
 
 
 @allure.feature("科目及期初")
@@ -16,6 +17,7 @@ class Test_finance_initbalance:
 
     @pytest.fixture(params=yml_data['initialBalanceList']['requestList'])
     def get_find_init_balance_data(self, request):
+        request.param['pkAccountBook'] = common['pkAccountBook']
         return request.param
 
     @allure.story("查询科目及期初列表")
@@ -74,9 +76,10 @@ class Test_finance_initbalance:
 
     @pytest.fixture(params=yml_data['editInitialBalance']['requestList'])
     def get_edit_init_balance_data(self, request):
+        request.param['pkAccountBook'] = common['pkAccountBook']
         for initBalance in respAllInitBalance['data']:  # 遍历科目列表，替换对应科目的相关信息
             if initBalance['subjectName'] == request.param['subjectName']:
-                request.param['pkAccountBook'] = initBalance['pkAccountBook']
+                # request.param['pkAccountBook'] = initBalance['pkAccountBook']
                 request.param['pkInitialBalance'] = initBalance['pkInitialBalance']
                 request.param['subjectCode'] = initBalance['subjectCode']
                 request.param['subjectType'] = initBalance['subjectType']
@@ -111,7 +114,7 @@ class Test_finance_initbalance:
     @pytest.fixture(params=yml_data['addSubject']['requestList'])
     def get_add_subject_data(self, request):
         request.param['subjectName'] = get_subject()[0]['subjectName']  # 科目名称随机生成
-        request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         return request.param
 
     @allure.story("添加科目")
@@ -149,10 +152,9 @@ class Test_finance_initbalance:
                     'data']
             assert len(initBalanceListNew) == subNum + 1
 
-
     @pytest.fixture(params=yml_data['opt']['requestList'])
     def get_opt_data(self, request):
-        request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         return request.param
 
     @allure.story("查询辅助列表")
@@ -167,11 +169,12 @@ class Test_finance_initbalance:
         # return optList
 
     @pytest.fixture(params=yml_data['setWL']['requestList'])
-    def get_set_WL_data(self, request, get_add_contacts_data, get_headers, get_url, api_http, my_assert,
+    def get_set_WL_data(self, request, get_headers, get_url, api_http, my_assert,
                         get_find_all_contacts_data, get_find_init_balance_data):
-        respAllInitBalance = self.test_find_init_balance(get_find_init_balance_data, get_headers, get_url, api_http,
-                                                         my_assert)
-        request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
+        # respAllInitBalance = self.test_find_init_balance(get_find_init_balance_data, get_headers, get_url, api_http,
+        #                                                  my_assert)
+        # request.param['pkAccountBook'] = respAllInitBalance['data'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         # TODO (heli)： 数据准备，添加客户
         print('设置往来的数据准备')
         yield request.param
@@ -202,6 +205,3 @@ class Test_finance_initbalance:
         get_set_WL_data['except_result'] = except_result
         print(resp)
         # assert 0
-
-
-

@@ -107,38 +107,6 @@ addAsset:
       except_result:
         code: 0
         message: 添加成功
-    - assetNum: "YS"
-      # 测试删除用
-      assetsBalance: "1000.00"
-      assetsName: "测试"
-      assetsNum: "YS000001"
-      beforDepTimes: 0
-      beforDepValue: "0.00"
-      buyDate: "2020-02-29T16:00:00.000Z"
-      className: "运输工具"
-      costsAccount: "560207-固定资产折旧"
-      countDepTimes: 0
-      countDepValue: "0.00"
-      createDate: 1584072637000
-      depreciation: "年均折旧"
-      depreciationAccount: "1602-累计折旧"
-      depreciationStatus: "1"
-      durableYears: 48
-      id: null
-      judgeUpdate: true
-      monthDep: "19.79"
-      operator: "a0ec9cc936e14279a0ea"
-      originalValue: "1000"
-      pkAccountBook: "5aaa59c1edc947f8b531"
-      pkAssetClass: "10b337adc221499681f1"
-      pkCostsAccount: "97843659-64e0-11ea-9"
-      pkDepreciationAccount: "9785393c-64e0-11ea-9"
-      pkManageCorp: "a18984a3636b4e4186e5"
-      salvage: "50.00"
-      scrapValue: 5
-      except_result:
-        code: 0
-        message: 添加成功
 findAsset:
   # 查询固定资产
   path: /agentAccount/assetsCard/findFuzzy
@@ -158,6 +126,14 @@ delAsset:
   http_method: post
   content_type: json
   requestList:
+    - pkAssetsCard:
+      except_result:
+        code: 0
+        message: 删除完成
+    - pkAssetsCard:
+      except_result:
+        code: 0
+        message: 删除完成
     - pkAssetsCard:
       except_result:
         code: 0

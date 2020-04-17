@@ -8,6 +8,7 @@ root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
 finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_asset.yml"))
+common = read_yml(os.path.join(finance_path, "common.yml"))
 
 
 # @pytest.mark.skip
@@ -16,6 +17,7 @@ class TestAsset:
 
     @pytest.fixture(params=yml_data['findAssetCard']['requestList'])
     def get_find_asset_class_data(self, request):
+        request.param['pkAccountBook'] = common['pkAccountBook']
         return request.param
 
     @allure.story("查询固定资产类别")
@@ -36,8 +38,7 @@ class TestAsset:
 
     @pytest.fixture(params=yml_data['addAsset']['requestList'])
     def get_add_asset_data(self, request, test_find_init6):
-        # allInit6List = test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_assert)
-        # allInit6List = test_find_init6
+        request.param['pkAccountBook'] = common['pkAccountBook']
         for allAssetClass in allAssetClassList:
             if allAssetClass['className'] == request.param['className']:
                 request.param['createDate'] = allAssetClass['createDate']
@@ -70,7 +71,7 @@ class TestAsset:
 
     @pytest.fixture(params=yml_data['findAsset']['requestList'])
     def get_find_asset_data(self, request):
-        request.param['pkAccountBook'] = yml_data['findAssetCard']['requestList'][0]['pkAccountBook']
+        request.param['pkAccountBook'] = common['pkAccountBook']
         return request.param
 
     @allure.story("查询固定资产")
