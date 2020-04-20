@@ -25,7 +25,7 @@ addAsset:
       costsAccount: "560207-固定资产折旧"   # 费用科目名称
       countDepTimes: 11  # 累计折旧期次
       countDepValue: "1451.39"  # 累计折旧额
-      createDate: findAssetCard
+      createDate: "2019-03-30T16:00:00.000Z"  # 购买日期
       depreciation: "年均折旧"  # 折旧方法
       depreciationAccount: "1602-累计折旧"  # 折旧科目名称
       depreciationStatus: "1"
@@ -56,7 +56,7 @@ addAsset:
       costsAccount: "410104-制造费用-折旧费"
       countDepTimes: 0
       countDepValue: "0.00"
-      createDate: findAssetCard
+      createDate: "2020-03-30T16:00:00.000Z"
       depreciation: "年均折旧"
       depreciationAccount: "1602-累计折旧"
       depreciationStatus: "1"
@@ -87,7 +87,7 @@ addAsset:
       costsAccount: "410104-制造费用-折旧费"
       countDepTimes: 36
       countDepValue: "4750.00"
-      createDate: findAssetCard
+      createDate: "2020-03-30T16:00:00.000Z"
       depreciation: "年均折旧"
       depreciationAccount: "1602-累计折旧"
       depreciationStatus: "1"

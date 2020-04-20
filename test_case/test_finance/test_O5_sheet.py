@@ -63,17 +63,22 @@ class TestSheet:
                     assert my_assert['bigDecimalYearAll'] == sheet['bigDecimalYearAll']
                     assert my_assert['bigDecimalCurrentAll'] == sheet['bigDecimalCurrentAll']
 
-    def test_deal_data(self, del_voucher, get_del_voucher, get_headers, get_url, api_http, my_assert,
-                       test_find_voucher):
+
+# @pytest.mark.skip
+class TestDeal:
+    def test_del_voucher(self, del_voucher, get_del_voucher, get_headers, get_url, api_http, my_assert,
+                         test_find_voucher):
         # 处理数据 一、删除所有凭证
-        pkVouchers = test_find_voucher
+        pkVouchers = test_find_voucher  # 3月和12月的凭证PK
         for pkVoucher in pkVouchers:
             get_del_voucher['pkVoucher'] = pkVoucher  # 更新凭证主键
             del_voucher(get_del_voucher, get_headers, get_url, api_http, my_assert)
 
-    def test_reset(self, get_reset_init_balance_data, get_headers, get_url, api_http, reset_init_balance):
+    def test_reset(self, reset_init_balance, get_reset_init_balance_data, get_headers, get_url, api_http,
+                   get_all_subject_new, my_assert, get_find_init6_data):
         # 二 清除科目余额
-        reset_init_balance(get_reset_init_balance_data, get_headers, get_url, api_http)
+        reset_init_balance(get_reset_init_balance_data, get_headers, get_url, api_http, get_all_subject_new, my_assert,
+                           get_find_init6_data)
 
     def test_del_subject(self, delete_subject, get_delete_subject_data, get_headers, get_url, api_http, my_assert):
         # 三、删除新增的科目

@@ -41,7 +41,7 @@ class TestAsset:
         request.param['pkAccountBook'] = common['pkAccountBook']
         for allAssetClass in allAssetClassList:
             if allAssetClass['className'] == request.param['className']:
-                request.param['createDate'] = allAssetClass['createDate']
+                # request.param['createDate'] = allAssetClass['createDate']
                 request.param['operator'] = allAssetClass['operator']
                 request.param['pkAccountBook'] = allAssetClass['pkAccountBook']
                 request.param['pkManageCorp'] = allAssetClass['pkManageCorp']

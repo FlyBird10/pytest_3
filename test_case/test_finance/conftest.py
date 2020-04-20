@@ -19,18 +19,19 @@ yml_data3 = read_yml(os.path.join(finance_path, "finance_asset.yml"))
 common = read_yml(os.path.join(finance_path, "common.yml"))
 
 
-# @pytest.fixture(params=yml_data['addContacts']['requestList'])
-# def get_add_contacts_data(request):
-#     request.param['pkAccountBook'] = yml_data['findContacts']['requestList'][0]['pkAccountBook']
-#     request.param['contactsCrop'] = get_subject()[0]['subjectName']
-#     yield request.param
-#     # 数据清理 删除新增的客户
-#     # sql = yml_data['addContacts']['sql']
-#     # delCon = sql['delCon'].format(pkAccountBook=request.param['pkAccountBook'],
-#     #                               contactsCrop=request.param['contactsCrop'])
-#     # Del(delCon)
-#
-#
+@pytest.fixture(params=yml_data['addContacts']['requestList'])
+def get_add_contacts_data(request):
+    request.param['pkAccountBook'] = common['pkAccountBook']
+    # request.param['pkAccountBook'] = yml_data['findContacts']['requestList'][0]['pkAccountBook']
+    request.param['contactsCrop'] = get_subject()[0]['subjectName']
+    yield request.param
+    # 数据清理 删除新增的客户
+    # sql = yml_data['addContacts']['sql']
+    # delCon = sql['delCon'].format(pkAccountBook=request.param['pkAccountBook'],
+    #                               contactsCrop=request.param['contactsCrop'])
+    # Del(delCon)
+
+
 # 查询辅助核算列表
 @pytest.fixture(params=yml_data['findContacts']['requestList'])
 def get_find_all_contacts_data(request):
@@ -80,6 +81,24 @@ def test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_asse
         allInit6List = my_assert(response, except_result)['data']
     get_find_init6_data['except_result'] = except_result
     return allInit6List
+
+
+@pytest.fixture
+def get_all_subject_new():
+    def _inner(get_find_init6_data, get_headers, get_url, api_http, my_assert):
+        headers = get_headers(type=yml_data1['findInit6']['content_type'])
+        url = get_url(yml_data1['findInit6']['path'])
+        method = yml_data1['findInit6']['http_method']
+        except_result = get_find_init6_data.pop("except_result")
+        with allure.step("调用查询接口"):
+            response = api_http(method, url, headers, get_find_init6_data)
+        with allure.step("断言接口响应成功"):
+            global allInit6List
+            allInit6List = my_assert(response, except_result)['data']
+        get_find_init6_data['except_result'] = except_result
+        return allInit6List
+
+    return _inner
 
 
 @pytest.fixture
@@ -149,7 +168,8 @@ def get_reset_init_balance_data(request):
 @allure.story("清空科目及期初余额")
 @pytest.fixture
 def reset_init_balance():
-    def _inner(get_reset_init_balance_data, get_headers, get_url, api_http):
+    def _inner(get_reset_init_balance_data, get_headers, get_url, api_http, get_all_subject_new, my_assert,
+               get_find_init6_data):
         headers = get_headers(type=yml_data2['resetInitial']['content_type'])
         url = get_url(yml_data2['resetInitial']['path'])
         method = yml_data2['resetInitial']['http_method']
@@ -157,12 +177,18 @@ def reset_init_balance():
             # 清空接口
             api_http(method, url, headers, get_reset_init_balance_data)
         with allure.step("调用查询接口校验余额是否清零"):
-            for initBalance in test_find_init6:
+            # 清空余额后需要重新调用科目列表接口进行校验，不能使用清空之前的查询结果来验证
+            subjectList = get_all_subject_new(get_find_init6_data, get_headers, get_url, api_http, my_assert)
+            for initBalance in subjectList:
                 # 校验对应数据是否被清空
-                assert initBalance['totalCredit'] == 0  # 本年累计贷方
-                assert initBalance['totalDebit'] == 0  # 本年累计借方
-                assert initBalance['initialBalance'] == 0  # 期初余额
-                assert initBalance['yearsBalance'] == 0  # 年初余额
+                try:
+                    assert initBalance['totalCredit'] == 0  # 本年累计贷方
+                    assert initBalance['totalDebit'] == 0  # 本年累计借方
+                    assert initBalance['initialBalance'] == 0  # 期初余额
+                    assert initBalance['yearsBalance'] == 0  # 年初余额
+                except Exception:
+                    print('存在问题的科目PK==', initBalance['pkInitialBalance'])
+                    assert 0
 
     return _inner
 
@@ -197,8 +223,8 @@ def delete_subject():
 
 @pytest.fixture(params=yml_data['delContacts']['requestList'])
 def get_del_contacts_data(request, test_find_all_contacts):
-    request.param['pkAccountBook'] = common['pkAccountBook']
-    # request.param['pkContacts'] = test_find_all_contacts[0]['pkContacts']
+    # request.param['pkAccountBook'] = common['pkAccountBook']
+    request.param['pkContacts'] = test_find_all_contacts[0]['pkContacts']
     test_find_all_contacts.pop(0)
     return request.param
 
@@ -290,4 +316,5 @@ def del_asset():
             response = api_http(method, url, headers, get_del_asset_data)
         with allure.step("断言接口响应成功"):
             my_assert(response, except_result)
+
     return _inner

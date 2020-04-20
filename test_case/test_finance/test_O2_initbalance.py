@@ -182,13 +182,14 @@ class Test_finance_initbalance:
 
     @allure.story("设置往来")
     def test_setWL(self, get_set_WL_data, get_headers, get_url, api_http, my_assert, get_find_init_balance_data,
-                   get_add_contacts_data, get_find_all_contacts_data):
+                   get_add_contacts_data, test_find_all_contacts):
         with allure.step("新增客户并查询其PK"):
             TestAssisAccoun().test_add_contacts(get_add_contacts_data, get_headers, get_url, api_http, my_assert)
-            projectList = TestAssisAccoun().test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url,
-                                                                   api_http,
-                                                                   my_assert)
-            get_set_WL_data['pkContacts'] = projectList[0]['pkContacts']  # 设置客户主键
+            # projectList = TestAssisAccoun().test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url,
+            #                                                        api_http,
+            #                                                        my_assert)
+            # 设置该科目的往来客户为列表中的第一个客户
+            get_set_WL_data['pkContacts'] = test_find_all_contacts[0]['pkContacts']  # 设置客户主键
         print('pkContacts:====', get_set_WL_data['pkContacts'])
         with allure.step("查询科目是否有余额"):
             AllInitBalancelist = respAllInitBalance['data']
