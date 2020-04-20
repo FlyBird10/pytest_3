@@ -84,9 +84,13 @@ class TestDeal:
         # 三、删除新增的科目
         delete_subject(get_delete_subject_data, get_headers, get_url, api_http, my_assert)
 
-    def test_del_contact(self, del_contacts, get_del_contacts_data, get_headers, get_url, api_http, my_assert):
+    def test_del_contact(self, del_contacts, get_del_contacts_data, get_headers, get_url, api_http, my_assert,
+                         test_find_all_contacts, get_find_all_contacts_data):
         # 四、删除新增的客户
-        del_contacts(get_del_contacts_data, get_headers, get_url, api_http, my_assert)
+        contactsList = test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url, api_http, my_assert)
+        for contact in contactsList:
+            get_del_contacts_data['pkContacts'] = contact['pkContacts']
+            del_contacts(get_del_contacts_data, get_headers, get_url, api_http, my_assert)
 
     def test_del_asset(self, del_asset, get_del_asset_data, get_headers, get_url, api_http, my_assert):
         # 五、删除新增的资产

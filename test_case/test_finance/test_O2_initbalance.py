@@ -3,7 +3,7 @@ import pytest
 import allure
 import os
 from FactoryData.ContactForCorpFac import get_subject
-from test_case.test_finance.test_assistAccoun import TestAssisAccoun
+from test_case.test_finance.test_O0_assistAccoun import TestAssisAccoun
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(root_path, "data")
@@ -182,14 +182,15 @@ class Test_finance_initbalance:
 
     @allure.story("设置往来")
     def test_setWL(self, get_set_WL_data, get_headers, get_url, api_http, my_assert, get_find_init_balance_data,
-                   get_add_contacts_data, test_find_all_contacts):
+                   test_find_all_contacts, get_find_all_contacts_data):
         with allure.step("新增客户并查询其PK"):
-            TestAssisAccoun().test_add_contacts(get_add_contacts_data, get_headers, get_url, api_http, my_assert)
+            # TestAssisAccoun().test_add_contacts(get_add_contacts_data, get_headers, get_url, api_http, my_assert)
             # projectList = TestAssisAccoun().test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url,
             #                                                        api_http,
             #                                                        my_assert)
+            contactList = test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url, api_http, my_assert)
             # 设置该科目的往来客户为列表中的第一个客户
-            get_set_WL_data['pkContacts'] = test_find_all_contacts[0]['pkContacts']  # 设置客户主键
+            get_set_WL_data['pkContacts'] = contactList[0]['pkContacts']  # 设置客户主键
         print('pkContacts:====', get_set_WL_data['pkContacts'])
         with allure.step("查询科目是否有余额"):
             AllInitBalancelist = respAllInitBalance['data']

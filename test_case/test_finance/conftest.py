@@ -3,8 +3,6 @@ from utils.generator import read_yml
 import os
 from FactoryData.ContactForCorpFac import get_subject
 import allure
-from test_case.test_finance.test_O3_voucher import TestVoucher
-from utils.DBUtil import Del
 
 # 存放公共使用的函数
 
@@ -36,7 +34,7 @@ def get_add_contacts_data(request):
 @pytest.fixture(params=yml_data['findContacts']['requestList'])
 def get_find_all_contacts_data(request):
     request.param['pkAccountBook'] = common['pkAccountBook']
-    return request.param
+    yield request.param
 
 
 # 查询科目
@@ -222,10 +220,12 @@ def delete_subject():
 
 
 @pytest.fixture(params=yml_data['delContacts']['requestList'])
-def get_del_contacts_data(request, test_find_all_contacts):
+def get_del_contacts_data(request, test_find_all_contacts, get_headers, get_url, api_http, my_assert,
+                          get_find_all_contacts_data):
     # request.param['pkAccountBook'] = common['pkAccountBook']
-    request.param['pkContacts'] = test_find_all_contacts[0]['pkContacts']
-    test_find_all_contacts.pop(0)
+    # contactList = test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url, api_http, my_assert)
+    # request.param['pkContacts'] = contactList[0]['pkContacts']
+    # test_find_all_contacts.pop(0)
     return request.param
 
 
@@ -241,27 +241,30 @@ def del_contacts():
             response = api_http(method, url, headers, get_del_contacts_data)
         with allure.step("断言接口响应成功"):
             my_assert(response, except_result)
-
+        get_del_contacts_data['except_result'] = except_result
     return _inner
 
 
 @allure.story("查询辅助核算列表")
-@pytest.mark.run(order=2)
+# @pytest.mark.run(order=2)
 @pytest.fixture
 @allure.severity('blocker')
-def test_find_all_contacts(get_find_all_contacts_data, get_headers, get_url, api_http, my_assert):
-    headers = get_headers(type=yml_data['findContacts']['content_type'])
-    url = get_url(yml_data['findContacts']['path'])
-    method = yml_data['findContacts']['http_method']
-    except_result = get_find_all_contacts_data.pop("except_result")
-    with allure.step("调用查询接口"):
-        response = api_http(method, url, headers, get_find_all_contacts_data)
-    get_find_all_contacts_data['except_result'] = except_result
-    with allure.step("断言接口响应成功"):
-        global projectList
-        projectList = my_assert(response, except_result)['data']
-        # print("查询辅助核算列表", projectList)
-    return projectList
+def test_find_all_contacts():
+    def _inner(get_find_all_contacts_data, get_headers, get_url, api_http, my_assert):
+        headers = get_headers(type=yml_data['findContacts']['content_type'])
+        url = get_url(yml_data['findContacts']['path'])
+        method = yml_data['findContacts']['http_method']
+        except_result = get_find_all_contacts_data.pop("except_result")
+        with allure.step("调用查询接口"):
+            response = api_http(method, url, headers, get_find_all_contacts_data)
+        get_find_all_contacts_data['except_result'] = except_result
+        with allure.step("断言接口响应成功"):
+            global projectList
+            projectList = my_assert(response, except_result)['data']
+            # print("查询辅助核算列表", projectList)
+        return projectList
+
+    return _inner
 
 
 @pytest.fixture(params=yml_data3['findAsset']['requestList'])
