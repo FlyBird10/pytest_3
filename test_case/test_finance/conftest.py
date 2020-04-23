@@ -71,13 +71,13 @@ def test_find_init6(get_find_init6_data, get_headers, get_url, api_http, my_asse
     headers = get_headers(type=yml_data1['findInit6']['content_type'])
     url = get_url(yml_data1['findInit6']['path'])
     method = yml_data1['findInit6']['http_method']
-    except_result = get_find_init6_data.pop("except_result")
+    expect_result = get_find_init6_data.pop("expect_result")
     with allure.step("调用查询接口"):
         response = api_http(method, url, headers, get_find_init6_data)
     with allure.step("断言接口响应成功"):
         global allInit6List
-        allInit6List = my_assert(response, except_result)['data']
-    get_find_init6_data['except_result'] = except_result
+        allInit6List = my_assert(response, expect_result)['data']
+    get_find_init6_data['expect_result'] = expect_result
     return allInit6List
 
 
@@ -87,13 +87,13 @@ def get_all_subject_new():
         headers = get_headers(type=yml_data1['findInit6']['content_type'])
         url = get_url(yml_data1['findInit6']['path'])
         method = yml_data1['findInit6']['http_method']
-        except_result = get_find_init6_data.pop("except_result")
+        expect_result = get_find_init6_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_find_init6_data)
         with allure.step("断言接口响应成功"):
             global allInit6List
-            allInit6List = my_assert(response, except_result)['data']
-        get_find_init6_data['except_result'] = except_result
+            allInit6List = my_assert(response, expect_result)['data']
+        get_find_init6_data['expect_result'] = expect_result
         return allInit6List
 
     return _inner
@@ -105,13 +105,13 @@ def test_find_all_init(get_find_all_init_data, get_headers, get_url, api_http, m
     headers = get_headers(type=yml_data1['findAllInit']['content_type'])
     url = get_url(yml_data1['findAllInit']['path'])
     method = yml_data1['findAllInit']['http_method']
-    except_result = get_find_all_init_data.pop("except_result")
+    expect_result = get_find_all_init_data.pop("expect_result")
     with allure.step("调用查询接口"):
         response = api_http(method, url, headers, get_find_all_init_data)
     with allure.step("断言接口响应成功"):
         global allInit6List
-        allInit6List = my_assert(response, except_result)['data']
-    get_find_all_init_data['except_result'] = except_result
+        allInit6List = my_assert(response, expect_result)['data']
+    get_find_all_init_data['expect_result'] = expect_result
     return allInit6List
 
 
@@ -121,11 +121,11 @@ def test_find_voucher(get_find_voucher, get_headers, get_url, api_http, my_asser
     headers = get_headers(type=yml_data1['searchVoucher']['content_type'])
     url = get_url(yml_data1['searchVoucher']['path'])
     method = yml_data1['searchVoucher']['http_method']
-    except_result = get_find_voucher.pop("except_result")
+    expect_result = get_find_voucher.pop("expect_result")
     with allure.step("调用接口"):
         response = api_http(method, url, headers, get_find_voucher)
     with allure.step("断言接口响应成功"):
-        voucherList = my_assert(response, except_result)['data']
+        voucherList = my_assert(response, expect_result)['data']
     global pkVouchers
     pkVouchers = []
     if len(voucherList) > 0:
@@ -146,12 +146,12 @@ def del_voucher():
         headers = get_headers(type=yml_data1['delVoucher']['content_type'])
         url = get_url(yml_data1['delVoucher']['path'])
         method = yml_data1['delVoucher']['http_method']
-        except_result = get_del_voucher.pop("except_result")
+        expect_result = get_del_voucher.pop("expect_result")
         with allure.step("调用接口"):
             response = api_http(method, url, headers, get_del_voucher)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
-        get_del_voucher['except_result'] = except_result
+            my_assert(response, expect_result)
+        get_del_voucher['expect_result'] = expect_result
 
     return _inner
 
@@ -211,10 +211,10 @@ def delete_subject():
         headers = get_headers(type=yml_data2['delete']['content_type'])
         url = get_url(yml_data2['delete']['path'])
         method = yml_data2['delete']['http_method']
-        except_result = get_delete_subject_data.pop("except_result")
+        expect_result = get_delete_subject_data.pop("expect_result")
         with allure.step("调用清空余额接口"):
             response = api_http(method, url, headers, get_delete_subject_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     return _inner
 
@@ -236,12 +236,12 @@ def del_contacts():
         headers = get_headers(type=yml_data['delContacts']['content_type'])
         url = get_url(yml_data['delContacts']['path'])
         method = yml_data['delContacts']['http_method']
-        except_result = get_del_contacts_data.pop("except_result")
+        expect_result = get_del_contacts_data.pop("expect_result")
         with allure.step("调用del接口"):
             response = api_http(method, url, headers, get_del_contacts_data)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
-        get_del_contacts_data['except_result'] = except_result
+            my_assert(response, expect_result)
+        get_del_contacts_data['expect_result'] = expect_result
 
     return _inner
 
@@ -255,13 +255,13 @@ def test_find_all_contacts():
         headers = get_headers(type=yml_data['findContacts']['content_type'])
         url = get_url(yml_data['findContacts']['path'])
         method = yml_data['findContacts']['http_method']
-        except_result = get_find_all_contacts_data.pop("except_result")
+        expect_result = get_find_all_contacts_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_find_all_contacts_data)
-        get_find_all_contacts_data['except_result'] = except_result
+        get_find_all_contacts_data['expect_result'] = expect_result
         with allure.step("断言接口响应成功"):
             global projectList
-            projectList = my_assert(response, except_result)['data']
+            projectList = my_assert(response, expect_result)['data']
             # print("查询辅助核算列表", projectList)
         return projectList
 
@@ -282,19 +282,19 @@ def test_find_asset(get_find_asset_data, get_headers, get_url, api_http, my_asse
     headers = get_headers(type=yml_data3['findAsset']['content_type'])
     url = get_url(yml_data3['findAsset']['path'])
     method = yml_data3['findAsset']['http_method']
-    except_result = get_find_asset_data.pop("except_result")
+    expect_result = get_find_asset_data.pop("expect_result")
     with allure.step("调用查询接口"):
         response = api_http(method, url, headers, get_find_asset_data)
     with allure.step("断言接口响应成功"):
         global allAssetList
-        allAssetList = my_assert(response, except_result)['data']
+        allAssetList = my_assert(response, expect_result)['data']
         for allAsset in allAssetList:
             # 校验资产状态
             if allAsset['assetsName'] in ("资产B", "资产A"):
                 assert allAsset['status'] == 1
             elif allAsset['assetsName'] == '资产C':
                 assert allAsset['status'] == 3
-    get_find_asset_data['except_result'] = except_result
+    get_find_asset_data['expect_result'] = expect_result
     return allAssetList
 
 
@@ -314,12 +314,12 @@ def del_asset():
         headers = get_headers(type=yml_data3['delAsset']['content_type'])
         url = get_url(yml_data3['delAsset']['path'])
         method = yml_data3['delAsset']['http_method']
-        except_result = get_del_asset_data.pop("except_result")
+        expect_result = get_del_asset_data.pop("expect_result")
         # print(get_del_asset_data)
         with allure.step("调用删除接口"):
             response = api_http(method, url, headers, get_del_asset_data)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
+            my_assert(response, expect_result)
 
     return _inner
 
@@ -331,11 +331,11 @@ def get_intangibleAssetCategory(request, get_headers, get_url, api_http, my_asse
     headers = get_headers(type=yml_data3['findCategory']['content_type'])
     url = get_url(yml_data3['findCategory']['path'])
     method = yml_data3['findCategory']['http_method']
-    except_result = request.param.pop("except_result")
+    expect_result = request.param.pop("expect_result")
     with allure.step("调用接口"):
         response = api_http(method, url, headers, request.param)
     with allure.step("断言接口响应成功"):
-        categoryList = my_assert(response, except_result)['data']
+        categoryList = my_assert(response, expect_result)['data']
     return categoryList
 
 
@@ -351,12 +351,12 @@ def del_IntangibleAsset():
         headers = get_headers(type=yml_data3['delIntangibleAsset']['content_type'])
         url = get_url(yml_data3['delIntangibleAsset']['path'])
         method = yml_data3['delIntangibleAsset']['http_method']
-        except_result = get_del_intangible_asset_data.pop("except_result")
+        expect_result = get_del_intangible_asset_data.pop("expect_result")
         # print(get_del_asset_data)
         with allure.step("调用删除接口"):
             response = api_http(method, url, headers, get_del_intangible_asset_data)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
+            my_assert(response, expect_result)
 
     return _inner
 
@@ -374,12 +374,12 @@ def get_all_IntangibleAsset():
         headers = get_headers(type=yml_data3['fuzzySearch']['content_type'])
         url = get_url(yml_data3['fuzzySearch']['path'])
         method = yml_data3['fuzzySearch']['http_method']
-        except_result = get_intangible_asset_data.pop("except_result")
+        expect_result = get_intangible_asset_data.pop("expect_result")
         # print(get_del_asset_data)
         with allure.step("调用接口"):
             response = api_http(method, url, headers, get_intangible_asset_data)
-        get_intangible_asset_data['except_result'] = except_result
+        get_intangible_asset_data['expect_result'] = expect_result
         with allure.step("断言接口响应成功"):
-            intangibleList = my_assert(response, except_result)['data']
+            intangibleList = my_assert(response, expect_result)['data']
         return intangibleList
     return _inner

@@ -21,10 +21,10 @@ class Test_Paper:
         headers = get_headers(type=yml_data['PaperList']['content_type'])
         url = get_url(yml_data['PaperList']['path'])
         method = yml_data['PaperList']['http_method']
-        except_result = get_paper_list_data.pop("except_result")
+        expect_result = get_paper_list_data.pop("expect_result")
 
         response = api_http(method, url, headers, get_paper_list_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['CopyPaper']['requestList'])
     def get_copy_paper_data(self, request, get_headers):
@@ -42,8 +42,8 @@ class Test_Paper:
         headers = get_headers()
         method = yml_data['CopyPaper']['http_method']
         url = get_url(yml_data['CopyPaper']['path'])
-        except_result = get_copy_paper_data.pop("except_result")
+        expect_result = get_copy_paper_data.pop("expect_result")
 
         response = api_http(method, url, headers, get_copy_paper_data)
 
-        my_assert(response, except_result)
+        my_assert(response, expect_result)

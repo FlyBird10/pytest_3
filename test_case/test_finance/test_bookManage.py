@@ -25,11 +25,11 @@ class TestFinanceBookManage:
         headers = get_headers(type=yml_data['findAllBook']['content_type'])
         url = get_url(yml_data['findAllBook']['path'])
         method = yml_data['findAllBook']['http_method']
-        except_result = get_find_book_manage_data.pop("except_result")
+        expect_result = get_find_book_manage_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_find_book_manage_data)
         with allure.step("断言接口响应成功"):
-            resp = my_assert(response, except_result)
+            resp = my_assert(response, expect_result)
             bookList = resp['data']['pageBean']['items']  # 账套列表
             customerManagerSet = set()  # 账套的客户经理
             serviceManagerSet = set()  # 账套的客服经理
@@ -62,10 +62,10 @@ class TestFinanceBookManage:
         headers = get_headers(type=yml_data['createBook']['content_type'])
         url = get_url(yml_data['createBook']['path'])
         method = yml_data['createBook']['http_method']
-        except_result = get_create_book_data.pop("except_result")
+        expect_result = get_create_book_data.pop("expect_result")
         with allure.step("调用新增接口"):
             response = api_http(method, url, headers, get_create_book_data)
         with allure.step("断言接口响应成功"):
-            resp = my_assert(response, except_result)
+            resp = my_assert(response, expect_result)
         with allure.step("调用查询接口，校验新建成功"):
             pass

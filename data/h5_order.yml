@@ -7,37 +7,37 @@ allOrderList:
     # 我的全部订单-群组
     - pkManagerCorp: tokenGroup # 登录时输入的pk corp/pk group
       status:
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
     # 我的全部订单-非群组
     - pkManagerCorp: tokenCorp # 登录时输入的pk corp/pk group
       status:
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 #    # 我的待支付订单
 #    - pkManagerCorp: tokenCorp # 登录时输入的pk corp/pk group
 #      status: 1
-#      except_result:
+#      expect_result:
 #        code: 0
 #        message: 查询成功
 #    # 我的履约中订单
 #    - pkManagerCorp: tokenCorp # 登录时输入的pk corp/pk group
 #      status: 2
-#      except_result:
+#      expect_result:
 #        code: 0
 #        message: 查询成功
 #    # 我的分期中订单
 #    - pkManagerCorp: tokenCorp # 登录时输入的pk corp/pk group
 #      status: 5
-#      except_result:
+#      expect_result:
 #        code: 0
 #        message: 查询成功
 #    # 我的已完成订单
 #    - pkManagerCorp: tokenCorp # 登录时输入的pk corp/pk group
 #      status: 6
-#      except_result:
+#      expect_result:
 #        code: 0
 #        message: 查询成功
 
@@ -48,23 +48,23 @@ orderDetail:
   content_type: form
   requestList:
     - pkOrderInfo: notPay  # 待支付订单
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功！
     - pkOrderInfo: installments  # 分期中订单
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功！
     - pkOrderInfo: doing  # 履约中订单
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功！
     - pkOrderInfo: done  # 已完成订单
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功！
     - pkOrderInfo: cancel  # 已取消订单
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功！
 orderComments:
@@ -78,7 +78,7 @@ orderComments:
       pkOrderInfo: done  # 已完成的订单PK
       quality: 5
       workSpeed: 5
-      except_result:
+      expect_result:
         code: 0
         message: 评论成功
 orderDel:
@@ -92,12 +92,12 @@ orderDel:
     - orderCode: cancel
       pkOrderInfo: cancel
       status: 3
-      except_result:
+      expect_result:
         code: 0
         message: 订单删除成功！
     - orderCode: done
       pkOrderInfo: done
       status: 6
-      except_result:
+      expect_result:
         code: 0
         message: 订单删除成功！

@@ -11,7 +11,7 @@ findAllBook:
       serviceManager:
       currentPage: 0
       pageSize: 200
-      except_result:
+      expect_result:
         code: 0
         message: 操作成功
 createBook:
@@ -25,6 +25,6 @@ createBook:
       serviceEnd: "2021-02-28"
       serviceStart: "2020-03-01"
       voucherStatus: 0
-      except_result:
+      expect_result:
         code: 0
         message: 新建账套成功!

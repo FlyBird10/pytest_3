@@ -7,7 +7,7 @@ findContacts:
     - category: 1  # 1-客户 2-供应商 3-项目 4-存货
       contactsCrop: ""
       pkAccountBook: 32a01483fba649dfabf7
-      except_result:
+      expect_result:
         code: "1"
         message: "设置成功"
 addContacts:
@@ -27,7 +27,7 @@ addContacts:
       phone: ""
       pkAccountBook: find
       taxOrIdCard: ""
-      except_result:
+      expect_result:
         code: "1"
         message: "添加成功"
 
@@ -39,11 +39,11 @@ delContacts:
   content_type: json
   requestList:
     - pkContacts:
-      except_result:
+      expect_result:
         code: "1"
         message: "删除成功"
     - pkContacts:
-      except_result:
+      expect_result:
         code: "1"
         message: "删除成功"
 

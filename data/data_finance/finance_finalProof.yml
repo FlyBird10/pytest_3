@@ -6,7 +6,7 @@ findAll:
   requestList:
     - pkAccountBook: 32a01483fba649dfabf7
       date: 2020-03
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 generateVoucher:
@@ -28,7 +28,7 @@ generateVoucher:
           newName: 1405-库存商品
           amountCredit: 3200  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 生成凭证成功!
     - date: findAll
@@ -44,7 +44,7 @@ generateVoucher:
           newName: 222102-应交税费-未交增值税
           amountCredit: 500  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 生成凭证成功!
     - date: findAll
@@ -68,7 +68,7 @@ generateVoucher:
           newName: 222107-应交税费-应交城市维护建设税
           amountCredit: 35  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 生成凭证成功!
     - date: findAll
@@ -84,7 +84,7 @@ generateVoucher:
           newName: 1602-累计折旧
           amountCredit: 131.94  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 生成凭证成功!
     - date: findAll
@@ -100,7 +100,7 @@ generateVoucher:
           newName: 1702-累计摊销
           amountCredit: 41.67  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 摊销成功
     - date: findAll
@@ -160,7 +160,7 @@ generateVoucher:
           newName: 560218-管理费用-无形资产摊销
           amountDebit: 0  # 借方金额
           amountCredit: 41.67
-      except_result:
+      expect_result:
         code: 0
         message: 生成凭证成功!
 
@@ -181,7 +181,7 @@ generateVoucher:
           newName: 1602-累计折旧
           amountCredit: 263.88  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 生成凭证成功!
     - date: 2020-12
@@ -197,7 +197,7 @@ generateVoucher:
           newName: 1702-累计摊销
           amountCredit: 41.67  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 摊销成功
     - date: 2020-12
@@ -217,7 +217,7 @@ generateVoucher:
           newName: 1702-累计摊销
           amountCredit: 41.67  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 生成凭证成功!
     - date: 2020-12
@@ -233,7 +233,7 @@ generateVoucher:
           newName: 310406-利润分配-未分配利润
           amountCredit: 1492.78  # 贷方金额
           amountDebit: 0
-      except_result:
+      expect_result:
         code: 0
         message: 生成凭证成功!
 
@@ -245,6 +245,6 @@ queryVoucherByPK:
   content_type: form
   requestList:
     - pkVoucher:
-      except_result:
+      expect_result:
         code: 0
         message: 操作成功

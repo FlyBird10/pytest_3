@@ -6,8 +6,8 @@ from FactoryData.ContactForCorpFac import get_subject
 from test_case.test_finance.test_O0_assistAccoun import TestAssisAccoun
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-data_path = os.path.join(root_path, "data")
-finance_path = os.path.join(data_path, "data_finance")
+expect_result = os.path.join(root_path, "data")
+finance_path = os.path.join(expect_result, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_initbalance.yml"))
 common = read_yml(os.path.join(finance_path, "common.yml"))
 
@@ -27,12 +27,12 @@ class Test_finance_initbalance:
         headers = get_headers(type=yml_data['initialBalanceList']['content_type'])
         url = get_url(yml_data['initialBalanceList']['path'])
         method = yml_data['initialBalanceList']['http_method']
-        except_result = get_find_init_balance_data.pop("except_result")
+        expect_result = get_find_init_balance_data.pop("expect_result")
         with allure.step("调用查询科目接口"):
             response = api_http(method, url, headers, get_find_init_balance_data)
         with allure.step("断言接口响应成功"):
             global respAllInitBalance
-            respAllInitBalance = my_assert(response, except_result)
+            respAllInitBalance = my_assert(response, expect_result)
             assert len(respAllInitBalance['data']) > 0  # 校验至少返回了一个科目
         with allure.step("校验父级科目余额等于其子级科目余额之和"):
             initBalanceList = respAllInitBalance['data']
@@ -70,7 +70,7 @@ class Test_finance_initbalance:
                     totalDebitList.append(initBalance['totalDebit'])
                     initialBalanceList.append(initBalance['initialBalance'])
                     yearsBalanceList.append(initBalance['yearsBalance'])
-        get_find_init_balance_data['except_result'] = except_result  # 删除的期望结果再加入dict中，以便后续使用
+        get_find_init_balance_data['expect_result'] = expect_result  # 删除的期望结果再加入dict中，以便后续使用
         # print('科目数量：', len(resp['data']))
         return respAllInitBalance
 
@@ -93,12 +93,12 @@ class Test_finance_initbalance:
         headers = get_headers(type=yml_data['editInitialBalance']['content_type'])
         url = get_url(yml_data['editInitialBalance']['path'])
         method = yml_data['editInitialBalance']['http_method']
-        except_result = get_edit_init_balance_data.pop("except_result")
-        yearsBalance = except_result.pop("yearsBalance")
+        expect_result = get_edit_init_balance_data.pop("expect_result")
+        yearsBalance = expect_result.pop("yearsBalance")
         print(get_edit_init_balance_data)
         response = api_http(method, url, headers, get_edit_init_balance_data)
-        get_edit_init_balance_data['except_result'] = except_result
-        my_assert(response, except_result)
+        get_edit_init_balance_data['expect_result'] = expect_result
+        my_assert(response, expect_result)
         with allure.step("调用查询接口校验余额是否修改成功"):
             # 查询接口 校验数据被修改成功
             initBalanceList = \
@@ -141,12 +141,12 @@ class Test_finance_initbalance:
         headers = get_headers(type=yml_data['addSubject']['content_type'])
         url = get_url(yml_data['addSubject']['path'])
         method = yml_data['addSubject']['http_method']
-        except_result = get_add_subject_data.pop("except_result")
+        expect_result = get_add_subject_data.pop("expect_result")
         with allure.step("调用新增接口，校验新增的科目编码是否正确"):
             response = api_http(method, url, headers, get_add_subject_data)
-            resp = my_assert(response, except_result)['data']
+            resp = my_assert(response, expect_result)['data']
             assert resp['subjectCode'] == childCode + 1
-        get_add_subject_data['except_result'] = except_result
+        get_add_subject_data['expect_result'] = expect_result
         with allure.step("查询科目数是否增加"):
             initBalanceListNew = \
                 self.test_find_init_balance(get_find_init_balance_data, get_headers, get_url, api_http, my_assert)[
@@ -163,10 +163,10 @@ class Test_finance_initbalance:
         headers = get_headers(type=yml_data['opt']['content_type'])
         url = get_url(yml_data['opt']['path'])
         method = yml_data['opt']['http_method']
-        except_result = get_opt_data.pop("except_result")
+        expect_result = get_opt_data.pop("expect_result")
         response = api_http(method, url, headers, get_opt_data)
         global optList
-        optList = my_assert(response, except_result)
+        optList = my_assert(response, expect_result)
         # return optList
 
     @pytest.fixture(params=yml_data['setWL']['requestList'])
@@ -202,9 +202,9 @@ class Test_finance_initbalance:
         headers = get_headers(type=yml_data['setWL']['content_type'])
         url = get_url(yml_data['setWL']['path'])
         method = yml_data['setWL']['http_method']
-        except_result = get_set_WL_data.pop("except_result")
+        expect_result = get_set_WL_data.pop("expect_result")
         response = api_http(method, url, headers, get_set_WL_data)
-        resp = my_assert(response, except_result)
-        get_set_WL_data['except_result'] = except_result
+        resp = my_assert(response, expect_result)
+        get_set_WL_data['expect_result'] = expect_result
         print(resp)
         # assert 0

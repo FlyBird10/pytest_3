@@ -14,7 +14,7 @@ platOrderList:
       pageNo: 1
       pageSize: 10
       timeArr:
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 searchMyOrder:
@@ -24,6 +24,6 @@ searchMyOrder:
   requestList:
     - pageNo: 1
       pageSize: 10
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功

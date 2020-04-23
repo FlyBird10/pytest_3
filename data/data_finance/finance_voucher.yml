@@ -8,7 +8,7 @@ findInit6:
     - currentMonth: true
       pkAccountBook: 32a01483fba649dfabf7
       start: "2020-03"
-      except_result:
+      expect_result:
         code: 1
         message: 查询成功
 findAllInit:
@@ -20,7 +20,7 @@ findAllInit:
     - currentMonth: true
       pkAccountBook: findInit6
       start: "2020-03"
-      except_result:
+      expect_result:
         code: 1
         message: 查询成功
 
@@ -110,7 +110,7 @@ addVoucher:
           initialBalance:  # 科目对象
             subjectName: 22210106-应交税费-应交增值税-销项税额
       voucherNum: 1
-      except_result:
+      expect_result:
         code: 0
         message: 保存凭证成功
     - explanation: ""  # 测试未交增值税
@@ -170,7 +170,7 @@ addVoucher:
           initialBalance:
             subjectName: 1002-银行存款
       voucherNum: 2
-      except_result:
+      expect_result:
         code: 0
         message: 保存凭证成功
     - explanation: ""  # 测试利息费用
@@ -230,7 +230,7 @@ addVoucher:
           initialBalance:
             subjectName: 560301-财务费用-利息费用
       voucherNum: 3
-      except_result:
+      expect_result:
         code: 0
         message: 保存凭证成功
     - explanation: ""  # 测试损益
@@ -425,7 +425,7 @@ addVoucher:
           initialBalance:
             subjectName: 530102-营业外收入-政府补助
       voucherNum: 4
-      except_result:
+      expect_result:
         code: 0
         message: 保存凭证成功
     - explanation: ""
@@ -482,7 +482,7 @@ addVoucher:
             subjectName: 1122-应收账款
             pkInitContacts: "5d8c56d2f1f64375b72f"
       voucherNum: 5
-      except_result:
+      expect_result:
         code: 0
         message: 保存凭证成功
     - explanation: ""
@@ -543,7 +543,7 @@ addVoucher:
             pkInitContacts: "7225dfc89d884f5785a5"  # 往来
             subjectName: "1122-应收账款"
       voucherNum: 6  # 凭证号
-      except_result:
+      expect_result:
         code: 0
         message: 保存凭证成功
     - explanation: ""
@@ -603,7 +603,7 @@ addVoucher:
           initialBalance:
             subjectName: "220201-应付账款-测试A"
       voucherNum: 7
-      except_result:
+      expect_result:
         code: 0
         message: 保存凭证成功
     - explanation: ""
@@ -663,7 +663,7 @@ addVoucher:
           initialBalance:
             subjectName: "1001-库存现金"
       voucherNum: 8
-      except_result:
+      expect_result:
         code: 0
         message: 保存凭证成功
 
@@ -677,14 +677,14 @@ addOne:
       parentname: 2202-应付账款
       pkAccountBook: findInit6
       subjectName: 测试A
-      except_result:
+      expect_result:
         code: 0
         message: 添加成功
     - parentPk: findInit6
       parentname: 2202-应付账款
       pkAccountBook: findInit6
       subjectName: 测试B
-      except_result:
+      expect_result:
         code: 0
         message: 添加成功
 searchVoucher:
@@ -697,14 +697,14 @@ searchVoucher:
       pkAccountBook: findInit6
       period: 2020-03
       keyWord:
-      except_result:
+      expect_result:
         code: 0
         message: 操作成功
     - checkStatus:
       pkAccountBook: findInit6
       period: 2020-12
       keyWord:
-      except_result:
+      expect_result:
         code: 0
         message: 操作成功
 delVoucher:
@@ -714,7 +714,7 @@ delVoucher:
   content_type: form
   requestList:
     - pkVoucher:
-      except_result:
+      expect_result:
         code: 0
         message: 操作成功
 

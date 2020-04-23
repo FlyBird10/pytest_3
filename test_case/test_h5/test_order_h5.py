@@ -37,9 +37,9 @@ class Test_Order:
             else:
                 headers = get_headers_h5(type=yml_data['allOrderList']['content_type'])
         method = yml_data['allOrderList']['http_method']
-        except_result = get_order_info_data.pop("except_result")
+        expect_result = get_order_info_data.pop("expect_result")
         response = api_http(method, url, headers, get_order_info_data)
-        response_json = my_assert(response, except_result)
+        response_json = my_assert(response, expect_result)
         orderData = response_json['data']
         if len(orderData) > 0:
             for i in orderData:
@@ -79,9 +79,9 @@ class Test_Order:
         url = get_url(yml_data['orderDetail']['path'])
         headers = get_headers_h5()
         method = yml_data['orderDetail']['http_method']
-        except_result = get_order_detail_data.pop("except_result")
+        expect_result = get_order_detail_data.pop("expect_result")
         response = api_http(method, url, headers, get_order_detail_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['orderComments']['requestList'])
     def get_order_comment_data(self, request):
@@ -95,10 +95,10 @@ class Test_Order:
         url = get_url(yml_data['orderComments']['path'])
         headers = get_headers_h5(type=yml_data['orderComments']['content_type'])
         method = yml_data['orderComments']['http_method']
-        except_result = get_order_comment_data.pop("except_result")
+        expect_result = get_order_comment_data.pop("expect_result")
         # get_order_comment_data = json.dumps(get_order_comment_data)  # dict转json
         response = api_http(method, url, headers, get_order_comment_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['orderDel']['requestList'])
     def get_order_del_data(self, request):
@@ -130,6 +130,6 @@ class Test_Order:
         url = get_url(yml_data['orderDel']['path'])
         headers = get_headers_h5(type=yml_data['orderDel']['content_type'])
         method = yml_data['orderDel']['http_method']
-        except_result = get_order_del_data.pop("except_result")
+        expect_result = get_order_del_data.pop("expect_result")
         response = api_http(method, url, headers, get_order_del_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)

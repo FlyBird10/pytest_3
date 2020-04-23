@@ -23,13 +23,13 @@ class TestFinalProof:
         headers = get_headers(type=yml_data['findAll']['content_type'])
         url = get_url(yml_data['findAll']['path'])
         method = yml_data['findAll']['http_method']
-        except_result = get_find_all_data.pop("except_result")
+        expect_result = get_find_all_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_find_all_data)
         with allure.step("断言接口响应成功"):
             global voucherTemplateList
-            voucherTemplateList = my_assert(response, except_result)['data']
-        get_find_all_data['except_result'] = except_result
+            voucherTemplateList = my_assert(response, expect_result)['data']
+        get_find_all_data['expect_result'] = expect_result
         return voucherTemplateList
 
     @pytest.fixture(params=yml_data['generateVoucher']['requestList'])
@@ -67,11 +67,11 @@ class TestFinalProof:
         headers = get_headers(type=yml_data['generateVoucher']['content_type'])
         url = get_url(yml_data['generateVoucher']['path'])
         method = yml_data['generateVoucher']['http_method']
-        except_result = get_generate_voucher_data.pop("except_result")
+        expect_result = get_generate_voucher_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_generate_voucher_data)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
+            my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['queryVoucherByPK']['requestList'])
     def get_query_voucher_data(self, request):
@@ -83,10 +83,10 @@ class TestFinalProof:
         headers = get_headers(type=yml_data['queryVoucherByPK']['content_type'])
         url = get_url(yml_data['queryVoucherByPK']['path'])
         method = yml_data['queryVoucherByPK']['http_method']
-        except_result = get_query_voucher_data.pop("except_result")
+        expect_result = get_query_voucher_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_query_voucher_data)
         with allure.step("断言接口响应成功"):
-            resp = my_assert(response, except_result)
-        get_query_voucher_data['except_result'] = except_result
+            resp = my_assert(response, expect_result)
+        get_query_voucher_data['expect_result'] = expect_result
         return resp

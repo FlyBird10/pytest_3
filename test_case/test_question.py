@@ -42,11 +42,11 @@ class Test_Question:
         headers = get_headers(type=yml_data['AddQues']['content_type'])
         url = get_url(yml_data['AddQues']['path'])
         method = yml_data['AddQues']['http_method']
-        except_result = get_add_question_data.pop('except_result')  # 取出请求参数对应的期望结果
+        expect_result = get_add_question_data.pop('expect_result')  # 取出请求参数对应的期望结果
         # 数据类型转json
         # get_add_question_data_json = json.dumps(get_add_question_data)
         response = api_http(method, url, headers, get_add_question_data)
-        my_assert(response, except_result)  # 校验响应
+        my_assert(response, expect_result)  # 校验响应
         questionContext = get_add_question_data['questionContext']
         # 查询数据库，校验数据是否被插入
         sql = yml_data['AddQues']['sql']['search']
@@ -65,11 +65,11 @@ class Test_Question:
         headers = get_headers(type=yml_data['QuesList']['content_type'])
         url = get_url(yml_data['QuesList']['path'])
         method = yml_data['QuesList']['http_method']
-        except_result = get_list_ques_data.pop('except_result')
+        expect_result = get_list_ques_data.pop('expect_result')
 
         response = api_http(method, url, headers, get_list_ques_data)
 
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
         # 取出查询参数，截取年月日
         startDate = get_list_ques_data['startDate'].split('T')[0]
         endDate = get_list_ques_data['endDate'].split('T')[0]
@@ -102,9 +102,9 @@ class Test_Question:
         headers = get_headers()
         url = get_url(yml_data['CheckStatus']['path'])
         method = yml_data['CheckStatus']['http_method']
-        except_result = get_check_status_data.pop('except_result')
+        expect_result = get_check_status_data.pop('expect_result')
         response = api_http(method, url, headers, get_check_status_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['EditQuestion']['requestList'])
     def get_edit_question_data(self, request, get_headers):
@@ -125,9 +125,9 @@ class Test_Question:
         headers = get_headers()
         url = get_url(yml_data['EditQuestion']['path'])
         method = yml_data['EditQuestion']['http_method']
-        except_result = get_edit_question_data.pop("except_result")
+        expect_result = get_edit_question_data.pop("expect_result")
         response = api_http(method, url, headers, get_edit_question_data)
-        obj = my_assert(response, except_result)['data']
+        obj = my_assert(response, expect_result)['data']
         if obj:
             Question['answerList'] = obj['answerList']
             Question['pkQuestion'] = obj['pkQuestion']
@@ -160,11 +160,11 @@ class Test_Question:
     def test_edit_save_question(self, get_headers, get_url, get_editSave_data, api_http, my_assert):
         headers = get_headers(type=yml_data['EditSaveQuestion']['content_type'])
         url = get_url(yml_data['EditSaveQuestion']['path'])
-        except_result = get_editSave_data.pop("except_result")
+        expect_result = get_editSave_data.pop("expect_result")
         method = yml_data['EditSaveQuestion']['http_method']
         # get_editSave_data_json = json.dumps(get_editSave_data)
         response = api_http(method, url, headers, get_editSave_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['DelQuestion']['requestList'])
     def get_del_data(self, request):
@@ -178,9 +178,9 @@ class Test_Question:
         headers = get_headers()
         url = get_url(yml_data['DelQuestion']['path'])
         method = yml_data['DelQuestion']['http_method']
-        except_result = get_del_data.pop('except_result')
+        expect_result = get_del_data.pop('expect_result')
         response = api_http(method, url, headers, get_del_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['ImportQuestion']['requestList'])
     def get_import_data(self, request):
@@ -200,6 +200,6 @@ class Test_Question:
         headers = get_headers(type=yml_data['ImportQuestion']['content_type'], content=get_import_data['file'][1])
         url = get_url(yml_data['ImportQuestion']['path'])
         method = yml_data['ImportQuestion']['http_method']
-        except_result = get_import_data.pop('except_result')
+        expect_result = get_import_data.pop('expect_result')
         response = api_http(method, url, headers, get_import_data['file'][0])
-        my_assert(response, except_result)
+        my_assert(response, expect_result)

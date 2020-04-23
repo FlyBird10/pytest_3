@@ -2,7 +2,7 @@ customer_my:
   path: /customer/myCustomer
   http_method: post
   content_type: form
-  except_result:
+  expect_result:
     code: 0
     message: 查询成功
   requestList:

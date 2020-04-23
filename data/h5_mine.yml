@@ -5,7 +5,7 @@ userInfo:
   content_type: form
   requestList:
     - unionId: ojIr21Tj0-YWFNtqOoBvIsspKQ3c
-      except_result:
+      expect_result:
         code: 0
         message: success
 focusList:
@@ -14,6 +14,6 @@ focusList:
   http_method: get
   requestList:
     -   # 无参数
-      except_result:
+      expect_result:
         code: 0
         message: success

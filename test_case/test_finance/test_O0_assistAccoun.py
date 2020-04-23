@@ -28,9 +28,9 @@ class TestAssisAccoun:
         headers = get_headers(type=yml_data['addContacts']['content_type'])
         url = get_url(yml_data['addContacts']['path'])
         method = yml_data['addContacts']['http_method']
-        except_result = get_add_contacts_data.pop("except_result")
+        expect_result = get_add_contacts_data.pop("expect_result")
         with allure.step("调用add接口"):
             response = api_http(method, url, headers, get_add_contacts_data)
-        get_add_contacts_data['except_result'] = except_result
+        get_add_contacts_data['expect_result'] = expect_result
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
+            my_assert(response, expect_result)

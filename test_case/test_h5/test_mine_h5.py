@@ -21,10 +21,10 @@ class Test_Mine:
         url = get_url(yml_data['userInfo']['path'])
         headers = get_headers_h5()
         method = yml_data['userInfo']['http_method']
-        except_result = get_user_info_data.pop("except_result")
+        expect_result = get_user_info_data.pop("expect_result")
         response = api_http(method, url, headers, get_user_info_data)
 
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['focusList']['requestList'])
     def get_focus_list_data(self, request):
@@ -35,7 +35,7 @@ class Test_Mine:
         url = get_url(yml_data['focusList']['path'])
         headers = get_headers_h5()
         method = yml_data['focusList']['http_method']
-        except_result = get_focus_list_data.pop("except_result")
+        expect_result = get_focus_list_data.pop("expect_result")
         response = api_http(method, url, headers, get_focus_list_data)
 
-        my_assert(response, except_result)
+        my_assert(response, expect_result)

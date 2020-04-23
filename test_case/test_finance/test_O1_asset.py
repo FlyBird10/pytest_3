@@ -29,12 +29,12 @@ class TestAsset:
         headers = get_headers(type=yml_data['findAssetCard']['content_type'])
         url = get_url(yml_data['findAssetCard']['path'])
         method = yml_data['findAssetCard']['http_method']
-        except_result = get_find_asset_class_data.pop("except_result")
+        expect_result = get_find_asset_class_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_find_asset_class_data)
         with allure.step("断言接口响应成功"):
             global allAssetClassList
-            allAssetClassList = my_assert(response, except_result)['data']
+            allAssetClassList = my_assert(response, expect_result)['data']
             # print(allAssetClassList)
 
     @pytest.fixture(params=yml_data['addAsset']['requestList'])
@@ -64,11 +64,11 @@ class TestAsset:
         headers = get_headers(type=yml_data['addAsset']['content_type'])
         url = get_url(yml_data['addAsset']['path'])
         method = yml_data['addAsset']['http_method']
-        except_result = get_add_asset_data.pop("except_result")
+        expect_result = get_add_asset_data.pop("expect_result")
         with allure.step("调用添加接口"):
             response = api_http(method, url, headers, get_add_asset_data)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
+            my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['findAsset']['requestList'])
     def get_find_asset_data(self, request):
@@ -81,12 +81,12 @@ class TestAsset:
         headers = get_headers(type=yml_data['findAsset']['content_type'])
         url = get_url(yml_data['findAsset']['path'])
         method = yml_data['findAsset']['http_method']
-        except_result = get_find_asset_data.pop("except_result")
+        expect_result = get_find_asset_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_find_asset_data)
         with allure.step("断言接口响应成功"):
             global allAssetList
-            allAssetList = my_assert(response, except_result)['data']
+            allAssetList = my_assert(response, expect_result)['data']
             for allAsset in allAssetList:
                 # 校验资产状态
                 if allAsset['assetsName'] in ("资产B", "资产A"):
@@ -108,12 +108,12 @@ class TestAsset:
     #     headers = get_headers(type=yml_data['delAsset']['content_type'])
     #     url = get_url(yml_data['delAsset']['path'])
     #     method = yml_data['delAsset']['http_method']
-    #     except_result = get_del_asset_data.pop("except_result")
+    #     expect_result = get_del_asset_data.pop("expect_result")
     #     # print(get_del_asset_data)
     #     with allure.step("调用删除接口"):
     #         response = api_http(method, url, headers, get_del_asset_data)
     #     with allure.step("断言接口响应成功"):
-    #         my_assert(response, except_result)
+    #         my_assert(response, expect_result)
     @pytest.fixture(params=yml_data['AddIntangibleAsset']['requestList'])
     def get_add_intangibleAsset_data(self, request, get_intangibleAssetCategory):
         assert len(get_intangibleAssetCategory) > 0, "没有无形资产的资产类别"
@@ -138,8 +138,8 @@ class TestAsset:
         headers = get_headers(type=yml_data['AddIntangibleAsset']['content_type'])
         url = get_url(yml_data['AddIntangibleAsset']['path'])
         method = yml_data['AddIntangibleAsset']['http_method']
-        except_result = get_add_intangibleAsset_data.pop("except_result")
+        expect_result = get_add_intangibleAsset_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_add_intangibleAsset_data)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
+            my_assert(response, expect_result)

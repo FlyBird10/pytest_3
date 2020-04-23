@@ -12,7 +12,7 @@ PaperList:
       questionType: -1
       startDate: ""
       timeArr: ""
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
     # 查询一定时间内添加的试卷
@@ -24,7 +24,7 @@ PaperList:
       questionLevel: -1
       questionType: -1
       timeArr: ""
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 CopyPaper:
@@ -36,7 +36,7 @@ CopyPaper:
     allPaper: select pkPaper From tbl_sycs_paper where pkCrop='{pkCorp}'
   requestList:
     - pkPaper: sql
-      except_result:
+      expect_result:
         code: 0
         message: 复制试卷成功
 
@@ -49,21 +49,21 @@ CheckPaper:
   requestList:
     - pkPaper: relationTest
       controlType: del
-      except_result:
+      expect_result:
         code: 1
         message: 此试卷已关联考试，不能删除!
     - pkPaper: relationTest
       controlType: edit
-      except_result:
+      expect_result:
         code: 1
         message: 此试卷已关联考试，不能编辑!
     - pkPaper: notRelation
       controlType: del
-      except_result:
+      expect_result:
         code: 0
         message: 可以操作
     - pkPaper: notRelation
       controlType: edit
-      except_result:
+      expect_result:
         code: 0
         message: 可以操作

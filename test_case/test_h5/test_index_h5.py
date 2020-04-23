@@ -24,9 +24,9 @@ class TestIndex:
         headers = get_headers_Notoken(type=yml_data['bind']['content_type'])
         url = get_url(yml_data['bind']['path'])
         method = yml_data['bind']['http_method']
-        except_result = get_band_data.pop("except_result")
+        expect_result = get_band_data.pop("expect_result")
         response = api_http(method, url, headers, get_band_data)
-        resp = my_assert(response, except_result)
+        resp = my_assert(response, expect_result)
         if resp['data']:  # 登录成功时更新token
             token = resp['data']['tokenInfo']['access_token']
             pkCorp = resp['data']['corpInfo'][0]['pkCorp']
@@ -44,9 +44,9 @@ class TestIndex:
         headers = get_headers_Notoken()
         url = get_url(yml_data['sendSMS']['path'])
         method = yml_data['sendSMS']['http_method']
-        except_result = get_phoneCode_data.pop("except_result")
+        expect_result = get_phoneCode_data.pop("expect_result")
         response = api_http(method, url, headers, get_phoneCode_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['bindPhone']['requestList'])
     def get_bind_phone_data(self, request):
@@ -56,7 +56,7 @@ class TestIndex:
             code = int(Search_redis(searchSql))
             request.param['code'] = code
         yield request.param
-        if request.param['except_result']['code'] == 0:
+        if request.param['expect_result']['code'] == 0:
             # 可能绑定成功的账号清除绑定相关信息
             searchPkUser = yml_data['bindPhone']['sql']['searchPkUser']
             pkUser = Search(searchPkUser)[0][0]
@@ -71,9 +71,9 @@ class TestIndex:
         headers = get_headers_Notoken(type=yml_data['bindPhone']['content_type'])
         url = get_url(yml_data['bindPhone']['path'])
         method = yml_data['bindPhone']['http_method']
-        except_result = get_bind_phone_data.pop("except_result")
+        expect_result = get_bind_phone_data.pop("expect_result")
         response = api_http(method, url, headers, get_bind_phone_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['switchCorp']['requestList'])
     def get_switch_corp_data(self, request):
@@ -84,8 +84,8 @@ class TestIndex:
     def test_switch_corp(self, get_switch_corp_data, get_headers_h5, get_url, api_http, my_assert):
         headers = get_headers_h5(type=yml_data['switchCorp']['content_type'])
         method = yml_data['switchCorp']['http_method']
-        except_result = get_switch_corp_data.pop("except_result")
+        expect_result = get_switch_corp_data.pop("expect_result")
         url = get_url(yml_data['switchCorp']['path'])
         response = api_http(method, url, headers, get_switch_corp_data)
 
-        my_assert(response, except_result)
+        my_assert(response, expect_result)

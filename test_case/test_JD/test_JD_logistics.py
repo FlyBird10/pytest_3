@@ -19,10 +19,10 @@ class Test_JD_logistics:
         url = get_url(yml_data['platOrderList']['path'])
         headers = get_headers(type=yml_data['platOrderList']['content_type'])
         method = yml_data['platOrderList']['http_method']
-        except_result = get_platOrderList_data.pop("except_result")
+        expect_result = get_platOrderList_data.pop("expect_result")
         response = api_http(method, url, headers, get_platOrderList_data)
 
-        res_json = my_assert(response, except_result)['data']
+        res_json = my_assert(response, expect_result)['data']
         assert res_json['cjCount'] >= 0  # 待补差价订单数大于等于0
         assert res_json['tkCount'] >= 0  # 退款订单数大于等于0
         for i in res_json['orderList']:

@@ -10,7 +10,7 @@ mall:
       orderSort: 1
       type: 0
       pkCorps: tokenCorp # 登录时输入的pk corp/pk group
-      except_result:
+      expect_result:
         code: 0
         message: 成功
     - pkCustomerSort:
@@ -18,7 +18,7 @@ mall:
       orderSort: 1
       type: 1
       pkCorps: tokenGroup # 登录时输入的pk corp/pk group
-      except_result:
+      expect_result:
         code: 0
         message: 成功
 productDetail:
@@ -27,11 +27,11 @@ productDetail:
   http_method: get
   requestList:
     - pkProductH: single  # 查看单品详情
-      except_result:
+      expect_result:
         code: 0
         message: 成功
     - pkProductH: complex # 查看套餐详情
-      except_result:
+      expect_result:
         code: 0
         message: 成功
 productComment:
@@ -42,12 +42,12 @@ productComment:
   requestList:
     - pkProductH: single
       pkCorp: singleCorp  # 产品的所属公司PK
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
     - pkProductH: complex
       pkCorp: complexCorp
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 addFocus:
@@ -57,11 +57,11 @@ addFocus:
   requestList:
     - pkProductH: single
       operateType: true  # 收藏
-      except_result:
+      expect_result:
         code: 0
         message: 成功
 #    - pkProductH: single
 #      operateType: false  # 取消收藏
-#      except_result:
+#      expect_result:
 #        code: 0
 #        message: 成功

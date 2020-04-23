@@ -26,9 +26,9 @@ class Test_ShoppingMall:
         url = get_url(yml_data['mall']['path'])
         headers = get_headers_h5(type=yml_data['mall']['content_type'])
         method = yml_data['mall']['http_method']
-        except_result = get_shopping_mall_data.pop("except_result")
+        expect_result = get_shopping_mall_data.pop("expect_result")
         response = api_http(method, url, headers, get_shopping_mall_data)
-        response_json = my_assert(response, except_result)
+        response_json = my_assert(response, expect_result)
         product_list = response_json['data']
         # print(product_list)
 
@@ -59,9 +59,9 @@ class Test_ShoppingMall:
         # headers = get_headers_h5(type=yml_data['productDetail']['content_type'])  # get 请求无content_type
         headers = get_headers_h5()
         method = yml_data['productDetail']['http_method']
-        except_result = get_product_detail_data.pop("except_result")
+        expect_result = get_product_detail_data.pop("expect_result")
         response = api_http(method, url, headers, get_product_detail_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['productComment']['requestList'])
     def get_product_comment_data(self, request):
@@ -79,9 +79,9 @@ class Test_ShoppingMall:
         url = get_url(yml_data['productComment']['path'])
         headers = get_headers_h5(type=yml_data['productComment']['content_type'])
         method = yml_data['productComment']['http_method']
-        except_result = get_product_comment_data.pop("except_result")
+        expect_result = get_product_comment_data.pop("expect_result")
         response = api_http(method, url, headers, get_product_comment_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['addFocus']['requestList'])
     def get_add_focus_data(self, request):
@@ -98,9 +98,9 @@ class Test_ShoppingMall:
         url = get_url(yml_data['addFocus']['path'])
         headers = get_headers_h5()
         method = yml_data['addFocus']['http_method']
-        except_result = get_add_focus_data.pop("except_result")
+        expect_result = get_add_focus_data.pop("expect_result")
         print(get_add_focus_data)
         print(url)
         print(headers)
         response = api_http(method, url, headers, get_add_focus_data)
-        my_assert(response, except_result)
+        my_assert(response, expect_result)

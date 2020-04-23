@@ -187,15 +187,15 @@ def get_path():
 @pytest.fixture()
 @allure.step('校验接口响应代码和提示语')
 def my_assert():
-    def _inner(response, except_result):
+    def _inner(response, expect_result):
         if response.status_code == 200:
             response_json = response.json()
             try:
-                assert int(response_json['code']) == int(except_result['code'])
-                assert response_json['message'] == except_result['message']
+                assert int(response_json['code']) == int(expect_result['code'])
+                assert response_json['message'] == expect_result['message']
             except Exception:
                 print("实际结果：", response_json)
-                print("期望结果：", except_result)
+                print("期望结果：", expect_result)
                 print(response.request.url)
                 print(response.request.body)
                 print(response.request.headers)

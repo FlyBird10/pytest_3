@@ -22,11 +22,11 @@ class TestVoucher:
         headers = get_headers(type=yml_data['addOne']['content_type'])
         url = get_url(yml_data['addOne']['path'])
         method = yml_data['addOne']['http_method']
-        except_result = get_add_one_data.pop("except_result")
+        expect_result = get_add_one_data.pop("expect_result")
         with allure.step("调用查询接口"):
             response = api_http(method, url, headers, get_add_one_data)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
+            my_assert(response, expect_result)
 
     @allure.story("保存凭证")
     @pytest.mark.run(order=2)
@@ -36,13 +36,13 @@ class TestVoucher:
         headers = get_headers(type=yml_data['addVoucher']['content_type'])
         url = get_url(yml_data['addVoucher']['path'])
         method = yml_data['addVoucher']['http_method']
-        except_result = get_save_voucher_data.pop("except_result")
+        expect_result = get_save_voucher_data.pop("expect_result")
         # print(json.dumps(get_save_voucher_data))
         with allure.step("调用接口"):
             response = api_http(method, url, headers, get_save_voucher_data)
             # print(response)
         with allure.step("断言接口响应成功"):
-            my_assert(response, except_result)
+            my_assert(response, expect_result)
 
     @pytest.fixture(params=yml_data['addVoucher']['requestList'])
     def get_save_voucher_data(self, request, test_find_init6):
@@ -85,11 +85,11 @@ class TestVoucher:
         headers = get_headers(type=yml_data['searchVoucher']['content_type'])
         url = get_url(yml_data['searchVoucher']['path'])
         method = yml_data['searchVoucher']['http_method']
-        except_result = get_find_voucher.pop("except_result")
+        expect_result = get_find_voucher.pop("expect_result")
         with allure.step("调用接口"):
             response = api_http(method, url, headers, get_find_voucher)
         with allure.step("断言接口响应成功"):
-            voucherList = my_assert(response, except_result)['data']
+            voucherList = my_assert(response, expect_result)['data']
         global pkVouchers
         pkVouchers = []
         if len(voucherList) > 0:

@@ -5,7 +5,7 @@ findAssetCard:
   content_type: json
   requestList:
     - pkAccountBook: 32a01483fba649dfabf7
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 addAsset:
@@ -42,7 +42,7 @@ addAsset:
       pkManageCorp: findAssetCard
       salvage: "250.00"  # 预计净残值=资产原值*净残率
       scrapValue: findAssetCard  # 净残率
-      except_result:
+      expect_result:
         code: 0
         message: 添加成功
     - assetNum: "DZ"
@@ -73,7 +73,7 @@ addAsset:
       pkManageCorp: findAssetCard
       salvage: "250.00"
       scrapValue: findAssetCard
-      except_result:
+      expect_result:
         code: 0
         message: 添加成功
     - assetNum: "DZ"
@@ -104,7 +104,7 @@ addAsset:
       pkManageCorp: findAssetCard
       salvage: "250.00"
       scrapValue: findAssetCard
-      except_result:
+      expect_result:
         code: 0
         message: 添加成功
 findAsset:
@@ -117,7 +117,7 @@ findAsset:
       period: "2020-03"
       pkAccountBook: findAssetCard
       status: 0
-      except_result:
+      expect_result:
         code: 0
         message: 查询完成
 delAsset:
@@ -127,15 +127,15 @@ delAsset:
   content_type: json
   requestList:
     - pkAssetsCard:
-      except_result:
+      expect_result:
         code: 0
         message: 删除完成
     - pkAssetsCard:
-      except_result:
+      expect_result:
         code: 0
         message: 删除完成
     - pkAssetsCard:
-      except_result:
+      expect_result:
         code: 0
         message: 删除完成
 findCategory:
@@ -145,7 +145,7 @@ findCategory:
   content_type: json
   requestList:
     - pkAccountBook:
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 AddIntangibleAsset:
@@ -184,7 +184,7 @@ AddIntangibleAsset:
       recordedDate: "2020-03-18"
       salvage: 0
       usageState: 1
-      except_result:
+      expect_result:
         code: 0
         message: 添加成功
 delIntangibleAsset:
@@ -194,7 +194,7 @@ delIntangibleAsset:
   content_type: json
   requestList:
     - pkIntangibleAssets:
-      except_result:
+      expect_result:
         code: 0
         message: 删除成功
 fuzzySearch:
@@ -207,6 +207,6 @@ fuzzySearch:
       pkAccountBook:
       search: ""
       usageState: ""
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功

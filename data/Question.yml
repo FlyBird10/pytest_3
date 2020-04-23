@@ -18,7 +18,7 @@ AddQues:
           isRight: 0 # 是否为正确答案 (0-正确  1-错误)
         - answerContext: 错误 # 答案内容
           isRight: 1 # 是否为正确答案 (0-正确  1-错误)
-      except_result:  # 期望结果
+      expect_result:  # 期望结果
         code: 0
         message: 录入成功
     - questionAnalysis: English is most popular
@@ -32,7 +32,7 @@ AddQues:
           isRight: 1 # 是否为正确答案 (0-正确  1-错误)
         - answerContext: Japanese # 答案内容
           isRight: 0 # 是否为正确答案 (0-正确  1-错误)
-      except_result:  # 期望结果
+      expect_result:  # 期望结果
         code: 0
         message: 录入成功
 QuesList:
@@ -50,7 +50,7 @@ QuesList:
       questionLevel: -1  # -1 全部 试题难度 (0-简单  1-普通  2-困难)
       questionType: -1  # 试题类型 (0-单选题  1-多选题  2-判断题)
       timeArr: ""
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
     # 查询一定时间内添加的试题
@@ -62,7 +62,7 @@ QuesList:
       questionLevel: -1  # -1 全部 试题难度 (0-简单  1-普通  2-困难)
       questionType: -1  # 试题类型 (0-单选题  1-多选题  2-判断题)
       timeArr: ""
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 CheckStatus:
@@ -80,17 +80,17 @@ CheckStatus:
     # 校验能否删除
     - pkQuestion: del_success_sql # 数据来源其他case 不靠谱
       controlType: del
-      except_result:
+      expect_result:
         code: 0
         message: 可以删除
     - pkQuestion: del_fail_sql # 数据来源sql查询
       controlType: del
-      except_result:
+      expect_result:
         code: 1
         message: 此试题关联的试卷正在考试中，不能删除!
 #    - pkQuestion: sql # 数据来源sql查询  未使用
 #      controlType: edit
-#      except_result:
+#      expect_result:
 #        code: 1
 #        message: 此试题关联的试卷正在考试中，不能编辑!
 
@@ -102,12 +102,12 @@ EditQuestion:
   requestList:
     - pkQuestion: del_fail_sql # 数据来源sql查询
       controlType: edit
-      except_result:
+      expect_result:
         code: 1
         message: 此试题关联的试卷正在考试中，不能编辑!
     - pkQuestion: del_success_sql
       controlType: edit
-      except_result:
+      expect_result:
         code: 0
         message: 查询成功
 EditSaveQuestion:
@@ -123,7 +123,7 @@ EditSaveQuestion:
       questionContext:
       questionLevel:
       questionType:
-      except_result:
+      expect_result:
         code: 0
         message: 编辑成功
 DelQuestion:
@@ -133,7 +133,7 @@ DelQuestion:
   content_type: form
   requestList:
     - pkQuestion: del_success_sql
-      except_result:
+      expect_result:
         code: 0
         message: 删除成功
 ImportQuestion:
@@ -143,10 +143,10 @@ ImportQuestion:
   content_type: multipart  # excel文件上传
   requestList:
     - file: E:\\pytest_3\\data\\customer.xls
-      except_result:
+      expect_result:
         message: "系统错误,导入失败"
         code: 1
     - file: E:\\pytest_3\\data\\question.xls
-      except_result:
+      expect_result:
         message: "导入成功"
         code: 0

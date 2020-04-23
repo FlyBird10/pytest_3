@@ -12,7 +12,7 @@ initialBalanceList:
         - 权益
         - 成本
         - 损益
-      except_result:
+      expect_result:
         code: 1
         message: 查询成功
 resetInitial:
@@ -40,7 +40,7 @@ editInitialBalance:
       subjectType: initialBalanceList
       totalCredit: 1000  # 本年累计贷方
       totalDebit: 3000  # 本年累计借方
-      except_result:
+      expect_result:
         yearsBalance: -1000  # 年初余额
         code: 1
         message: 编辑成功
@@ -56,7 +56,7 @@ editInitialBalance:
       subjectType: initialBalanceList
       totalCredit: 0  # 本年累计贷方
       totalDebit:  0 # 本年累计借方
-      except_result:
+      expect_result:
         yearsBalance: 5000  # 年初余额
         code: 1
         message: 编辑成功
@@ -72,7 +72,7 @@ editInitialBalance:
       subjectType: initialBalanceList
       totalCredit: 100  # 本年累计贷方
       totalDebit:  500 # 本年累计借方
-      except_result:
+      expect_result:
         yearsBalance: 600  # 年初余额
         code: 1
         message: 编辑成功
@@ -88,7 +88,7 @@ editInitialBalance:
       subjectType: initialBalanceList
       totalCredit: 500  # 本年累计贷方
       totalDebit:  1000 # 本年累计借方
-      except_result:
+      expect_result:
         yearsBalance: 2500  # 年初余额
         code: 1
         message: 编辑成功
@@ -110,7 +110,7 @@ addSubject:
       subjectType: initialBalanceList
       totalCredit: "0"
       totalDebit: "0"
-      except_result:
+      expect_result:
         code: 1
         message: 添加成功
 opt:
@@ -121,7 +121,7 @@ opt:
   requestList:
     - category: 1  # 1是客户
       pkAccountBook: initialBalanceList
-      except_result:
+      expect_result:
         code: 1
         message: 设置成功
 setWL:
@@ -138,7 +138,7 @@ setWL:
       pkContacts: 5447cd46161b4e0492bf
       pkInitialBalance: 389de134-676c-11ea-9
       subjectCode: 1122
-      except_result:
+      expect_result:
         code: 1
         message: 设置成功
 delete:
@@ -150,18 +150,18 @@ delete:
     - pkAccountBook: initialBalanceList
       pkInitialBalance: 测试A
       subjectCode: subjectCode
-      except_result:
+      expect_result:
         code: 1
         message: 编辑成功
     - pkAccountBook: initialBalanceList
       pkInitialBalance: 测试B
       subjectCode: subjectCode
-      except_result:
+      expect_result:
         code: 1
         message: 编辑成功
     - pkAccountBook: initialBalanceList
       pkInitialBalance: 测试C
       subjectCode: subjectCode
-      except_result:
+      expect_result:
         code: 1
         message: 编辑成功
