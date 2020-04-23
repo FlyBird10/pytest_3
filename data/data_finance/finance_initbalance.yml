@@ -159,3 +159,9 @@ delete:
       except_result:
         code: 1
         message: 编辑成功
+    - pkAccountBook: initialBalanceList
+      pkInitialBalance: 测试C
+      subjectCode: subjectCode
+      except_result:
+        code: 1
+        message: 编辑成功

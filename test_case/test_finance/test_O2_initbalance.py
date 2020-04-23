@@ -113,12 +113,13 @@ class Test_finance_initbalance:
 
     @pytest.fixture(params=yml_data['addSubject']['requestList'])
     def get_add_subject_data(self, request):
-        request.param['subjectName'] = get_subject()[0]['subjectName']  # 科目名称随机生成
+        # request.param['subjectName'] = get_subject()[0]['subjectName']  # 科目名称随机生成
+        request.param['subjectName'] = '测试C'
         request.param['pkAccountBook'] = common['pkAccountBook']
         return request.param
 
     @allure.story("添加科目")
-    @pytest.mark.skip
+    # @pytest.mark.skip
     def test_add_subject(self, get_add_subject_data, get_headers, get_url, api_http, my_assert,
                          get_find_init_balance_data):
         with allure.step("查询父级已有子级数"):
