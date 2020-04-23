@@ -242,6 +242,7 @@ def del_contacts():
         with allure.step("断言接口响应成功"):
             my_assert(response, except_result)
         get_del_contacts_data['except_result'] = except_result
+
     return _inner
 
 
@@ -320,4 +321,65 @@ def del_asset():
         with allure.step("断言接口响应成功"):
             my_assert(response, except_result)
 
+    return _inner
+
+
+@allure.story("查询无形资产类别")
+@pytest.fixture(params=yml_data3['findCategory']['requestList'])
+def get_intangibleAssetCategory(request, get_headers, get_url, api_http, my_assert):
+    request.param['pkAccountBook'] = common['pkAccountBook']
+    headers = get_headers(type=yml_data3['findCategory']['content_type'])
+    url = get_url(yml_data3['findCategory']['path'])
+    method = yml_data3['findCategory']['http_method']
+    except_result = request.param.pop("except_result")
+    with allure.step("调用接口"):
+        response = api_http(method, url, headers, request.param)
+    with allure.step("断言接口响应成功"):
+        categoryList = my_assert(response, except_result)['data']
+    return categoryList
+
+
+@pytest.fixture(params=yml_data3['delIntangibleAsset']['requestList'])
+def get_del_intangible_asset_data(request):
+    return request.param
+
+
+@allure.story("删除无形资产")
+@pytest.fixture
+def del_IntangibleAsset():
+    def _inner(get_del_intangible_asset_data, get_headers, get_url, api_http, my_assert):
+        headers = get_headers(type=yml_data3['delIntangibleAsset']['content_type'])
+        url = get_url(yml_data3['delIntangibleAsset']['path'])
+        method = yml_data3['delIntangibleAsset']['http_method']
+        except_result = get_del_intangible_asset_data.pop("except_result")
+        # print(get_del_asset_data)
+        with allure.step("调用删除接口"):
+            response = api_http(method, url, headers, get_del_intangible_asset_data)
+        with allure.step("断言接口响应成功"):
+            my_assert(response, except_result)
+
+    return _inner
+
+
+@pytest.fixture(params=yml_data3['fuzzySearch']['requestList'])
+def get_intangible_asset_data(request):
+    request.param['pkAccountBook'] = common['pkAccountBook']
+    return request.param
+
+
+@allure.story("查询无形资产")
+@pytest.fixture
+def get_all_IntangibleAsset():
+    def _inner(get_intangible_asset_data, get_headers, get_url, api_http, my_assert):
+        headers = get_headers(type=yml_data3['fuzzySearch']['content_type'])
+        url = get_url(yml_data3['fuzzySearch']['path'])
+        method = yml_data3['fuzzySearch']['http_method']
+        except_result = get_intangible_asset_data.pop("except_result")
+        # print(get_del_asset_data)
+        with allure.step("调用接口"):
+            response = api_http(method, url, headers, get_intangible_asset_data)
+        get_intangible_asset_data['except_result'] = except_result
+        with allure.step("断言接口响应成功"):
+            intangibleList = my_assert(response, except_result)['data']
+        return intangibleList
     return _inner

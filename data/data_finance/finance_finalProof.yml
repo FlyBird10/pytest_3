@@ -89,6 +89,22 @@ generateVoucher:
         message: 生成凭证成功!
     - date: findAll
       pkAccountBook: findAll
+      pkVoucherTemplate: 计提摊销  # 计提摊销
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 计提摊销
+          newName: 560218-管理费用-无形资产摊销
+          amountDebit: 41.67  # 借方金额
+          amountCredit: 0
+        - explanation: 计提摊销
+          newName: 1702-累计摊销
+          amountCredit: 41.67  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 摊销成功
+    - date: findAll
+      pkAccountBook: findAll
       pkVoucherTemplate: 结转损益
       pkVoucherTemplateCompany:
       assert_data:  # 校验数据
@@ -138,11 +154,16 @@ generateVoucher:
           amountDebit: 0
         - explanation: 结转损益
           newName: 3103-本年利润
-          amountCredit: 1708.06  # 贷方金额
+          amountCredit: 1666.39  # 贷方金额
           amountDebit: 0
+        - explanation: 结转损益
+          newName: 560218-管理费用-无形资产摊销
+          amountDebit: 0  # 借方金额
+          amountCredit: 41.67
       except_result:
         code: 0
         message: 生成凭证成功!
+
     - date: 2020-12
       pkAccountBook: findAll
       pkVoucherTemplate: 计提折旧
@@ -165,6 +186,22 @@ generateVoucher:
         message: 生成凭证成功!
     - date: 2020-12
       pkAccountBook: findAll
+      pkVoucherTemplate: 计提摊销  # 计提摊销
+      pkVoucherTemplateCompany:
+      assert_data:  # 校验数据
+        - explanation: 计提摊销
+          newName: 560218-管理费用-无形资产摊销
+          amountDebit: 41.67  # 借方金额
+          amountCredit: 0
+        - explanation: 计提摊销
+          newName: 1702-累计摊销
+          amountCredit: 41.67  # 贷方金额
+          amountDebit: 0
+      except_result:
+        code: 0
+        message: 摊销成功
+    - date: 2020-12
+      pkAccountBook: findAll
       pkVoucherTemplate: 结转损益
       pkVoucherTemplateCompany:
       assert_data:  # 校验数据
@@ -175,7 +212,11 @@ generateVoucher:
         - explanation: 结转损益
           newName: 3103-本年利润
           amountCredit: 0  # 贷方金额
-          amountDebit: 131.94
+          amountDebit: 173.61
+        - explanation: 结转损益
+          newName: 1702-累计摊销
+          amountCredit: 41.67  # 贷方金额
+          amountDebit: 0
       except_result:
         code: 0
         message: 生成凭证成功!
@@ -186,15 +227,16 @@ generateVoucher:
       assert_data:  # 校验数据
         - explanation: 结转本年利润
           newName: 3103-本年利润
-          amountDebit: 1576.12  # 借方金额
+          amountDebit: 1492.78  # 借方金额
           amountCredit: 0
         - explanation: 结转本年利润
           newName: 310406-利润分配-未分配利润
-          amountCredit: 1576.12  # 贷方金额
+          amountCredit: 1492.78  # 贷方金额
           amountDebit: 0
       except_result:
         code: 0
         message: 生成凭证成功!
+
 
 queryVoucherByPK:
   # 通过凭证PK查询凭证详情

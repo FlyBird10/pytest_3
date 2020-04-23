@@ -33,11 +33,14 @@ statementAllData:
         - name: 固定资产账面价值
           finalBalance: -131.94 # 期末余额
           beginBalance:  0 # 年初余额
+        - name: 无形资产
+          finalBalance: -41.67 # 期末余额
+          beginBalance:  0 # 年初余额
         - name: 非流动资产合计
-          finalBalance: -131.94 # 期末余额
+          finalBalance: -173.61 # 期末余额
           beginBalance:  0 # 年初余额
         - name: 资产总计
-          finalBalance: 14268.06 # 期末余额
+          finalBalance: 14226.39 # 期末余额
           beginBalance:  4600 # 年初余额
         - name: 应付账款
           finalBalance: 7000 # 期末余额
@@ -52,13 +55,13 @@ statementAllData:
           finalBalance: 7560 # 期末余额
           beginBalance: 2500  # 年初余额
         - name: 未分配利润
-          finalBalance: 1708.06 # 期末余额
+          finalBalance: 1666.39 # 期末余额
           beginBalance:  0  # 年初余额
         - name: 所有者权益（或股东权益）合计
-          finalBalance: 1708.06 # 期末余额
+          finalBalance: 1666.39 # 期末余额
           beginBalance:  0  # 年初余额
         - name: 负债和所有者权益（或股东权益）总计
-          finalBalance: 9268.06 # 期末余额
+          finalBalance: 9226.39 # 期末余额
           beginBalance: 2500  # 年初余额
     - pkAccountBook: statementAllData
       reportType: 1
@@ -89,11 +92,14 @@ statementAllData:
         - name: 固定资产账面价值
           finalBalance: -131.94 # 期末余额
           beginBalance:  0 # 年初余额
+        - name: 无形资产
+          finalBalance: -41.67 # 期末余额
+          beginBalance:  0 # 年初余额
         - name: 非流动资产合计
-          finalBalance: -131.94 # 期末余额
+          finalBalance: -173.61 # 期末余额
           beginBalance:  0 # 年初余额
         - name: 资产总计
-          finalBalance: 13268.06 # 期末余额
+          finalBalance: 13226.39 # 期末余额
           beginBalance:  4600 # 年初余额
         - name: 应付账款
           finalBalance: 6000 # 期末余额
@@ -108,13 +114,13 @@ statementAllData:
           finalBalance: 6560 # 期末余额
           beginBalance: 2500  # 年初余额
         - name: 未分配利润
-          finalBalance: 1708.06 # 期末余额
+          finalBalance: 1666.39 # 期末余额
           beginBalance:  0  # 年初余额
         - name: 所有者权益（或股东权益）合计
-          finalBalance: 1708.06 # 期末余额
+          finalBalance: 1666.39 # 期末余额
           beginBalance:  0  # 年初余额
         - name: 负债和所有者权益（或股东权益）总计
-          finalBalance: 8268.06 # 期末余额
+          finalBalance: 8226.39 # 期末余额
           beginBalance: 2500  # 年初余额
 getProfitData:
   # 利润表
@@ -145,8 +151,8 @@ getProfitData:
           bigDecimalYearAll: 5000 # 本年累计金额
           bigDecimalCurrentAll: 5000 # 本期累计金额
         - name: 管理费用
-          bigDecimalYearAll: 5131.94 # 本年累计金额
-          bigDecimalCurrentAll: 5131.94 # 本期累计金额
+          bigDecimalYearAll: 5173.61 # 本年累计金额
+          bigDecimalCurrentAll: 5173.61 # 本期累计金额
         - name: 财务费用
           bigDecimalYearAll: -100 # 本年累计金额
           bigDecimalCurrentAll: -100 # 本期累计金额
@@ -157,8 +163,8 @@ getProfitData:
           bigDecimalYearAll: -6000 # 本年累计金额
           bigDecimalCurrentAll: -6000 # 本期累计金额
         - name: 二、营业利润
-          bigDecimalYearAll: 29708.06 # 本年累计金额
-          bigDecimalCurrentAll: 29708.06 # 本期累计金额
+          bigDecimalYearAll: 29666.39 # 本年累计金额
+          bigDecimalCurrentAll: 29666.39 # 本期累计金额
         - name: 加：营业外收入
           bigDecimalYearAll: 5000 # 本年累计金额
           bigDecimalCurrentAll: 5000 # 本期累计金额
@@ -166,12 +172,12 @@ getProfitData:
           bigDecimalYearAll: 5000 # 本年累计金额
           bigDecimalCurrentAll: 5000 # 本期累计金额
         - name: 三、利润总额（亏损总额以“-”号填列）
-          bigDecimalYearAll: 34708.06 # 本年累计金额
-          bigDecimalCurrentAll: 34708.06 # 本期累计金额
+          bigDecimalYearAll: 34666.39 # 本年累计金额
+          bigDecimalCurrentAll: 34666.39 # 本期累计金额
         - name: 减：所得税费用
           bigDecimalYearAll: 33000 # 本年累计金额
           bigDecimalCurrentAll: 33000 # 本期累计金额
         - name: 四、净利润（净亏损以“-”号填列）
-          bigDecimalYearAll: 1708.06 # 本年累计金额
-          bigDecimalCurrentAll: 1708.06 # 本期累计金额
+          bigDecimalYearAll: 1666.39 # 本年累计金额
+          bigDecimalCurrentAll: 1666.39 # 本期累计金额
 

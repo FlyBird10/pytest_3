@@ -138,3 +138,75 @@ delAsset:
       except_result:
         code: 0
         message: 删除完成
+findCategory:
+  # 查询无形资产类别
+  path: /agentAccount/intangibleAsset/findCategory
+  http_method: post
+  content_type: json
+  requestList:
+    - pkAccountBook:
+      except_result:
+        code: 0
+        message: 查询成功
+AddIntangibleAsset:
+  # 添加无形资产  土地使用权
+  path: /agentAccount/intangibleAsset/insertOrUpdate
+  http_method: post
+  content_type: json
+  requestList:
+    - accumulatedAccount: "a09d067bf7b147c9a256"
+      accumulatedAccountCode: "1702"
+      accumulatedAccountName: "累计摊销"
+      accumulatedAmortization: 958.341  #累计摊销
+      accumulatedAmortizationBefore: 958.341  # 入账前累计摊销
+      accumulatedCount: 23
+      accumulatedCountBefore: 23
+      accumulatedInitContacts: null
+      accumulatedInitialBalance: "bc24e128-82e1-11ea-a"
+      assetName: "土地使用B"  # 不能重复
+      assetsBalance: 4041.66
+      cost: "5000"
+      depreciation: ""
+      depreciationStatus: ""
+      disposalDate: ""
+      expenseAccount: "c721c7f8a08c4123a10f"
+      expenseAccountCode: "560218"
+      expenseAccountName: "无形资产摊销"
+      expenseInitContacts: null
+      expenseInitialBalance: "bc25a6fa-82e1-11ea-a"
+      intangibleAssetsCode: "TDSY000003"  # 资产编号 不能重复
+      judgeUpdate: true
+      lifeTime: 120
+      monthlyAmortization: 41.667
+      pkAccountBook:
+      pkIntangibleAssetsCategory: "da423f0205ac4000bdbbcbc0228bab38"
+      purchaseDate: "2018-04-17"
+      recordedDate: "2020-03-18"
+      salvage: 0
+      usageState: 1
+      except_result:
+        code: 0
+        message: 添加成功
+delIntangibleAsset:
+  # 删除无形资产
+  path: /agentAccount/intangibleAsset/delete
+  http_method: delete
+  content_type: json
+  requestList:
+    - pkIntangibleAssets:
+      except_result:
+        code: 0
+        message: 删除成功
+fuzzySearch:
+  # 查询无形资产
+  path: /agentAccount/intangibleAsset/fuzzySearch
+  http_method: post
+  content_type: json
+  requestList:
+    - period: "2020-03"
+      pkAccountBook:
+      search: ""
+      usageState: ""
+      except_result:
+        code: 0
+        message: 查询成功

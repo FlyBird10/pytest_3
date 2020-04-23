@@ -33,6 +33,8 @@ def api_http():
         elif method == 'get':
             # get请求参数必须使用params传递
             response = requests.get(url, headers=headers, params=data)
+        elif method == 'delete':
+            response = requests.delete(url, headers=headers, data=data)
         return response
 
     return _inner

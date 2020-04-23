@@ -92,6 +92,12 @@ class TestDeal:
             get_del_contacts_data['pkContacts'] = contact['pkContacts']
             del_contacts(get_del_contacts_data, get_headers, get_url, api_http, my_assert)
 
-    def test_del_asset(self, del_asset, get_del_asset_data, get_headers, get_url, api_http, my_assert):
-        # 五、删除新增的资产
+    def test_del_asset(self, del_asset, get_del_asset_data, del_IntangibleAsset, get_del_intangible_asset_data,
+                       get_headers, get_url, api_http, my_assert, get_all_IntangibleAsset, get_intangible_asset_data):
+        # 五、删除新增的固定资产
         del_asset(get_del_asset_data, get_headers, get_url, api_http, my_assert)
+        # 六、删除新增的无形资产
+        intangibleList = get_all_IntangibleAsset(get_intangible_asset_data, get_headers, get_url, api_http, my_assert)
+        for intangible in intangibleList:
+            get_del_intangible_asset_data['pkIntangibleAssets'] = intangible['pkIntangibleAssets']
+            del_IntangibleAsset(get_del_intangible_asset_data, get_headers, get_url, api_http, my_assert)

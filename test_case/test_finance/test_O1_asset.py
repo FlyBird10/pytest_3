@@ -2,6 +2,7 @@ from utils.generator import read_yml
 import pytest
 import allure
 import os
+
 # from test_case.test_finance.conftest import test_find_init6
 
 root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -93,23 +94,52 @@ class TestAsset:
                 elif allAsset['assetsName'] == '资产C':
                     assert allAsset['status'] == 3
 
-    @pytest.fixture(params=yml_data['delAsset']['requestList'])
-    def get_del_asset_data(self, request):
-        for allAsset in allAssetList:
-            if allAsset['assetsName'] == '测试':
-                request.param['pkAssetsCard'] = allAsset['pkAssetsCard']
+    # @pytest.fixture(params=yml_data['delAsset']['requestList'])
+    # def get_del_asset_data(self, request):
+    #     for allAsset in allAssetList:
+    #         if allAsset['assetsName'] == '测试':
+    #             request.param['pkAssetsCard'] = allAsset['pkAssetsCard']
+    #     return request.param
+    #
+    # @allure.story("删除固定资产")
+    # @pytest.mark.run(order=4)
+    # @pytest.mark.skip
+    # def test_del_asset(self, get_del_asset_data, get_headers, get_url, api_http, my_assert):
+    #     headers = get_headers(type=yml_data['delAsset']['content_type'])
+    #     url = get_url(yml_data['delAsset']['path'])
+    #     method = yml_data['delAsset']['http_method']
+    #     except_result = get_del_asset_data.pop("except_result")
+    #     # print(get_del_asset_data)
+    #     with allure.step("调用删除接口"):
+    #         response = api_http(method, url, headers, get_del_asset_data)
+    #     with allure.step("断言接口响应成功"):
+    #         my_assert(response, except_result)
+    @pytest.fixture(params=yml_data['AddIntangibleAsset']['requestList'])
+    def get_add_intangibleAsset_data(self, request, get_intangibleAssetCategory):
+        assert len(get_intangibleAssetCategory) > 0, "没有无形资产的资产类别"
+        request.param['pkAccountBook'] = common['pkAccountBook']
+        for category in get_intangibleAssetCategory:
+            if category['categoryName'] == '土地使用权':
+                request.param['accumulatedAccount'] = category['accumulatedAccount']
+                request.param['accumulatedAccountCode'] = category['accumulatedAccountCode']
+                request.param['accumulatedAccountName'] = category['accumulatedAccountName']
+                request.param['accumulatedInitialBalance'] = category['accumulatedInitialBalance']
+                request.param['expenseAccount'] = category['expenseAccount']
+                request.param['expenseAccountCode'] = category['expenseAccountCode']
+                request.param['expenseAccountName'] = category['expenseAccountName']
+                request.param['expenseInitContacts'] = category['expenseInitContacts']
+                request.param['expenseInitialBalance'] = category['expenseInitialBalance']
+                request.param['lifeTime'] = category['durableLife']
+                request.param['pkIntangibleAssetsCategory'] = category['pkIntangibleAssetsCategory']
         return request.param
 
-    @allure.story("删除固定资产")
-    @pytest.mark.run(order=4)
-    @pytest.mark.skip
-    def test_del_asset(self, get_del_asset_data, get_headers, get_url, api_http, my_assert):
-        headers = get_headers(type=yml_data['delAsset']['content_type'])
-        url = get_url(yml_data['delAsset']['path'])
-        method = yml_data['delAsset']['http_method']
-        except_result = get_del_asset_data.pop("except_result")
-        # print(get_del_asset_data)
-        with allure.step("调用删除接口"):
-            response = api_http(method, url, headers, get_del_asset_data)
+    @allure.story("添加无形资产")
+    def test_add_intangibleAsset(self, get_add_intangibleAsset_data, get_headers, get_url, api_http, my_assert, ):
+        headers = get_headers(type=yml_data['AddIntangibleAsset']['content_type'])
+        url = get_url(yml_data['AddIntangibleAsset']['path'])
+        method = yml_data['AddIntangibleAsset']['http_method']
+        except_result = get_add_intangibleAsset_data.pop("except_result")
+        with allure.step("调用查询接口"):
+            response = api_http(method, url, headers, get_add_intangibleAsset_data)
         with allure.step("断言接口响应成功"):
             my_assert(response, except_result)
