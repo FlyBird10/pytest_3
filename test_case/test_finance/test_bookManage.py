@@ -9,7 +9,8 @@ data_path = os.path.join(root_path, "data")
 finance_path = os.path.join(data_path, "data_finance")
 yml_data = read_yml(os.path.join(finance_path, "finance_bookManage.yml"))
 
-@pytest.mark.skip
+
+# @pytest.mark.skip
 @allure.feature("账套管理")
 class TestFinanceBookManage:
 
